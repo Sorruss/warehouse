@@ -1,0 +1,82 @@
+<div class="sidebar">
+  <div class="logo_content">
+    <div class="logo">
+      <i class="bx bxs-package"></i>
+      <div class="logo_name">Warehouse</div>
+    </div>
+    <i 
+      class="bx bx-menu" 
+      id="menu_button"
+      (click)="toggleActive()"
+    ></i>
+  </div>
+  <ul class="navigation_list">
+    <li>
+      <i 
+        class="bx bx-search-alt" 
+        id="search_button"
+        (click)="addActive(); activeSearch()"
+       ></i>
+      <input id="searchBar" type="text" placeholder="Search">
+    </li>
+
+    <li>
+      <a href="#">
+        <i class="bx bxs-cart-alt"></i>
+        <span class="link_name">Cart</span>
+      </a>
+      <span class="hint">Загальне замовлення</span>
+    </li>
+
+    <li>
+      <a href="#">
+        <i class="bx bx-export"></i>
+        <span class="link_name">Export</span>
+      </a>
+      <span class="hint">Загальний вивіз</span>
+    </li>
+
+    <li>
+      <a href="#">
+        <i class="bx bxs-file-import"></i>
+        <span class="link_name">Import</span>
+      </a>
+      <span class="hint">Реєстрація надходження товару</span>
+    </li>
+
+    <li>
+      <a href="#">
+        <i class="bx bxs-file-export"></i>
+        <span class="link_name">Export 2</span>
+      </a>
+      <span class="hint">Реєстрація вивезення товару</span>
+    </li>
+
+    <li>
+      <a href="#">
+        <i class="bx bx-sitemap"></i>
+        <span class="link_name">Inventory</span>
+      </a>
+      <span class="hint">Вивід інвентарної відомості</span>
+    </li>
+  </ul>
+
+  <div class="profile_content">
+    <div class="profile">
+      <div class="profile_details">
+        <img src="../../static/images/4-9.jpg" alt="profile image">
+        <div class="name_status">
+          <div class="name">Artur Tkachov</div>
+          <div class="status">employee</div>
+        </div>
+      </div>
+      <i class="bx bx-log-out bx-flip-vertical" id="log_out_button"></i>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="container content">
+  <div class="text">
+    Content
+  </div>
+</div> -->
