@@ -15,10 +15,16 @@ button {
   background: #11101D;
   color: white;
   border-radius: 4px;
-  padding: 0px 5px 4px 5px;
+  padding: 4px 5px 4px 5px;
   transition: all .4s ease;
+  font-size: 18px;
 }
-button:hover {
+.button-link {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.button-link:hover button {
   background: #1d1b31;
   transform: scale(1.1);
 }
