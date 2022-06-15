@@ -1,82 +1,79 @@
 <div class="sidebar">
-  <div class="logo_content">
-    <div class="logo">
-      <i class="bx bxs-package"></i>
-      <div class="logo_name">Warehouse</div>
-    </div>
-    <i 
-      class="bx bx-menu" 
-      id="menu_button"
-      (click)="toggleActive()"
-    ></i>
+  <div class="logo-details">
+    <i class="bx bx-sitemap icon"></i>
+      <div class="logo_name">Склад</div>
+      <i class="bx bx-menu" id="menu-button" (click)="toggleActive()"></i>
   </div>
-  <ul class="navigation_list">
+  <ul class="nav-list">
     <li>
-      <i 
-        class="bx bx-search-alt" 
-        id="search_button"
-        (click)="addActive(); activeSearch()"
-       ></i>
-      <input id="searchBar" type="text" placeholder="Search">
+      <i class="bx bx-search" (click)="addActive(); activeSearch();"></i>
+      <input id="searchBar" type="text" placeholder="Пошук">
     </li>
-
     <li>
       <a href="#">
-        <i class="bx bxs-cart-alt"></i>
-        <span class="link_name">Cart</span>
+        <i class="bx bx-cart-alt"></i>
+        <span class="links_name">Загальне замовлення</span>
       </a>
       <span class="hint">Загальне замовлення</span>
     </li>
-
     <li>
       <a href="#">
-        <i class="bx bx-export"></i>
-        <span class="link_name">Export</span>
+        <i class="bx bx-export bx-rotate-90"></i>
+        <span class="links_name">Загальний вивіз</span>
       </a>
       <span class="hint">Загальний вивіз</span>
     </li>
-
     <li>
       <a href="#">
         <i class="bx bxs-file-import"></i>
-        <span class="link_name">Import</span>
+        <span class="links_name">Реєстрація надходження</span>
       </a>
-      <span class="hint">Реєстрація надходження товару</span>
+      <span class="hint">Реєстрація надходження</span>
     </li>
-
     <li>
       <a href="#">
         <i class="bx bxs-file-export"></i>
-        <span class="link_name">Export 2</span>
+        <span class="links_name">Реєстрація вивезення</span>
       </a>
-      <span class="hint">Реєстрація вивезення товару</span>
+      <span class="hint">Реєстрація вивезення</span>
     </li>
-
     <li>
       <a href="#">
-        <i class="bx bx-sitemap"></i>
-        <span class="link_name">Inventory</span>
+        <i class="bx bx-info-square"></i>
+        <span class="links_name">Інвентарна відомість</span>
       </a>
-      <span class="hint">Вивід інвентарної відомості</span>
+      <span class="hint">Інвентарна відомість</span>
+    </li>
+    <!-- <li>
+      <a href="#">
+        <i class="bx bx-cart-alt"></i>
+        <span class="links_name">Order</span>
+      </a>
+      <span class="hint">Order</span>
+    </li>
+    <li>
+      <a href="#">
+        <i class="bx bx-heart"></i>
+        <span class="links_name">Saved</span>
+      </a>
+      <span class="hint">Saved</span>
+    </li>
+    <li>
+      <a href="#">
+        <i class="bx bx-cog"></i>
+        <span class="links_name">Setting</span>
+      </a>
+      <span class="hint">Setting</span>
+    </li> -->
+    <li class="profile">
+        <div class="profile-details">
+          <img src="../../static/images/4-9.jpg" alt="profile image">
+          <div class="name_job">
+            <div class="name">Артур Ткачов</div>
+            <div class="job">Робітник</div>
+          </div>
+        </div>
+        <i class="bx bx-log-out" id="log_out"></i>
     </li>
   </ul>
-
-  <div class="profile_content">
-    <div class="profile">
-      <div class="profile_details">
-        <img src="../../static/images/4-9.jpg" alt="profile image">
-        <div class="name_status">
-          <div class="name">Artur Tkachov</div>
-          <div class="status">employee</div>
-        </div>
-      </div>
-      <i class="bx bx-log-out bx-flip-vertical" id="log_out_button"></i>
-    </div>
-  </div>
 </div>
-
-<!-- <div class="container content">
-  <div class="text">
-    Content
-  </div>
-</div> -->

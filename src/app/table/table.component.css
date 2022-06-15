@@ -1,0 +1,32 @@
+.table-content {
+  color: white;
+}
+.row {
+  --bs-gutter-x: 0px;
+}
+.col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+button {
+  border: none;
+  outline: none;
+  background: #11101D;
+  color: white;
+  border-radius: 4px;
+  padding: 0px 5px 4px 5px;
+  transition: all .4s ease;
+}
+button:hover {
+  background: #1d1b31;
+  transform: scale(1.1);
+}
+
+.col.caption {
+  font-size: 18px;
+  text-transform: uppercase;
+}
+.col.name {
+  text-transform: capitalize;
+}
