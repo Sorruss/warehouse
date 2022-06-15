@@ -20,7 +20,8 @@
         <h6>Деталі</h6>
       </div>
     </div>
-    <div *ngFor="let item of items" class="row">
+
+    <div *ngFor="let item of items" class="row item">
       <div class="col name">
         {{ item.name }}
       </div>
@@ -30,26 +31,29 @@
       <div class="col date">
        {{ item.date }}
       </div>
-      <div class="col">
+      <div class="col button">
         <a class="button-link" href="#">
           <button>
             <i class="bx bx-import"></i>
           </button>
         </a>
+        <span class="hint">додати до замовлення</span>
       </div>
-      <div class="col">
+      <div class="col button">
         <a class="button-link" href="#">
           <button>
             <i class="bx bx-export"></i>
           </button>
         </a>
+        <span class="hint">додати до експорту</span>
       </div>
-      <div class="col">
+      <div class="col button">
         <a class="button-link" href="#">
           <button>
             <i class="bx bx-link-external"></i>
           </button>
         </a>
+        <span class="hint">переглянути деталі</span>
       </div>
     </div>
   </div>
