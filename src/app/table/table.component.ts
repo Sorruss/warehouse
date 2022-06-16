@@ -10,9 +10,9 @@ export class TableComponent implements OnInit {
   constructor() {}
   ngOnInit(): void {
     this.items = [
-      { name: 'ноутбук', quantity: 213, date: '21.01.2022' },
-      { name: 'книжка', quantity: 123, date: '24.06.2022' },
-      { name: 'телефон', quantity: 1233, date: '25.08.2022' },
+      { id: 0, name: 'ноутбук', quantity: 213, date: '21.01.2022' },
+      { id: 1, name: 'книжка', quantity: 123, date: '24.06.2022' },
+      { id: 2, name: 'телефон', quantity: 1233, date: '25.08.2022' },
     ];
   }
 }

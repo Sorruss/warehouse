@@ -1,7 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-const routes: Routes = [{ path: '', redirectTo: '/', pathMatch: 'full' }];
+import { ItemPageComponent } from './item-page/item-page.component';
+import { TableComponent } from './table/table.component';
+
+const routes: Routes = [
+  { path: '', component: TableComponent },
+  { path: 'item/:id', component: ItemPageComponent },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

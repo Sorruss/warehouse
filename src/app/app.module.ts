@@ -7,9 +7,10 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { RightSidebarComponent } from './right-sidebar/right-sidebar.component';
 import { TopbarComponent } from './topbar/topbar.component';
 import { TableComponent } from './table/table.component';
+import { ItemPageComponent } from './item-page/item-page.component';
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent, RightSidebarComponent, TopbarComponent, TableComponent],
+  declarations: [AppComponent, NavbarComponent, RightSidebarComponent, TopbarComponent, TableComponent, ItemPageComponent],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],
   bootstrap: [AppComponent],
