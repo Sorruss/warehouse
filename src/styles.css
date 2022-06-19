@@ -3,6 +3,7 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 body {
   background-color: #222;
   color: white;
+  height: 100vh;
 }
 
 .content {
@@ -11,6 +12,7 @@ body {
   width: calc(100% - 78px);
   transition: all .5s ease;
   z-index: 2;
+  height: 100%;
 }
 .content.offset {
   left: 250px;

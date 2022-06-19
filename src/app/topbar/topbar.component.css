@@ -30,3 +30,22 @@
   background: #1d1b31;
   padding-left: 35px;
 }
+
+.navigation {
+  margin: 0px 20px 0px auto;
+}
+.navigation button {
+  background: #11101d;
+  color: white;
+  height: 40px;
+  width: 40px;
+  font-size: 20px;
+  transition: all .3s ease;
+  border: none;
+}
+.navigation button:hover {
+  background: #1d1b31;
+}
+.d-none {
+  display: none;
+}

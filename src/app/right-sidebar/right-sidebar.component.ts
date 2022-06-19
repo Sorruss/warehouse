@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-right-sidebar',
@@ -11,7 +13,7 @@ export class RightSidebarComponent implements OnInit {
   private content: any;
   private menuBtn: any;
 
-  constructor() {}
+  constructor(private location: Location, private router: Router) {}
   ngOnInit(): void {
     this.sidebar = document.querySelector('.sidebar');
     this.searchBar = document.querySelector('#searchBar');
@@ -37,5 +39,8 @@ export class RightSidebarComponent implements OnInit {
     } else {
       this.menuBtn.classList.replace('bx-menu-alt-right', 'bx-menu');
     }
+  }
+  toHome(): void {
+    this.router.navigate(['']);
   }
 }
