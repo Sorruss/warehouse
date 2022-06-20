@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { CartService } from '../services/cart/cart.service';
-
 @Component({
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
@@ -14,11 +12,9 @@ export class TopbarComponent implements OnInit {
   public goBackCond: boolean = false;
   public goHomeCond: boolean = false;
 
-  constructor(
-    private router: Router,
-    private location: Location,
-    private cartService: CartService
-  ) {
+  public pageName!: string;
+
+  constructor(private router: Router, private location: Location) {
     router.events.subscribe((path) => {
       if (path instanceof NavigationEnd && path.url !== '/') {
         this.goBackCond = true;
@@ -31,6 +27,9 @@ export class TopbarComponent implements OnInit {
       }
       if (path instanceof NavigationEnd && !(path.url.split('/').length >= 3)) {
         this.goHomeCond = false;
+      }
+      if (path instanceof NavigationEnd) {
+        this.pageName = window.history.state?.pageName || '';
       }
     });
   }

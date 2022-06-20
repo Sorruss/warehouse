@@ -10,35 +10,35 @@
       <input id="searchBar" type="text" placeholder="Пошук">
     </li>
     <li>
-      <a routerLink="cart">
+      <a routerLink="cart" [state]="{pageName: 'загальне замовлення'}">
         <i class="bx bx-cart-alt"></i>
         <span class="links_name">Загальне замовлення</span>
       </a>
       <span class="hint">Загальне замовлення</span>
     </li>
     <li>
-      <a routerLink="export">
+      <a routerLink="export" [state]="{pageName: 'загальний вивіз'}">
         <i class="bx bx-export bx-rotate-90"></i>
         <span class="links_name">Загальний вивіз</span>
       </a>
       <span class="hint">Загальний вивіз</span>
     </li>
     <li>
-      <a routerLink="import-registration">
+      <a routerLink="import-registration" [state]="{pageName: 'реєстрація надходження'}">
         <i class="bx bxs-file-import"></i>
         <span class="links_name">Реєстрація надходження</span>
       </a>
       <span class="hint">Реєстрація надходження</span>
     </li>
     <li>
-      <a routerLink="export-registration">
+      <a routerLink="export-registration" [state]="{pageName: 'реєстрація вивезення'}">
         <i class="bx bxs-file-export"></i>
         <span class="links_name">Реєстрація вивезення</span>
       </a>
       <span class="hint">Реєстрація вивезення</span>
     </li>
     <li>
-      <a routerLink="inventory-statement">
+      <a routerLink="inventory-statement" [state]="{pageName: 'інвентарна відомість'}">
         <i class="bx bx-info-square"></i>
         <span class="links_name">Інвентарна відомість</span>
       </a>
