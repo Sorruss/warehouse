@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
+import { CartService } from '../services/cart/cart.service';
+
 @Component({
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
@@ -12,7 +14,11 @@ export class TopbarComponent implements OnInit {
   public goBackCond: boolean = false;
   public goHomeCond: boolean = false;
 
-  constructor(private router: Router, private location: Location) {
+  constructor(
+    private router: Router,
+    private location: Location,
+    private cartService: CartService
+  ) {
     router.events.subscribe((path) => {
       if (path instanceof NavigationEnd && path.url !== '/') {
         this.goBackCond = true;

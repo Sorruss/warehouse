@@ -49,3 +49,9 @@
 .d-none {
   display: none;
 }
+
+.page-name {
+  margin: 0 auto;
+  font-size: 22px;
+  text-transform: capitalize;
+}
