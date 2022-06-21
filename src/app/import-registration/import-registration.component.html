@@ -1,4 +1,4 @@
-<div class="table">
+<div *ngIf="items.length" class="table">
   <div class="table-content">
     <div class="row">
       <div class="col caption">
@@ -18,18 +18,18 @@
       </div>
     </div>
 
-    <div ngFor="let item of items" class="row item">
+    <div *ngFor="let item of items" class="row item">
       <div class="col name">
-        Назва
+        {{ item.name }}
       </div>
       <div class="col quantity">
-        Кількість
+        {{ item.quantity }}
       </div>
       <div class="col date">
-        Дата
+        {{ item.date }}
       </div>
       <div class="col button">
-        <a class="button-link" routerLink="/item/ item.id " [state]="{pageName: 'item.name'}">
+        <a class="button-link" routerLink="/item/{{ item.id }}" [state]="{pageName: item.name}">
           <button>
             <i class="bx bx-link-external"></i>
           </button>
@@ -52,4 +52,8 @@
   <div class="buttons">
     <button>Зареєструвати імпорт обраних товарів<span id="counter">({{ counter }})</span></button>
   </div>
+</div>
+
+<div *ngIf="!items.length" class="import-registration-is-empty">
+  Пусто
 </div>

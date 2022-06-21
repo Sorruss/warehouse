@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Item } from '../items';
+
 @Component({
   selector: 'app-export-registration',
   templateUrl: './export-registration.component.html',
   styleUrls: ['./export-registration.component.css'],
 })
 export class ExportRegistrationComponent implements OnInit {
+  public items: Item[] = [];
+
   public isAllChecked: boolean = false;
   public counter: number = 0;
 
