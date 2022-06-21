@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Item } from '../items';
+import { Item } from '../../items';
 
 @Component({
   selector: 'app-import-registration',

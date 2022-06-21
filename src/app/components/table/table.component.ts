@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ItemsService } from './../services/items/items.service';
-import { CartService } from '../services/cart/cart.service';
-import { ExportService } from './../services/export/export.service';
+import { ItemsService } from '../../services/items/items.service';
+import { CartService } from '../../services/cart/cart.service';
+import { ExportService } from '../../services/export/export.service';
 
-import { Item } from '../items';
+import { Item } from '../../items';
 
 @Component({
   selector: 'app-table',

@@ -1,24 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 
-import { CartService } from '../services/cart/cart.service';
-
-import { Item } from '../items';
+import { Item } from '../../items';
 
 @Component({
-  selector: 'app-cart',
-  templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.css'],
+  selector: 'app-export-registration',
+  templateUrl: './export-registration.component.html',
+  styleUrls: ['./export-registration.component.css'],
 })
-export class CartComponent implements OnInit {
+export class ExportRegistrationComponent implements OnInit {
   public items: Item[] = [];
 
   public isAllChecked: boolean = false;
   public counter: number = 0;
 
-  constructor(private cartService: CartService) {}
+  constructor() {}
   ngOnInit(): void {
-    this.items = this.cartService.getItems();
-
     document.querySelectorAll('.checkbox').forEach((checkbox) =>
       checkbox.addEventListener('change', () => {
         if ((checkbox as HTMLInputElement).checked) {

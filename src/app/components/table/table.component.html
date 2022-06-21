@@ -1,4 +1,4 @@
-<div class="table">
+<div *ngIf="items.length" class="table">
   <div class="table-content">
     <div class="row">
       <div class="col caption">
@@ -57,4 +57,8 @@
       </div>
     </div>
   </div>
+</div>
+
+<div *ngIf="!items.length" class="table-is-empty">
+  Пусто
 </div>

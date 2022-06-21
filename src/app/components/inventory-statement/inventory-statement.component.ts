@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Item, items } from '../items';
+import { Item } from '../../items';
 
-import { ItemsService } from './../services/items/items.service';
+import { ItemsService } from '../../services/items/items.service';
 
 @Component({
   selector: 'app-inventory-statement',

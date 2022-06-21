@@ -9,6 +9,15 @@
       <i class="bx bx-search" (click)="addActive(); activeSearch();"></i>
       <input id="searchBar" type="text" placeholder="Пошук">
     </li>
+
+    <li>
+      <a routerLink="/">
+        <i class="bx bx-sitemap icon"></i>
+        <span class="links_name">Склад</span>
+      </a>
+      <span class="hint">Склад</span>
+    </li>
+
     <li>
       <a routerLink="cart" [state]="{pageName: 'загальне замовлення'}">
         <i class="bx bx-cart-alt"></i>
@@ -16,6 +25,7 @@
       </a>
       <span class="hint">Загальне замовлення</span>
     </li>
+
     <li>
       <a routerLink="export" [state]="{pageName: 'загальний вивіз'}">
         <i class="bx bx-export bx-rotate-90"></i>
@@ -23,6 +33,7 @@
       </a>
       <span class="hint">Загальний вивіз</span>
     </li>
+
     <li>
       <a routerLink="import-registration" [state]="{pageName: 'реєстрація надходження'}">
         <i class="bx bxs-file-import"></i>
@@ -30,6 +41,7 @@
       </a>
       <span class="hint">Реєстрація надходження</span>
     </li>
+
     <li>
       <a routerLink="export-registration" [state]="{pageName: 'реєстрація вивезення'}">
         <i class="bx bxs-file-export"></i>
@@ -37,6 +49,7 @@
       </a>
       <span class="hint">Реєстрація вивезення</span>
     </li>
+
     <li>
       <a routerLink="inventory-statement" [state]="{pageName: 'інвентарна відомість'}">
         <i class="bx bx-info-square"></i>
@@ -44,27 +57,15 @@
       </a>
       <span class="hint">Інвентарна відомість</span>
     </li>
-    <!-- <li>
-      <a href="#">
-        <i class="bx bx-cart-alt"></i>
-        <span class="links_name">Order</span>
-      </a>
-      <span class="hint">Order</span>
-    </li>
+
     <li>
-      <a href="#">
-        <i class="bx bx-heart"></i>
-        <span class="links_name">Saved</span>
+      <a routerLink="user-page" [state]="{pageName: 'сторінка користувача'}">
+        <i class="bx bx-user"></i>
+        <span class="links_name">Сторінка користувача</span>
       </a>
-      <span class="hint">Saved</span>
+      <span class="hint">Сторінка користувача</span>
     </li>
-    <li>
-      <a href="#">
-        <i class="bx bx-cog"></i>
-        <span class="links_name">Setting</span>
-      </a>
-      <span class="hint">Setting</span>
-    </li> -->
+
     <li class="profile">
         <div class="profile-details">
           <img src="../../static/images/4-9.jpg" alt="profile image">

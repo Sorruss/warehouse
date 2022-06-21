@@ -4,15 +4,16 @@ import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { RightSidebarComponent } from './right-sidebar/right-sidebar.component';
-import { TopbarComponent } from './topbar/topbar.component';
-import { TableComponent } from './table/table.component';
-import { ItemPageComponent } from './item-page/item-page.component';
-import { CartComponent } from './cart/cart.component';
-import { ExportComponent } from './export/export.component';
-import { ExportRegistrationComponent } from './export-registration/export-registration.component';
-import { ImportRegistrationComponent } from './import-registration/import-registration.component';
-import { InventoryStatementComponent } from './inventory-statement/inventory-statement.component';
+import { RightSidebarComponent } from './components/right-sidebar/right-sidebar.component';
+import { TopbarComponent } from './components/topbar/topbar.component';
+import { TableComponent } from './components/table/table.component';
+import { ItemPageComponent } from './components/item-page/item-page.component';
+import { CartComponent } from './components/cart/cart.component';
+import { ExportComponent } from './components/export/export.component';
+import { ExportRegistrationComponent } from './components/export-registration/export-registration.component';
+import { ImportRegistrationComponent } from './components/import-registration/import-registration.component';
+import { InventoryStatementComponent } from './components/inventory-statement/inventory-statement.component';
+import { UserPageComponent } from './components/user-page/user-page.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { InventoryStatementComponent } from './inventory-statement/inventory-sta
     ExportRegistrationComponent,
     ImportRegistrationComponent,
     InventoryStatementComponent,
+    UserPageComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule],
   providers: [],

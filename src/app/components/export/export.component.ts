@@ -1,29 +1,22 @@
 import { Component, OnInit } from '@angular/core';
+import { ExportService } from '../../services/export/export.service';
 
-import { Item } from '../items';
+import { Item } from '../../items';
 
 @Component({
-  selector: 'app-export-registration',
-  templateUrl: './export-registration.component.html',
-  styleUrls: ['./export-registration.component.css'],
+  selector: 'app-export',
+  templateUrl: './export.component.html',
+  styleUrls: ['./export.component.css'],
 })
-export class ExportRegistrationComponent implements OnInit {
+export class ExportComponent implements OnInit {
   public items: Item[] = [];
 
   public isAllChecked: boolean = false;
   public counter: number = 0;
 
-  constructor() {}
+  constructor(private exportService: ExportService) {}
   ngOnInit(): void {
-    document.querySelectorAll('.checkbox').forEach((checkbox) =>
-      checkbox.addEventListener('change', () => {
-        if ((checkbox as HTMLInputElement).checked) {
-          this.counter++;
-        } else {
-          this.counter--;
-        }
-      })
-    );
+    this.items = this.exportService.getItems();
   }
 
   chooseAll(): void {
