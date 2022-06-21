@@ -8,9 +8,8 @@ describe('ImportRegistrationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ImportRegistrationComponent ]
-    })
-    .compileComponents();
+      declarations: [ImportRegistrationComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

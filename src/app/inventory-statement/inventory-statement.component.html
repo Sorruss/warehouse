@@ -1,1 +1,42 @@
-<p>inventory-statement works!</p>
+<div class="table">
+  <div class="table-content">
+    <div class="row">
+      <div class="col caption">
+        <h6>Товар</h6>
+      </div>
+      <div class="col caption">
+        <h6>Кількість</h6>
+      </div>
+      <div class="col caption">
+        <h6>Надходження</h6>
+      </div>
+      <div class="col caption">
+        <h6>Деталі</h6>
+      </div>
+    </div>
+
+    <div *ngFor="let item of items" class="row item">
+      <div class="col name">
+        {{ item.name }}
+      </div>
+      <div class="col quantity">
+        {{ item.quantity }}
+      </div>
+      <div class="col date">
+        {{ item.date }}
+      </div>
+      <div class="col button">
+        <a class="button-link" routerLink="/item/{{ item.id }}" [state]="{pageName: item.name}">
+          <button>
+            <i class="bx bx-link-external"></i>
+          </button>
+        </a>
+        <span class="hint">переглянути деталі</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="buttons">
+    <button>Роздрукувати</button>
+  </div>
+</div>

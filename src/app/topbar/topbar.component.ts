@@ -29,7 +29,7 @@ export class TopbarComponent implements OnInit {
         this.goHomeCond = false;
       }
       if (path instanceof NavigationEnd) {
-        this.pageName = window.history.state?.pageName || '';
+        this.pageName = window.history.state?.pageName || 'склад';
       }
     });
   }
