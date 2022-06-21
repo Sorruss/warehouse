@@ -99,6 +99,9 @@ button {
   transform: translateY(-50%);
 }
 
+#selectAll {
+  cursor: pointer;
+}
 .checkbox {
   transition: all .3s ease;
 }
@@ -106,6 +109,8 @@ button {
   display: flex;
   width: 100%;
   justify-content: center;
+  height: 100%;
+  cursor: pointer;
 }
 .lbl-checkbox:hover .checkbox {
   transform: scale(1.1);

@@ -38,7 +38,12 @@
       </div>
       <div class="col">
         <label class="lbl-checkbox">
-          <input type="checkbox" class="form-check-input checkbox">
+          <input 
+            #checkbox 
+            type="checkbox" 
+            class="form-check-input checkbox" 
+            (change)="chooseOne(checkbox.checked)"
+          >
         </label>
       </div>
     </div>

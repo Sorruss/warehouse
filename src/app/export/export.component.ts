@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ExportService } from '../services/export/export.service';
+
+import { Item } from '../items';
 
 @Component({
   selector: 'app-export',
@@ -6,20 +9,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./export.component.css'],
 })
 export class ExportComponent implements OnInit {
+  public items: Item[] = [];
+
   public isAllChecked: boolean = false;
   public counter: number = 0;
 
-  constructor() {}
+  constructor(private exportService: ExportService) {}
   ngOnInit(): void {
-    document.querySelectorAll('.checkbox').forEach((checkbox) =>
-      checkbox.addEventListener('change', () => {
-        if ((checkbox as HTMLInputElement).checked) {
-          this.counter++;
-        } else {
-          this.counter--;
-        }
-      })
-    );
+    this.items = this.exportService.getItems();
   }
 
   chooseAll(): void {
@@ -28,7 +25,13 @@ export class ExportComponent implements OnInit {
       (checkbox as HTMLInputElement).checked = !this.isAllChecked;
     });
   }
-
+  chooseOne(checked: boolean): void {
+    if (checked) {
+      this.counter++;
+    } else {
+      this.counter--;
+    }
+  }
   check(prev: boolean, curr: boolean): void {
     if (prev && curr) {
       ('do nothing');

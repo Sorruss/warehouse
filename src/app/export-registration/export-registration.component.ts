@@ -28,7 +28,13 @@ export class ExportRegistrationComponent implements OnInit {
       (checkbox as HTMLInputElement).checked = !this.isAllChecked;
     });
   }
-
+  chooseOne(checked: boolean): void {
+    if (checked) {
+      this.counter++;
+    } else {
+      this.counter--;
+    }
+  }
   check(prev: boolean, curr: boolean): void {
     if (prev && curr) {
       ('do nothing');
