@@ -1,0 +1,22 @@
+.page-content {
+  padding: 10px;
+}
+
+.settings {
+  display: flex;
+  padding: 10px 0px 0px 0px;
+}
+
+.settings ul li {
+  line-height: 38px;
+}
+
+.settings #settings-keys {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.settings #settings-values {
+  margin: 0px 0px 0px 20px;
+}
