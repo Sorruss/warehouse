@@ -14,6 +14,7 @@ import { ExportRegistrationComponent } from './components/export-registration/ex
 import { ImportRegistrationComponent } from './components/import-registration/import-registration.component';
 import { InventoryStatementComponent } from './components/inventory-statement/inventory-statement.component';
 import { UserPageComponent } from './components/user-page/user-page.component';
+import { SiteSettingsComponent } from './components/site-settings/site-settings.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { UserPageComponent } from './components/user-page/user-page.component';
     ImportRegistrationComponent,
     InventoryStatementComponent,
     UserPageComponent,
+    SiteSettingsComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule],
   providers: [],

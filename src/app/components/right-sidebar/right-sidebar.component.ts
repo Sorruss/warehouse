@@ -43,4 +43,7 @@ export class RightSidebarComponent implements OnInit {
   toHome(): void {
     this.router.navigate(['']);
   }
+  toUserPage(): void {
+    this.router.navigate(['user-page']);
+  }
 }

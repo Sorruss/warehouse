@@ -66,11 +66,19 @@
       <span class="hint">Сторінка користувача</span>
     </li>
 
+    <li>
+      <a routerLink="site-settings" [state]="{pageName: 'налаштування сайту'}">
+        <i class="bx bxs-cog"></i>
+        <span class="links_name">Налаштування сайту</span>
+      </a>
+      <span class="hint">Налаштування сайту</span>
+    </li>
+
     <li class="profile">
         <div class="profile-details">
-          <img src="../../static/images/4-9.jpg" alt="profile image">
+          <img src="../../static/images/4-9.jpg" alt="profile image" (click)="toUserPage()">
           <div class="name_job">
-            <div class="name">Артур Ткачов</div>
+            <div class="name" (click)="toUserPage()">Артур Ткачов</div>
             <div class="job">Робітник</div>
           </div>
         </div>
