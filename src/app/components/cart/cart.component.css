@@ -124,3 +124,22 @@ button {
   align-items: center;
   font-size: 28px;
 }
+
+.col.quantity input {
+  font-size: 15px;
+  color: #FFF;
+  font-weight: 400;
+  outline: none;
+  height: 30px;
+  width: 100%;
+  width: 100px;
+  border: none;
+  border-radius: 12px;
+  transition: all 0.5s ease;
+  background: #1d1b31;
+  padding-left: 10px;
+  text-align: center;
+}
+.col.quantity input:hover {
+  background: #11101D;
+}
