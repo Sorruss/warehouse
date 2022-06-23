@@ -32,17 +32,17 @@ export class TableComponent implements OnInit {
     this.exportService.addItem(item);
   }
 
-  createNotification(type: string, name: string): void {
+  createNotification(type: string, name: string, quantity: string): void {
     if (type === 'export') {
       this.notificationService.addItem({
         title: 'Додано до замовлення на експорт',
-        message: `Товар "${name.toLocaleUpperCase()}" був доданий до загального експорту`,
+        message: `Товар "${name.toLocaleUpperCase()}" у кількості ${quantity} був доданий до загального експорту`,
         color: 'dark',
       });
     } else if (type === 'import') {
       this.notificationService.addItem({
         title: 'Додано до замовлення на імпорт',
-        message: `Товар "${name.toLocaleUpperCase()}" був доданий до загального імпорту`,
+        message: `Товар "${name.toLocaleUpperCase()}" у кількості ${quantity} був доданий до загального імпорту`,
         color: 'dark',
       });
     }
