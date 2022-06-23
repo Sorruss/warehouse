@@ -8,8 +8,8 @@ export class ExportService {
   private items: Item[] = [];
 
   constructor() {}
-  addItem(item: Item): void {
-    this.items.push(item);
+  addItem(item: Item, quantity: number): void {
+    this.items.push({ ...item, quantity });
   }
   getItem(id: number): Item {
     return this.items.find((item) => item.id === id)!;

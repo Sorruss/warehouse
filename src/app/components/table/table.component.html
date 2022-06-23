@@ -36,14 +36,15 @@
           #quantityInputImport 
           type="number" 
           class="button-input" 
-          value="0" 
+          placeholder="0" 
           (blur)="toggleClass2Active(quantityInputImport)"
           (mouseleave)="toggleClass2Active(quantityInputImport)"
           min="0"
+          max="{{ item.quantity }}"
         />
         <a 
           class="button-link" 
-          (click)="addToCart(item); createNotification('import', item.name, quantityInputImport.value);"
+          (click)="addToCart(item, quantityInputImport.value)"
         >
           <button>
             <i class="bx bx-import"></i>
@@ -56,14 +57,14 @@
           #quantityInputExport 
           type="number" 
           class="button-input" 
-          value="0" 
+          placeholder="0" 
           (blur)="toggleClass2Active(quantityInputExport)"
           (mouseleave)="toggleClass2Active(quantityInputExport)"
           min="0"
         />
         <a 
           class="button-link" 
-          (click)="addToExport(item); createNotification('export', item.name, quantityInputExport.value);"
+          (click)="addToExport(item, quantityInputExport.value)"
         >
           <button>
             <i class="bx bx-export"></i>
