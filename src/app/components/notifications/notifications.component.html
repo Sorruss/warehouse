@@ -1,0 +1,15 @@
+<div class="notifications-component">
+  <div class="notifications-content">
+    <div class="notifications">
+      <div *ngFor="let item of items" class="notification" @fadeIn @fadeOut>
+        <div class="notification-title">
+          {{ item.title }}
+        </div>
+        <div class="notification-message">
+          {{ item.message }}
+        </div>
+        <i class="bx bx-check" (click)="removeItem(item.id)"></i>
+      </div>
+    </div>
+  </div>
+</div>

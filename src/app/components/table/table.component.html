@@ -32,7 +32,10 @@
        {{ item.date }}
       </div>
       <div class="col button">
-        <a class="button-link" href="#" (click)="addToCart(item)">
+        <a 
+          class="button-link" 
+          (click)="addToCart(item); createNotification('import', item.name);"
+        >
           <button>
             <i class="bx bx-import"></i>
           </button>
@@ -40,7 +43,10 @@
         <span class="hint">додати до замовлення</span>
       </div>
       <div class="col button">
-        <a class="button-link" href="#" (click)="addToExport(item)">
+        <a 
+          class="button-link" 
+          (click)="addToExport(item); createNotification('export', item.name);"
+        >
           <button>
             <i class="bx bx-export"></i>
           </button>

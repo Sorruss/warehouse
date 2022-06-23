@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -15,6 +16,7 @@ import { ImportRegistrationComponent } from './components/import-registration/im
 import { InventoryStatementComponent } from './components/inventory-statement/inventory-statement.component';
 import { UserPageComponent } from './components/user-page/user-page.component';
 import { SiteSettingsComponent } from './components/site-settings/site-settings.component';
+import { NotificationsComponent } from './components/notifications/notifications.component';
 
 @NgModule({
   declarations: [
@@ -30,8 +32,14 @@ import { SiteSettingsComponent } from './components/site-settings/site-settings.
     InventoryStatementComponent,
     UserPageComponent,
     SiteSettingsComponent,
+    NotificationsComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    BrowserAnimationsModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
