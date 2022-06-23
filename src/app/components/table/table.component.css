@@ -26,7 +26,7 @@ button {
   font-size: 18px;
 }
 .button-link {
-  width: 100%;
+  width: 50%;
   display: flex;
   justify-content: center;
   opacity: 0.9;
@@ -47,7 +47,6 @@ button {
 
 .col.button {
   position: relative;
-  display: inline-block;
 }
 .hint {
   position: absolute;
@@ -83,4 +82,34 @@ button {
   justify-content: center;
   align-items: center;
   font-size: 28px;
+}
+
+.col.button .button-input {
+  font-size: 15px;
+  color: #FFF;
+  font-weight: 400;
+  outline: none;
+  height: 0;
+  width: 0;
+  border: none;
+  border-radius: 12px;
+  transition: all 0.5s ease;
+  background: #1d1b31;
+  padding-left: 10px;
+  text-align: center;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+.col.button:hover .button-input {
+  background: #11101D;
+  opacity: 1;
+  height: 30px;
+  width: 100%;
+}
+
+.col.button .button-input.active {
+  opacity: 1;
+  height: 30px;
+  width: 100%;
 }

@@ -47,4 +47,10 @@ export class TableComponent implements OnInit {
       });
     }
   }
+
+  toggleClass2Active(inputElem: any): void {
+    inputElem.value > 0
+      ? inputElem.classList.add('active')
+      : inputElem.classList.remove('active');
+  }
 }

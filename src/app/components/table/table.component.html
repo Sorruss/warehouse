@@ -26,12 +26,21 @@
         {{ item.name }}
       </div>
       <div class="col quantity">
-       {{ item.quantity }}
+        {{ item.quantity }}
       </div>
       <div class="col date">
-       {{ item.date }}
+        {{ item.date }}
       </div>
       <div class="col button">
+        <input 
+          #quantityInput 
+          type="number" 
+          class="button-input" 
+          value="0" 
+          (blur)="toggleClass2Active(quantityInput)"
+          (mouseleave)="toggleClass2Active(quantityInput)"
+          min="0"
+        />
         <a 
           class="button-link" 
           (click)="addToCart(item); createNotification('import', item.name);"
@@ -43,6 +52,15 @@
         <span class="hint">додати до замовлення</span>
       </div>
       <div class="col button">
+        <input 
+          #quantityInput2 
+          type="number" 
+          class="button-input" 
+          value="0" 
+          (blur)="toggleClass2Active(quantityInput2)"
+          (mouseleave)="toggleClass2Active(quantityInput2)"
+          min="0"
+        />
         <a 
           class="button-link" 
           (click)="addToExport(item); createNotification('export', item.name);"
