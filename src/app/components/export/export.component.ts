@@ -1,46 +1,57 @@
 import { Component, OnInit } from '@angular/core';
-import { ExportService } from '../../services/export/export.service';
 
-import { Item } from '../../items';
+import { ExportService } from '../../services/export/export.service';
+import { IExportItem } from '../../services/export/export.service';
 
 @Component({
-  selector: 'app-export',
+  selector: 'app-cart',
   templateUrl: './export.component.html',
   styleUrls: ['./export.component.css'],
 })
 export class ExportComponent implements OnInit {
-  public items: Item[] = [];
+  public items: IExportItem = [];
+  public selectedItemsId: number[] = [];
 
   public isAllChecked: boolean = false;
-  public counter: number = 0;
 
   constructor(private exportService: ExportService) {}
   ngOnInit(): void {
     this.items = this.exportService.getItems();
   }
 
+  chooseOne(checked: boolean, id: number): void {
+    if (checked) {
+      this.selectedItemsId.push(id);
+    } else {
+      this.selectedItemsId = this.selectedItemsId.filter((i) => i !== id);
+    }
+  }
   chooseAll(): void {
     document.querySelectorAll('.checkbox').forEach((checkbox) => {
-      this.check((checkbox as HTMLInputElement).checked, !this.isAllChecked);
+      this.check(
+        (checkbox as HTMLInputElement).checked,
+        !this.isAllChecked,
+        Number(checkbox.id)
+      );
       (checkbox as HTMLInputElement).checked = !this.isAllChecked;
     });
   }
-  chooseOne(checked: boolean): void {
-    if (checked) {
-      this.counter++;
-    } else {
-      this.counter--;
-    }
-  }
-  check(prev: boolean, curr: boolean): void {
+  check(prev: boolean, curr: boolean, id: number): void {
     if (prev && curr) {
       ('do nothing');
     } else if (!prev && curr) {
-      this.counter++;
+      this.selectedItemsId.push(id);
     } else if (!prev && !curr) {
       ('do nothing');
     } else if (prev && !curr) {
-      this.counter--;
+      this.selectedItemsId = this.selectedItemsId.filter((i) => i !== id);
     }
+  }
+
+  removeFromExport(): void {
+    for (const id of this.selectedItemsId) {
+      this.exportService.removeItem(id);
+    }
+    this.selectedItemsId = [];
   }
 }

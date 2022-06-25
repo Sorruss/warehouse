@@ -1,4 +1,4 @@
-<div *ngIf="items.length" class="table">
+<div *ngIf="(items | keyvalue)?.length" class="table">
   <div class="table-content">
     <div class="row">
       <div class="col caption">
@@ -24,18 +24,18 @@
       </div>
     </div>
 
-    <div *ngFor="let item of items" class="row item">
+    <div *ngFor="let item of items | keyvalue" class="row item">
       <div class="col name">
-        {{ item.name }}
+        {{ item.value.name }}
       </div>
       <div class="col quantity">
-        <input type="number" value="{{ item.quantity }}">
+        <input type="number" value="{{ item.value.quantity }}" min="0" max="999999999">
       </div>
       <div class="col date">
-        {{ item.date }}
+        {{ item.value.date }}
       </div>
       <div class="col button">
-        <a class="button-link" routerLink="/item/{{ item.id }}" [state]="{pageName: item.name}">
+        <a class="button-link" routerLink="/item/{{ item.value.id }}" [state]="{pageName: item.value.name}">
           <button>
             <i class="bx bx-link-external"></i>
           </button>
@@ -45,10 +45,11 @@
       <div class="col">
         <label class="lbl-checkbox">
           <input 
+            id="{{ item.value.id }}"
             #checkbox 
             type="checkbox" 
             class="form-check-input checkbox" 
-            (change)="chooseOne(checkbox.checked)"
+            (change)="chooseOne(checkbox.checked, item.value.id)"
           >
         </label>
       </div>
@@ -56,10 +57,17 @@
   </div>
   
   <div class="buttons">
-    <button>Замовити обрані товари<span id="counter">({{ counter }})</span></button>
+    <button id="btn-import">
+      Замовити обрані товари
+      <span id="counter">({{ selectedItemsId.length }})</span>
+    </button>
+    
+    <button id="btn-remove" (click)="removeFromCart()">
+      <i class="bx bx-trash"></i>
+    </button>
   </div>
 </div>
 
-<div *ngIf="!items.length" class="cart-is-empty">
+<div *ngIf="!(items | keyvalue)?.length" class="cart-is-empty">
   Пусто
 </div>

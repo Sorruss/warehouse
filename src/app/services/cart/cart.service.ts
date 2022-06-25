@@ -1,24 +1,32 @@
 import { Injectable } from '@angular/core';
 import { Item } from 'src/app/items';
 
+export interface ICartItem {
+  [id: number]: Item;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
-  private items: Item[] = [];
+  private items: ICartItem = [];
 
   constructor() {}
   addItem(item: Item, quantity: number): void {
-    this.items.push({ ...item, quantity });
+    if (this.items.hasOwnProperty(item.id)) {
+      this.items[item.id].quantity += quantity;
+    } else {
+      this.items[item.id] = { ...item, quantity };
+    }
   }
   getItem(id: number): Item {
-    return this.items.find((item) => item.id === id)!;
+    return this.items[id]!;
   }
-  getItems(): Item[] {
+  getItems(): ICartItem {
     return this.items;
   }
   removeItem(id: number): void {
-    this.items = this.items.filter((item) => item.id !== id);
+    delete this.items[id];
   }
   clearItems(): void {
     this.items = [];

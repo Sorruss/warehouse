@@ -1,3 +1,12 @@
+.table-is-empty {
+  display: flex;
+  width: 100%;
+  height: calc(100% - 70px);
+  justify-content: center;
+  align-items: center;
+  font-size: 28px;
+}
+
 .table-content {
   color: white;
 }
@@ -11,18 +20,18 @@
 }
 
 .item {
-  border-top: 1px #11101D solid;
+  border-top: 1px #11101d solid;
   padding: 5px 0px;
 }
 
 button {
   border: none;
   outline: none;
-  background: #11101D;
+  background: #11101d;
   color: white;
   border-radius: 4px;
   padding: 4px 5px 4px 5px;
-  transition: all .4s ease;
+  transition: all 0.4s ease;
   font-size: 18px;
 }
 .button-link {
@@ -44,16 +53,21 @@ button {
 .col.name {
   text-transform: capitalize;
 }
-
 .col.button {
   position: relative;
+}
+
+.col.input-button .button {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-left: 0;
+  transition: all .3s ease;
 }
 .hint {
   position: absolute;
   top: -30px;
-  left: 0;
-  right: 0;
-  margin: 0 auto 20px;
+  margin: -3px auto 20px;
   z-index: 3;
   background: #1d1b31;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
@@ -67,7 +81,7 @@ button {
   transition: 0s;
   text-align: center;
 }
-.col.button:hover .hint {
+.col.button:hover .hint, .col.input-button .button:hover .hint {
   opacity: 1;
   pointer-events: auto;
   transition: all 0.4s ease;
@@ -75,18 +89,33 @@ button {
   transform: translateY(-50%);
 }
 
-.table-is-empty {
-  display: flex;
-  width: 100%;
-  height: calc(100% - 70px);
-  justify-content: center;
-  align-items: center;
-  font-size: 28px;
+.col.input-button .input {
+  width: 0;
+  transition: all .3s ease;
 }
 
-.col.button .button-input {
+/* 
+  SO. YOU NEED TO CHANGE 
+  .col.input-button:hover .input 
+  with 
+  .col.input-button .input.active, .col.input-button:hover .input 
+  to remove cool feature 
+*/
+
+/* .col.input-button .input.active, .col.input-button:hover .input {
+  width: 60%;
+} */
+.col.input-button:hover .input {
+  width: 60%;
+}
+
+.col.input-button:hover .button {
+  margin-left: 10px;
+}
+
+.col.input-button .input input {
   font-size: 15px;
-  color: #FFF;
+  color: #fff;
   font-weight: 400;
   outline: none;
   height: 0;
@@ -99,16 +128,16 @@ button {
   text-align: center;
   opacity: 0;
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: all .3s ease;
 }
-.col.button:hover .button-input {
-  background: #11101D;
+.col.input-button .input.active input {
   opacity: 1;
   height: 30px;
-  width: 100%;
+  width: 100px;
 }
 
-.col.button .button-input.active {
+.col.input-button:hover .input input {
+  background: #11101d;
   opacity: 1;
   height: 30px;
   width: 100%;

@@ -45,4 +45,32 @@ export class NotificationService {
     setTimeout(() => this.removeItem(id), seconds * 1000);
     this.changed();
   }
+
+  createImportNotification(name: string, exportQuantity: string): void {
+    this.addItem({
+      title: 'Додано до замовлення на експорт',
+      message: `Товар "${name.toLocaleUpperCase()}" у кількості ${
+        exportQuantity || '0'
+      } був доданий до загального експорту`,
+      color: 'dark',
+    });
+  }
+  createExportNotification(name: string, exportQuantity: string): void {
+    this.addItem({
+      title: 'Додано до замовлення на імпорт',
+      message: `Товар "${name.toLocaleUpperCase()}" у кількості ${
+        exportQuantity || 0
+      } був доданий до загального імпорту`,
+      color: 'dark',
+    });
+  }
+  createTooMuchNotification(name: string, exportQuantity: string): void {
+    this.addItem({
+      title: 'Занадто багато',
+      message: `Товар "${name.toLocaleUpperCase()}" у кількості ${
+        exportQuantity || 0
+      } не може бути вивезений. Такої кількості немає`,
+      color: 'red',
+    });
+  }
 }

@@ -27,36 +27,14 @@ export class TableComponent implements OnInit {
 
   addToCart(item: Item, quantity: string): void {
     this.cartService.addItem(item, Number(quantity));
-    this.createNotification('import', item.name, quantity);
+    this.notificationService.createImportNotification(item.name, quantity);
   }
   addToExport(item: Item, quantity: string): void {
     if (!this.checkBeforeCreate(item.quantity, Number(quantity))) {
-      this.createNotification('too-much-for-export', item.name, quantity);
+      this.notificationService.createTooMuchNotification(item.name, quantity);
     } else {
       this.exportService.addItem(item, Number(quantity));
-      this.createNotification('export', item.name, quantity);
-    }
-  }
-
-  createNotification(type: string, name: string, exportQuantity: string): void {
-    if (type === 'export') {
-      this.notificationService.addItem({
-        title: 'Додано до замовлення на експорт',
-        message: `Товар "${name.toLocaleUpperCase()}" у кількості ${exportQuantity} був доданий до загального експорту`,
-        color: 'dark',
-      });
-    } else if (type === 'import') {
-      this.notificationService.addItem({
-        title: 'Додано до замовлення на імпорт',
-        message: `Товар "${name.toLocaleUpperCase()}" у кількості ${exportQuantity} був доданий до загального імпорту`,
-        color: 'dark',
-      });
-    } else if (type === 'too-much-for-export') {
-      this.notificationService.addItem({
-        title: 'Занадто багато',
-        message: `Товар "${name.toLocaleUpperCase()}" у кількості ${exportQuantity} не може бути вивезений. Такої кількості немає`,
-        color: 'red',
-      });
+      this.notificationService.createExportNotification(item.name, quantity);
     }
   }
   checkBeforeCreate(quantity: number, exportQuantity: number): boolean {
@@ -64,8 +42,10 @@ export class TableComponent implements OnInit {
   }
 
   toggleClass2Active(inputElem: any): void {
+    const inputDiv = inputElem.parentElement;
+
     inputElem.value > 0
-      ? inputElem.classList.add('active')
-      : inputElem.classList.remove('active');
+      ? inputDiv.classList.add('active')
+      : inputDiv.classList.remove('active');
   }
 }

@@ -18,6 +18,29 @@
 </div>
 
 <div class="buttons">
-  <button>Замовлення<input type="number" placeholder="0"></button>
-  <button>Вивіз<input type="number" placeholder="0"></button>
+  <div class="button-import">
+    <button (click)="addToCart(inputImport.value)">
+      <span class="text">Замовлення</span>
+    </button>
+    <input 
+      #inputImport
+      type="number" 
+      min="0" 
+      max="999999999" 
+      placeholder="0"
+    >
+  </div>
+
+  <div class="button-export">
+    <button (click)="addToExport(inputExport.value)">
+      <span class="text">Вивіз</span>
+    </button>
+    <input 
+      #inputExport
+      type="number" 
+      min="0" 
+      max="{{ item.quantity }}"
+      placeholder="0"
+    >
+  </div>
 </div>

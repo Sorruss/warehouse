@@ -25,53 +25,65 @@
       <div class="col name">
         {{ item.name }}
       </div>
+
       <div class="col quantity">
         {{ item.quantity }}
       </div>
+
       <div class="col date">
         {{ item.date }}
       </div>
-      <div class="col button">
-        <input 
-          #quantityInputImport 
-          type="number" 
-          class="button-input" 
-          placeholder="0" 
-          (blur)="toggleClass2Active(quantityInputImport)"
-          (mouseleave)="toggleClass2Active(quantityInputImport)"
-          min="0"
-          max="{{ item.quantity }}"
-        />
-        <a 
-          class="button-link" 
-          (click)="addToCart(item, quantityInputImport.value)"
-        >
-          <button>
-            <i class="bx bx-import"></i>
-          </button>
-        </a>
-        <span class="hint">додати до замовлення</span>
+
+      <div class="col input-button">
+        <div class="input">
+          <input 
+            #quantityInputImport 
+            type="number"  
+            placeholder="0" 
+            (blur)="toggleClass2Active(quantityInputImport)"
+            (mouseleave)="toggleClass2Active(quantityInputImport)"
+            min="0"
+            max="{{ item.quantity }}"
+          />
+        </div>
+        <div class="button">
+          <a 
+            class="button-link" 
+            (click)="addToCart(item, quantityInputImport.value)"
+          >
+            <button>
+              <i class="bx bx-import"></i>
+            </button>
+          </a>
+          <span class="hint">додати до замовлення</span>
+        </div>
       </div>
-      <div class="col button">
-        <input 
-          #quantityInputExport 
-          type="number" 
-          class="button-input" 
-          placeholder="0" 
-          (blur)="toggleClass2Active(quantityInputExport)"
-          (mouseleave)="toggleClass2Active(quantityInputExport)"
-          min="0"
-        />
-        <a 
-          class="button-link" 
-          (click)="addToExport(item, quantityInputExport.value)"
-        >
-          <button>
-            <i class="bx bx-export"></i>
-          </button>
-        </a>
-        <span class="hint">додати до експорту</span>
+
+      <div class="col input-button">
+        <div class="input">
+          <input 
+            #quantityInputExport 
+            type="number"  
+            placeholder="0" 
+            (blur)="toggleClass2Active(quantityInputExport)"
+            (mouseleave)="toggleClass2Active(quantityInputExport)"
+            min="0"
+            max="{{ item.quantity }}"
+          />
+        </div>
+        <div class="button">
+          <a 
+            class="button-link" 
+            (click)="addToExport(item, quantityInputExport.value)"
+          >
+            <button>
+              <i class="bx bx-export"></i>
+            </button>
+          </a>
+          <span class="hint">додати до експорту</span>
+        </div>
       </div>
+      
       <div class="col button">
         <a class="button-link" routerLink="/item/{{ item.id }}" [state]="{pageName: item.name}">
           <button>
