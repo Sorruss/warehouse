@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Item } from '../../items';
 
 import { ItemsService } from '../../services/items/items.service';
+import { FilterService } from 'src/app/services/filter/filter.service';
 
 @Component({
   selector: 'app-inventory-statement',
@@ -11,8 +12,12 @@ import { ItemsService } from '../../services/items/items.service';
 export class InventoryStatementComponent implements OnInit {
   public items: Item[] = [];
 
-  constructor(private itemsService: ItemsService) {}
+  constructor(
+    private itemsService: ItemsService,
+    private filterService: FilterService
+  ) {}
   ngOnInit(): void {
     this.items = this.itemsService.getItems();
+    this.filterService.hideSearchBar();
   }
 }

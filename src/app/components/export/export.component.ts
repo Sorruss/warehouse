@@ -35,6 +35,7 @@ export class ExportComponent implements OnInit {
     this.filterService.filterPropObs.subscribe((value) => {
       this.nameToFilter = value;
     });
+    this.filterService.activateSearchBar();
   }
 
   chooseOne(checked: boolean, id: number): void {

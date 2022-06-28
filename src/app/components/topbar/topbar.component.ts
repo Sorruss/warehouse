@@ -15,6 +15,7 @@ export class TopbarComponent implements OnInit {
   public goHomeCond: boolean = false;
 
   public pageName!: string;
+  public isSearchBarActivated: boolean = false;
 
   constructor(
     private router: Router,
@@ -41,6 +42,9 @@ export class TopbarComponent implements OnInit {
   }
   ngOnInit(): void {
     this.mainSearchBar = document.querySelector('#mainSearchBar');
+    this.filterService.isSearchBarActivatedObs.subscribe((value: boolean) => {
+      this.isSearchBarActivated = value;
+    });
   }
   activeSearch() {
     this.mainSearchBar.focus();

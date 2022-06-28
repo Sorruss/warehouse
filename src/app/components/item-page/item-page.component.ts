@@ -6,6 +6,7 @@ import { ItemsService } from '../../services/items/items.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { CartService } from 'src/app/services/cart/cart.service';
 import { ExportService } from 'src/app/services/export/export.service';
+import { FilterService } from 'src/app/services/filter/filter.service';
 
 @Component({
   selector: 'app-item-page',
@@ -20,11 +21,13 @@ export class ItemPageComponent implements OnInit {
     private itemsService: ItemsService,
     private notificationService: NotificationService,
     private cartService: CartService,
-    private exportService: ExportService
+    private exportService: ExportService,
+    private filterService: FilterService
   ) {}
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.item = this.itemsService.getItem(id);
+    this.filterService.hideSearchBar();
   }
 
   addToCart(quantity: string): void {

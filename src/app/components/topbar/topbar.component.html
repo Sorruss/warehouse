@@ -1,23 +1,25 @@
-<div class="components">
-  <div class="search">
-    <i class="bx bx-search" (click)="activeSearch()"></i>
-    <input 
-      id="mainSearchBar" 
-      type="text" 
-      placeholder="Пошук"
-      #mainSearchBar
-      (input)="setFilterValue(mainSearchBar.value)"
-    >
-  </div>
-  <div class="page-name">
-    <h6>{{ pageName }}</h6>
-  </div>
-  <div class="navigation">
-    <button class="go-back" [class.d-none]="!goBackCond" (click)="goBack()">
-      <i class="bx bxs-chevron-left"></i>
-    </button>
-    <button class="go-home" [class.d-none]="!goHomeCond" (click)="goHome()">
-      <i class="bx bxs-chevrons-left"></i>
-    </button>
+<div class="components-wrapper">
+  <div class="components">
+    <div *ngIf="isSearchBarActivated" class="search">
+      <i class="bx bx-search" (click)="activeSearch()"></i>
+      <input 
+        id="mainSearchBar" 
+        type="text" 
+        placeholder="Пошук"
+        #mainSearchBar
+        (input)="setFilterValue(mainSearchBar.value)"
+      >
+    </div>
+    <div class="page-name" [style.padding-left]="isSearchBarActivated ? '0px' : '250px'">
+      <h6>{{ pageName }}</h6>
+    </div>
+    <div class="navigation">
+      <button class="go-back" [class.d-none]="!goBackCond" (click)="goBack()">
+        <i class="bx bxs-chevron-left"></i>
+      </button>
+      <button class="go-home" [class.d-none]="!goHomeCond" (click)="goHome()">
+        <i class="bx bxs-chevrons-left"></i>
+      </button>
+    </div>
   </div>
 </div>

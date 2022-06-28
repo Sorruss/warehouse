@@ -1,10 +1,15 @@
-.components {
+.components-wrapper {
   min-height: 70px;
-  display: flex;
-  align-items: center;
   width: 100%;
   background: #11101d;
+}
+.components {
+  display: flex;
+  align-items: center;
   padding-left: 20px;
+  justify-content: center;
+  width: 100%;
+  min-height: 70px;
 }
 
 .search .bx-search {
@@ -53,6 +58,8 @@
 .page-name {
   margin: 0 auto;
   font-size: 22px;
+  text-align: center;
+  transition: all 1s ease;
 }
 
 .page-name::first-letter {

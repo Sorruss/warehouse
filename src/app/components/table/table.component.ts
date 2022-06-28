@@ -33,6 +33,7 @@ export class TableComponent implements OnInit {
     this.filterService.filterPropObs.subscribe((value) => {
       this.nameToFilter = value;
     });
+    this.filterService.activateSearchBar();
   }
 
   addToCart(item: Item, quantity: string): void {
