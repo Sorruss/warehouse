@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { fadeIn, fadeOut } from 'src/app/animations';
+import { notificationFadeIn, notificationFadeOut } from 'src/app/animations';
 
 import {
   NotificationService,
@@ -11,7 +11,7 @@ import {
   selector: 'app-notifications',
   templateUrl: './notifications.component.html',
   styleUrls: ['./notifications.component.css'],
-  animations: [fadeIn, fadeOut],
+  animations: [notificationFadeIn, notificationFadeOut],
 })
 export class NotificationsComponent implements OnInit {
   public items: Notification[] = [];

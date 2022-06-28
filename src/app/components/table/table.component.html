@@ -21,7 +21,7 @@
       </div>
     </div>
 
-    <div *ngFor="let item of items" class="row item">
+    <div *ngFor="let item of items | filterByName: nameToFilter" class="row item" @fadeIn @fadeOut>
       <div class="col name">
         {{ item.name }}
       </div>

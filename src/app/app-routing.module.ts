@@ -10,6 +10,8 @@ import { ImportRegistrationComponent } from './components/import-registration/im
 import { InventoryStatementComponent } from './components/inventory-statement/inventory-statement.component';
 import { UserPageComponent } from './components/user-page/user-page.component';
 import { SiteSettingsComponent } from './components/site-settings/site-settings.component';
+import { RegistrateImportOrderComponent } from './components/registrate-import-order/registrate-import-order.component';
+import { RegistrateExportOrderComponent } from './components/registrate-export-order/registrate-export-order.component';
 
 const routes: Routes = [
   { path: '', component: TableComponent },
@@ -21,6 +23,14 @@ const routes: Routes = [
   { path: 'inventory-statement', component: InventoryStatementComponent },
   { path: 'user-page', component: UserPageComponent },
   { path: 'site-settings', component: SiteSettingsComponent },
+  {
+    path: 'registrate-import-order/:id',
+    component: RegistrateImportOrderComponent,
+  },
+  {
+    path: 'registrate-export-order/:id',
+    component: RegistrateExportOrderComponent,
+  },
 ];
 
 @NgModule({

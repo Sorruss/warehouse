@@ -1,11 +1,8 @@
-<div *ngIf="items.length" class="table">
+<div *ngIf="(items | keyvalue)?.length" class="table">
   <div class="table-content">
     <div class="row">
       <div class="col caption">
-        <h6>Товар</h6>
-      </div>
-      <div class="col caption">
-        <h6>Кількість</h6>
+        <h6>Назва</h6>
       </div>
       <div class="col caption">
         <h6>Надходження</h6>
@@ -13,47 +10,31 @@
       <div class="col caption">
         <h6>Деталі</h6>
       </div>
-      <div class="col caption">
-        <input type="checkbox" [(ngModel)]="isAllChecked" class="form-check-input" (click)="chooseAll()">
-      </div>
     </div>
 
-    <div *ngFor="let item of items" class="row item">
+    <div *ngFor= "let item of getValues()" class="row item">
       <div class="col name">
         {{ item.name }}
-      </div>
-      <div class="col quantity">
-        {{ item.quantity }}
       </div>
       <div class="col date">
         {{ item.date }}
       </div>
       <div class="col button">
-        <a class="button-link" routerLink="/item/{{ item.id }}" [state]="{pageName: item.name}">
+        <a 
+          class="button-link" 
+          routerLink="/registrate-import-order/{{ item.id }}" 
+          [state]="{pageName: item.name}"
+        >
           <button>
             <i class="bx bx-link-external"></i>
           </button>
         </a>
         <span class="hint">переглянути деталі</span>
       </div>
-      <div class="col">
-        <label class="lbl-checkbox">
-          <input 
-            #checkbox 
-            type="checkbox" 
-            class="form-check-input checkbox" 
-            (change)="chooseOne(checkbox.checked)"
-          >
-        </label>
-      </div>
     </div>
-  </div>
-  
-  <div class="buttons">
-    <button>Зареєструвати імпорт обраних товарів<span id="counter">({{ counter }})</span></button>
   </div>
 </div>
 
-<div *ngIf="!items.length" class="import-registration-is-empty">
+<div *ngIf="!(items | keyvalue)?.length" class="import-registration-is-empty">
   Пусто
 </div>

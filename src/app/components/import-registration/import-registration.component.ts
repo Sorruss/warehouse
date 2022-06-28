@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Item } from '../../items';
+import {
+  ImportRegistrationService,
+  IImportRegistrationElem,
+  IImportRegistrationCont,
+} from './../../services/import-registration/import-registration.service';
 
 @Component({
   selector: 'app-import-registration',
@@ -8,46 +12,13 @@ import { Item } from '../../items';
   styleUrls: ['./import-registration.component.css'],
 })
 export class ImportRegistrationComponent implements OnInit {
-  public items: Item[] = [];
+  public items: IImportRegistrationElem = {};
 
-  public isAllChecked: boolean = false;
-  public counter: number = 0;
-
-  constructor() {}
+  constructor(private importRegistrationService: ImportRegistrationService) {}
   ngOnInit(): void {
-    document.querySelectorAll('.checkbox').forEach((checkbox) =>
-      checkbox.addEventListener('change', () => {
-        if ((checkbox as HTMLInputElement).checked) {
-          this.counter++;
-        } else {
-          this.counter--;
-        }
-      })
-    );
+    this.items = this.importRegistrationService.getItems();
   }
-
-  chooseAll(): void {
-    document.querySelectorAll('.checkbox').forEach((checkbox) => {
-      this.check((checkbox as HTMLInputElement).checked, !this.isAllChecked);
-      (checkbox as HTMLInputElement).checked = !this.isAllChecked;
-    });
-  }
-  chooseOne(checked: boolean): void {
-    if (checked) {
-      this.counter++;
-    } else {
-      this.counter--;
-    }
-  }
-  check(prev: boolean, curr: boolean): void {
-    if (prev && curr) {
-      ('do nothing');
-    } else if (!prev && curr) {
-      this.counter++;
-    } else if (!prev && !curr) {
-      ('do nothing');
-    } else if (prev && !curr) {
-      this.counter--;
-    }
+  getValues(): IImportRegistrationCont[] {
+    return Object.values(this.items);
   }
 }

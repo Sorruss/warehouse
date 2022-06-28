@@ -2,21 +2,21 @@ import { Injectable } from '@angular/core';
 import { Item } from 'src/app/items';
 
 export interface ICartItem {
-  [id: number]: Item;
+  [id: number]: Item & { orderedQuantity: number };
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
-  private items: ICartItem = [];
+  private items: ICartItem = {};
 
   constructor() {}
   addItem(item: Item, quantity: number): void {
     if (this.items.hasOwnProperty(item.id)) {
-      this.items[item.id].quantity += quantity;
+      this.items[item.id].orderedQuantity += quantity;
     } else {
-      this.items[item.id] = { ...item, quantity };
+      this.items[item.id] = { ...item, orderedQuantity: quantity };
     }
   }
   getItem(id: number): Item {

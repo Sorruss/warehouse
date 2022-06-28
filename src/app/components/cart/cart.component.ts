@@ -3,20 +3,38 @@ import { Component, OnInit } from '@angular/core';
 import { CartService } from '../../services/cart/cart.service';
 import { ICartItem } from '../../services/cart/cart.service';
 
+import { FilterService } from 'src/app/services/filter/filter.service';
+import { ImportRegistrationService } from 'src/app/services/import-registration/import-registration.service';
+
+import { Item } from 'src/app/items';
+
+import { fadeIn, slide2right } from 'src/app/animations';
+
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.css'],
+  animations: [fadeIn, slide2right],
 })
 export class CartComponent implements OnInit {
-  public items: ICartItem = [];
+  public items: ICartItem = {};
   public selectedItemsId: number[] = [];
 
   public isAllChecked: boolean = false;
+  public goingToOrder: boolean = false;
+  public nameToFilter: string = '';
 
-  constructor(private cartService: CartService) {}
+  constructor(
+    private cartService: CartService,
+    private filterService: FilterService,
+    private importRegistrationService: ImportRegistrationService
+  ) {}
   ngOnInit(): void {
     this.items = this.cartService.getItems();
+
+    this.filterService.filterPropObs.subscribe((value) => {
+      this.nameToFilter = value;
+    });
   }
 
   chooseOne(checked: boolean, id: number): void {
@@ -49,9 +67,28 @@ export class CartComponent implements OnInit {
   }
 
   removeFromCart(): void {
-    for (const id of this.selectedItemsId) {
+    for (let id of this.selectedItemsId) {
       this.cartService.removeItem(id);
     }
     this.selectedItemsId = [];
+  }
+
+  getValues(): (Item & { orderedQuantity: number })[] {
+    return Object.values(this.items);
+  }
+
+  changeModalDialogState(): void {
+    this.goingToOrder = !this.goingToOrder;
+  }
+
+  makeAnOrder(name: string = ''): void {
+    this.importRegistrationService.addItem({
+      id: 0,
+      name,
+      date: new Date().toDateString(),
+      items: this.getValues(),
+    });
+    this.removeFromCart();
+    this.changeModalDialogState();
   }
 }

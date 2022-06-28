@@ -1,7 +1,13 @@
 <div class="components">
   <div class="search">
     <i class="bx bx-search" (click)="activeSearch()"></i>
-    <input id="mainSearchBar" type="text" placeholder="Пошук">
+    <input 
+      id="mainSearchBar" 
+      type="text" 
+      placeholder="Пошук"
+      #mainSearchBar
+      (input)="setFilterValue(mainSearchBar.value)"
+    >
   </div>
   <div class="page-name">
     <h6>{{ pageName }}</h6>

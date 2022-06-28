@@ -18,6 +18,10 @@ import { UserPageComponent } from './components/user-page/user-page.component';
 import { SiteSettingsComponent } from './components/site-settings/site-settings.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 
+import { FilterByNamePipe } from './pipes/filter-by-name/filter-by-name.pipe';
+import { RegistrateImportOrderComponent } from './components/registrate-import-order/registrate-import-order.component';
+import { RegistrateExportOrderComponent } from './components/registrate-export-order/registrate-export-order.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,6 +37,9 @@ import { NotificationsComponent } from './components/notifications/notifications
     UserPageComponent,
     SiteSettingsComponent,
     NotificationsComponent,
+    FilterByNamePipe,
+    RegistrateImportOrderComponent,
+    RegistrateExportOrderComponent,
   ],
   imports: [
     BrowserModule,

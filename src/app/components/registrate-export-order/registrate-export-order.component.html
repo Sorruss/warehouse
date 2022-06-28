@@ -1,30 +1,26 @@
-<div *ngIf="(items | keyvalue)?.length" class="table">
+<div class="table">
   <div class="table-content">
     <div class="row">
       <div class="col caption">
-        <h6>Назва</h6>
+        <h6>Товар</h6>
       </div>
       <div class="col caption">
-        <h6>Надходження</h6>
+        <h6>Кількість</h6>
       </div>
       <div class="col caption">
         <h6>Деталі</h6>
       </div>
     </div>
 
-    <div *ngFor= "let item of getValues()" class="row item">
+    <div *ngFor="let item of order.items" class="row item">
       <div class="col name">
         {{ item.name }}
       </div>
-      <div class="col date">
-        {{ item.date }}
+      <div class="col quantity">
+        {{ item.orderedQuantity }}
       </div>
       <div class="col button">
-        <a 
-          class="button-link" 
-          routerLink="/registrate-export-order/{{ item.id }}" 
-          [state]="{pageName: item.name}"
-        >
+        <a class="button-link" routerLink="/item/{{ item.id }}" [state]="{pageName: item.name}">
           <button>
             <i class="bx bx-link-external"></i>
           </button>
@@ -33,8 +29,8 @@
       </div>
     </div>
   </div>
-</div>
-
-<div *ngIf="!(items | keyvalue)?.length" class="export-registration-is-empty">
-  Пусто
+  
+  <div class="buttons">
+    <button>Зареєструвати вивіз</button>
+  </div>
 </div>

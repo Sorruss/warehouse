@@ -4,25 +4,35 @@ import { ItemsService } from '../../services/items/items.service';
 import { CartService } from '../../services/cart/cart.service';
 import { ExportService } from '../../services/export/export.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
+import { FilterService } from 'src/app/services/filter/filter.service';
 
 import { Item } from '../../items';
+
+import { fadeIn, fadeOut, slide2right } from 'src/app/animations';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css'],
+  animations: [fadeIn, fadeOut, slide2right],
 })
 export class TableComponent implements OnInit {
   public items: any;
+  public nameToFilter: string = '';
 
   constructor(
     private itemsService: ItemsService,
     private cartService: CartService,
     private exportService: ExportService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private filterService: FilterService
   ) {}
   ngOnInit(): void {
     this.items = this.itemsService.getItems();
+
+    this.filterService.filterPropObs.subscribe((value) => {
+      this.nameToFilter = value;
+    });
   }
 
   addToCart(item: Item, quantity: string): void {

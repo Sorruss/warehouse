@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
+import { FilterService } from 'src/app/services/filter/filter.service';
+
 @Component({
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
@@ -14,7 +16,11 @@ export class TopbarComponent implements OnInit {
 
   public pageName!: string;
 
-  constructor(private router: Router, private location: Location) {
+  constructor(
+    private router: Router,
+    private location: Location,
+    private filterService: FilterService
+  ) {
     router.events.subscribe((path) => {
       if (path instanceof NavigationEnd && path.url !== '/') {
         this.goBackCond = true;
@@ -44,5 +50,9 @@ export class TopbarComponent implements OnInit {
   }
   goHome(): void {
     this.router.navigateByUrl('/');
+  }
+
+  setFilterValue(value: string): void {
+    this.filterService.filterProp.next(value);
   }
 }

@@ -24,18 +24,18 @@
       </div>
     </div>
 
-    <div *ngFor="let item of items | keyvalue" class="row item">
+    <div *ngFor= "let item of getValues() | filterByName: nameToFilter" class="row item" @fadeIn @slide2right>
       <div class="col name">
-        {{ item.value.name }}
+        {{ item.name }}
       </div>
       <div class="col quantity">
-        <input type="number" value="{{ item.value.quantity }}" min="0" max="999999999">
+        <input type="number" value="{{ item.orderedQuantity }}" min="0" max="999999999">
       </div>
       <div class="col date">
-        {{ item.value.date }}
+        {{ item.date }}
       </div>
       <div class="col button">
-        <a class="button-link" routerLink="/item/{{ item.value.id }}" [state]="{pageName: item.value.name}">
+        <a class="button-link" routerLink="/item/{{ item.id }}" [state]="{pageName: item.name}">
           <button>
             <i class="bx bx-link-external"></i>
           </button>
@@ -45,11 +45,11 @@
       <div class="col">
         <label class="lbl-checkbox">
           <input 
-            id="{{ item.value.id }}"
+            id="{{ item.id }}"
             #checkbox 
             type="checkbox" 
             class="form-check-input checkbox" 
-            (change)="chooseOne(checkbox.checked, item.value.id)"
+            (change)="chooseOne(checkbox.checked, item.id)"
           >
         </label>
       </div>
@@ -57,7 +57,7 @@
   </div>
   
   <div class="buttons">
-    <button id="btn-import">
+    <button id="btn-import" (click)="changeModalDialogState()">
       Замовити обрані товари
       <span id="counter">({{ selectedItemsId.length }})</span>
     </button>
@@ -65,6 +65,26 @@
     <button id="btn-remove" (click)="removeFromCart()">
       <i class="bx bx-trash"></i>
     </button>
+  </div>
+</div>
+
+<div *ngIf="goingToOrder" class="modal-wrapper">
+  <div class="modal-content">
+    <div class="modal-title">
+      Налаштування замовлення
+      <span class="modal-close" (click)="changeModalDialogState()">
+        <i class="bx bx-x" id="default"></i>
+        <i class="bx bx-x-circle" id="with-circle"></i>
+      </span>
+    </div>
+    <div class="modal-body">
+      <label for="nameInput">Назва</label>
+      <input type="text" id="nameInput" #nameInput />
+    </div>
+    <div class="modal-bottom">
+      <button id="save-btn" (click)="makeAnOrder(nameInput.value)">Зберегти</button>
+      <button id="cancel-btn" (click)="changeModalDialogState()">Назад</button>
+    </div>
   </div>
 </div>
 
