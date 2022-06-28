@@ -53,5 +53,8 @@
 .page-name {
   margin: 0 auto;
   font-size: 22px;
+}
+
+.page-name::first-letter {
   text-transform: capitalize;
 }
