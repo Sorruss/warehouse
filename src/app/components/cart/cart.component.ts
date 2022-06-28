@@ -79,20 +79,68 @@ export class CartComponent implements OnInit {
   getValues(): (Item & { orderedQuantity: number })[] {
     return Object.values(this.items);
   }
+  getSelected(): (Item & { orderedQuantity: number })[] {
+    const selected = [];
+
+    for (let item of this.getValues()) {
+      if (this.selectedItemsId.includes(item.id)) {
+        selected.push(item);
+      }
+    }
+
+    return selected;
+  }
 
   changeModalDialogState(): void {
     this.goingToOrder = !this.goingToOrder;
   }
 
+  checkOnWrongQuantity(): boolean {
+    for (let item of this.getValues()) {
+      if (this.selectedItemsId.includes(item.id)) {
+        if (item.orderedQuantity <= 0) {
+          this.notificationService.createWrongQuantityNotification(
+            item.name,
+            String(item.orderedQuantity)
+          );
+          this.changeModalDialogState();
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+  checkOnSelected(): boolean {
+    console.log('hola');
+    const result = this.selectedItemsId.length !== 0;
+
+    if (!result) {
+      this.notificationService.createNoSelectedNotification(true);
+      this.changeModalDialogState();
+    }
+
+    return result;
+  }
   makeAnOrder(name: string = ''): void {
+    if (!this.checkOnWrongQuantity() || !this.checkOnSelected()) {
+      return;
+    }
+
     this.importRegistrationService.addItem({
       id: 0,
       name,
       date: new Date().toDateString(),
-      items: this.getValues(),
+      items: this.getSelected()!,
     });
     this.removeFromCart();
     this.changeModalDialogState();
     this.notificationService.createOrderNotification(name, true);
+  }
+
+  changeOrderQuantity(
+    item: Item & { orderedQuantity: number },
+    value: string
+  ): void {
+    item.orderedQuantity = Number(value);
   }
 }

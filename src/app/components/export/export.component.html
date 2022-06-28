@@ -29,7 +29,15 @@
         {{ item.name }}
       </div>
       <div class="col quantity">
-        <input type="number" value="{{ item.orderedQuantity }}" min="0" max="{{ item.quantity }}">
+        <input 
+          #input 
+          type="number" 
+          [value]="item.orderedQuantity" 
+          (change)="item.orderedQuantity = input.value" 
+          min="1" 
+          [max]="item.quantity"
+          appNgNumber
+        >
       </div>
       <div class="col date">
         {{ item.date }}

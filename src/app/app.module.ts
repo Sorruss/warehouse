@@ -16,12 +16,13 @@ import { ImportRegistrationComponent } from './components/import-registration/im
 import { InventoryStatementComponent } from './components/inventory-statement/inventory-statement.component';
 import { UserPageComponent } from './components/user-page/user-page.component';
 import { SiteSettingsComponent } from './components/site-settings/site-settings.component';
-import { NotificationsComponent } from './components/notifications/notifications.component';
+import { NotificationsComponent } from './components/helpers/notifications/notifications.component';
 
 import { FilterByNamePipe } from './pipes/filter-by-name/filter-by-name.pipe';
 import { RegistrateImportOrderComponent } from './components/registrate-import-order/registrate-import-order.component';
 import { RegistrateExportOrderComponent } from './components/registrate-export-order/registrate-export-order.component';
 import { ModalDialogComponent } from './components/helpers/modal-dialog/modal-dialog.component';
+import { NgNumberDirective } from './directives/ng-number/ng-number.directive';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { ModalDialogComponent } from './components/helpers/modal-dialog/modal-di
     RegistrateImportOrderComponent,
     RegistrateExportOrderComponent,
     ModalDialogComponent,
+    NgNumberDirective,
   ],
   imports: [
     BrowserModule,

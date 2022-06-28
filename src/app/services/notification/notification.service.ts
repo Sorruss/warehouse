@@ -97,8 +97,30 @@ export class NotificationService {
   createOrderNotification(name: string, compressed: boolean = false): void {
     this.addItem({
       title: `Замовлення ${name} створене`,
-      message: ``,
+      message: '',
       color: 'green',
+      compressed,
+    });
+  }
+  createWrongQuantityNotification(
+    name: string,
+    quantity: string,
+    compressed: boolean = false
+  ): void {
+    this.addItem({
+      title: 'Не корректна кількість товару',
+      message: `Товар "${name.toLocaleUpperCase()}" у кількості ${
+        quantity || 0
+      } не може бути доданий до замовлення.`,
+      color: 'red',
+      compressed,
+    });
+  }
+  createNoSelectedNotification(compressed: boolean = false): void {
+    this.addItem({
+      title: 'Неможливість створення пустого замовлення',
+      message: '',
+      color: 'red',
       compressed,
     });
   }

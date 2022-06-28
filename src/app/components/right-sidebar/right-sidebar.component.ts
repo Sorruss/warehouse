@@ -29,6 +29,7 @@ export class RightSidebarComponent implements OnInit {
     this.sidebar?.classList.add('open');
     this.content?.classList.add('offset');
     this.menuBtnChange();
+    this.activeSearch();
   }
   activeSearch() {
     this.searchBar.focus();

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Item } from 'src/app/items';
+
 import { ExportService } from '../../services/export/export.service';
 import { IExportItem } from '../../services/export/export.service';
 
@@ -74,8 +76,13 @@ export class ExportComponent implements OnInit {
     this.selectedItemsId = [];
   }
 
-  getValues(): any[] {
+  getValues(): (Item & { orderedQuantity: number })[] {
     return Object.values(this.items);
+  }
+  getSelected(): (Item & { orderedQuantity: number })[] {
+    return this.getValues().filter((item) =>
+      this.selectedItemsId.includes(item.id)
+    );
   }
 
   changeModalDialogState(): void {
@@ -87,7 +94,7 @@ export class ExportComponent implements OnInit {
       id: 0,
       name,
       date: new Date().toDateString(),
-      items: this.getValues(),
+      items: this.getSelected(),
     });
     this.removeFromExport();
     this.changeModalDialogState();
