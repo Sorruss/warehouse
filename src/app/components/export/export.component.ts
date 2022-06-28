@@ -5,6 +5,7 @@ import { IExportItem } from '../../services/export/export.service';
 
 import { FilterService } from 'src/app/services/filter/filter.service';
 import { ExportRegistrationService } from 'src/app/services/export-registration/export-registration.service';
+import { NotificationService } from 'src/app/services/notification/notification.service';
 
 import { fadeIn, slide2right } from 'src/app/animations';
 
@@ -25,7 +26,8 @@ export class ExportComponent implements OnInit {
   constructor(
     private exportService: ExportService,
     private filterService: FilterService,
-    private exportRegistrationService: ExportRegistrationService
+    private exportRegistrationService: ExportRegistrationService,
+    private notificationService: NotificationService
   ) {}
   ngOnInit(): void {
     this.items = this.exportService.getItems();
@@ -88,5 +90,6 @@ export class ExportComponent implements OnInit {
     });
     this.removeFromExport();
     this.changeModalDialogState();
+    this.notificationService.createOrderNotification(name, true);
   }
 }

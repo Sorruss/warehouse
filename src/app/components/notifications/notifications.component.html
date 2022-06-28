@@ -16,7 +16,7 @@
         <div class="notification-title">
           {{ item.title }}
         </div>
-        <div class="notification-message">
+        <div *ngIf="!item.compressed" class="notification-message">
           {{ item.message }}
         </div>
         <i class="bx bx-check" (click)="removeItem(item.id)"></i>

@@ -6,6 +6,7 @@ export interface Notification {
   title: string;
   message: string;
   color: string;
+  compressed: boolean | undefined;
 }
 
 @Injectable({
@@ -16,7 +17,12 @@ export class NotificationService {
   itemsChanged: Subject<Notification[]> = new Subject<Notification[]>();
 
   constructor() {}
-  addItem(obj: { title: string; message: string; color: string }): void {
+  addItem(obj: {
+    title: string;
+    message: string;
+    color: string;
+    compressed: boolean;
+  }): void {
     const id = this.items.length ? this.items[this.items.length - 1].id + 1 : 0;
     const item: Notification = { id, ...obj };
     this.items.push(item);
@@ -46,31 +52,54 @@ export class NotificationService {
     this.changed();
   }
 
-  createImportNotification(name: string, exportQuantity: string): void {
-    this.addItem({
-      title: 'Додано до замовлення на експорт',
-      message: `Товар "${name.toLocaleUpperCase()}" у кількості ${
-        exportQuantity || '0'
-      } був доданий до загального експорту`,
-      color: 'dark',
-    });
-  }
-  createExportNotification(name: string, exportQuantity: string): void {
+  createImportNotification(
+    name: string,
+    exportQuantity: string,
+    compressed: boolean = false
+  ): void {
     this.addItem({
       title: 'Додано до замовлення на імпорт',
       message: `Товар "${name.toLocaleUpperCase()}" у кількості ${
-        exportQuantity || 0
+        exportQuantity || '0'
       } був доданий до загального імпорту`,
       color: 'dark',
+      compressed,
     });
   }
-  createTooMuchNotification(name: string, exportQuantity: string): void {
+  createExportNotification(
+    name: string,
+    exportQuantity: string,
+    compressed: boolean = false
+  ): void {
+    this.addItem({
+      title: 'Додано до замовлення на експорт',
+      message: `Товар "${name.toLocaleUpperCase()}" у кількості ${
+        exportQuantity || 0
+      } був доданий до загального експорту`,
+      color: 'dark',
+      compressed,
+    });
+  }
+  createTooMuchNotification(
+    name: string,
+    exportQuantity: string,
+    compressed: boolean = false
+  ): void {
     this.addItem({
       title: 'Занадто багато',
       message: `Товар "${name.toLocaleUpperCase()}" у кількості ${
         exportQuantity || 0
       } не може бути вивезений. Такої кількості немає`,
       color: 'red',
+      compressed,
+    });
+  }
+  createOrderNotification(name: string, compressed: boolean = false): void {
+    this.addItem({
+      title: `Замовлення ${name} створене`,
+      message: ``,
+      color: 'green',
+      compressed,
     });
   }
 }

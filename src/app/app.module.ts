@@ -21,6 +21,7 @@ import { NotificationsComponent } from './components/notifications/notifications
 import { FilterByNamePipe } from './pipes/filter-by-name/filter-by-name.pipe';
 import { RegistrateImportOrderComponent } from './components/registrate-import-order/registrate-import-order.component';
 import { RegistrateExportOrderComponent } from './components/registrate-export-order/registrate-export-order.component';
+import { ModalDialogComponent } from './components/helpers/modal-dialog/modal-dialog.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { RegistrateExportOrderComponent } from './components/registrate-export-o
     FilterByNamePipe,
     RegistrateImportOrderComponent,
     RegistrateExportOrderComponent,
+    ModalDialogComponent,
   ],
   imports: [
     BrowserModule,

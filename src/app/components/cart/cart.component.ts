@@ -5,6 +5,7 @@ import { ICartItem } from '../../services/cart/cart.service';
 
 import { FilterService } from 'src/app/services/filter/filter.service';
 import { ImportRegistrationService } from 'src/app/services/import-registration/import-registration.service';
+import { NotificationService } from 'src/app/services/notification/notification.service';
 
 import { Item } from 'src/app/items';
 
@@ -27,7 +28,8 @@ export class CartComponent implements OnInit {
   constructor(
     private cartService: CartService,
     private filterService: FilterService,
-    private importRegistrationService: ImportRegistrationService
+    private importRegistrationService: ImportRegistrationService,
+    private notificationService: NotificationService
   ) {}
   ngOnInit(): void {
     this.items = this.cartService.getItems();
@@ -90,5 +92,6 @@ export class CartComponent implements OnInit {
     });
     this.removeFromCart();
     this.changeModalDialogState();
+    this.notificationService.createOrderNotification(name, true);
   }
 }

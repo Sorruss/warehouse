@@ -27,10 +27,10 @@
 }
 
 .notification .notification-title {
-  margin-bottom: 6px;
   font-weight: 600;
 }
 .notification .notification-message {
+  margin-top: 6px;
   line-height: 20px;
 }
 .notification i {
