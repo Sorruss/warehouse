@@ -2,8 +2,12 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
-
 import { AppRoutingModule } from './app-routing.module';
+
+import { FilterByNamePipe } from './pipes/filter-by-name/filter-by-name.pipe';
+
+import { NgNumberDirective } from './directives/ng-number/ng-number.directive';
+
 import { AppComponent } from './app.component';
 import { RightSidebarComponent } from './components/right-sidebar/right-sidebar.component';
 import { TopbarComponent } from './components/topbar/topbar.component';
@@ -17,12 +21,10 @@ import { InventoryStatementComponent } from './components/inventory-statement/in
 import { UserPageComponent } from './components/user-page/user-page.component';
 import { SiteSettingsComponent } from './components/site-settings/site-settings.component';
 import { NotificationsComponent } from './components/helpers/notifications/notifications.component';
-
-import { FilterByNamePipe } from './pipes/filter-by-name/filter-by-name.pipe';
+import { EntryComponent } from './components/entry/entry.component';
 import { RegistrateImportOrderComponent } from './components/registrate-import-order/registrate-import-order.component';
 import { RegistrateExportOrderComponent } from './components/registrate-export-order/registrate-export-order.component';
 import { ModalDialogComponent } from './components/helpers/modal-dialog/modal-dialog.component';
-import { NgNumberDirective } from './directives/ng-number/ng-number.directive';
 
 @NgModule({
   declarations: [
@@ -44,6 +46,7 @@ import { NgNumberDirective } from './directives/ng-number/ng-number.directive';
     RegistrateExportOrderComponent,
     ModalDialogComponent,
     NgNumberDirective,
+    EntryComponent,
   ],
   imports: [
     BrowserModule,

@@ -12,6 +12,7 @@ import { UserPageComponent } from './components/user-page/user-page.component';
 import { SiteSettingsComponent } from './components/site-settings/site-settings.component';
 import { RegistrateImportOrderComponent } from './components/registrate-import-order/registrate-import-order.component';
 import { RegistrateExportOrderComponent } from './components/registrate-export-order/registrate-export-order.component';
+import { EntryComponent } from './components/entry/entry.component';
 
 const routes: Routes = [
   { path: '', component: TableComponent },
@@ -31,6 +32,7 @@ const routes: Routes = [
     path: 'registrate-export-order/:id',
     component: RegistrateExportOrderComponent,
   },
+  { path: 'entry', component: EntryComponent },
 ];
 
 @NgModule({

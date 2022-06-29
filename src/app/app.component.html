@@ -1,8 +1,12 @@
-<app-right-sidebar></app-right-sidebar>
+<app-right-sidebar *ngIf="isAuthenticated"></app-right-sidebar>
 
-<div class="content">
+<div *ngIf="isAuthenticated" class="content">
   <app-topbar></app-topbar>
   <router-outlet></router-outlet>
+</div>
+
+<div *ngIf="!isAuthenticated" class="entry-page">
+  <app-entry></app-entry>
 </div>
 
 <app-notifications></app-notifications>

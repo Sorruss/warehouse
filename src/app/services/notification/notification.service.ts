@@ -124,4 +124,12 @@ export class NotificationService {
       compressed,
     });
   }
+  createInvalidCredentialsNotification(compressed: boolean = false): void {
+    this.addItem({
+      title: 'Невірні дані. Перевірте та спробуйте знову',
+      message: '',
+      color: 'red',
+      compressed,
+    });
+  }
 }

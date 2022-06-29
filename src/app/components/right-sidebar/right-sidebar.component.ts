@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
 import { Router } from '@angular/router';
+
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-right-sidebar',
@@ -13,7 +14,7 @@ export class RightSidebarComponent implements OnInit {
   private content: any;
   private menuBtn: any;
 
-  constructor(private location: Location, private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {}
   ngOnInit(): void {
     this.sidebar = document.querySelector('.sidebar');
     this.searchBar = document.querySelector('#searchBar');
@@ -46,5 +47,10 @@ export class RightSidebarComponent implements OnInit {
   }
   toUserPage(): void {
     this.router.navigate(['user-page']);
+  }
+
+  exit(): void {
+    this.authService.exit();
+    this.router.navigate(['entry']);
   }
 }
