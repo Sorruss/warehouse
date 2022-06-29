@@ -17,24 +17,24 @@ export interface IExportRegistrationCont {
   providedIn: 'root',
 })
 export class ExportRegistrationService {
-  private items: IExportRegistrationElem = {};
+  private orders: IExportRegistrationElem = {};
   constructor() {}
 
-  getItems(): IExportRegistrationElem {
-    return this.items;
+  getOrders(): IExportRegistrationElem {
+    return this.orders;
   }
-  getItemsById(id: number): IExportRegistrationCont {
-    return this.items[id];
+  getOrderById(id: number): IExportRegistrationCont {
+    return this.orders[id];
   }
-  addItem(item: IExportRegistrationCont): void {
+  addOrder(item: IExportRegistrationCont): void {
     item.id = this.getRandomNumber();
     if (!item.name) {
       item.name = `Замовлення №${item.id}`;
     }
-    this.items[item.id] = item;
+    this.orders[item.id] = item;
   }
-  removeItem(id: number): void {
-    delete this.items[id];
+  removeOrder(id: number): void {
+    delete this.orders[id];
   }
   getRandomNumber(min: number = 1001, max: number = 9999): number {
     return Math.floor(Math.random() * (max - min) + min);

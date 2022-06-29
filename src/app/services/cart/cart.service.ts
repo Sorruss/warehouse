@@ -28,7 +28,4 @@ export class CartService {
   removeItem(id: number): void {
     delete this.items[id];
   }
-  clearItems(): void {
-    this.items = [];
-  }
 }

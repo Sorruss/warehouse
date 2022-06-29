@@ -6,10 +6,9 @@ import { Item, items } from '../../items';
   providedIn: 'root',
 })
 export class ItemsService {
-  private itemsUrl = 'api/items';
-
   constructor() {}
-  getItem(id: number): Item {
+
+  getItemById(id: number): Item {
     return items.find((item) => item.id === id)!;
   }
   getItems(): Item[] {

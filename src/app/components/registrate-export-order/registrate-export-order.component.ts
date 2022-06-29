@@ -27,7 +27,7 @@ export class RegistrateExportOrderComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.order = this.exportRegistrationService.getItemsById(id);
+    this.order = this.exportRegistrationService.getOrderById(id);
 
     this.filterService.filterPropObs.subscribe((value) => {
       this.nameToFilter = value;

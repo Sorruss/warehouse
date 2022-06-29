@@ -25,7 +25,7 @@ export class ImportRegistrationComponent implements OnInit {
     private filterService: FilterService
   ) {}
   ngOnInit(): void {
-    this.items = this.importRegistrationService.getItems();
+    this.items = this.importRegistrationService.getOrders();
 
     this.filterService.filterPropObs.subscribe((value) => {
       this.nameToFilter = value;

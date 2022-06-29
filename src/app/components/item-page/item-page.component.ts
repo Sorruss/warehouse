@@ -26,7 +26,7 @@ export class ItemPageComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.item = this.itemsService.getItem(id);
+    this.item = this.itemsService.getItemById(id);
     this.filterService.hideSearchBar();
   }
 

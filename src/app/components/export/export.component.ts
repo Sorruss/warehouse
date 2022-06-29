@@ -90,7 +90,7 @@ export class ExportComponent implements OnInit {
   }
 
   makeAnOrder(name: string = ''): void {
-    this.exportRegistrationService.addItem({
+    this.exportRegistrationService.addOrder({
       id: 0,
       name,
       date: new Date().toDateString(),

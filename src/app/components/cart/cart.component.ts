@@ -126,7 +126,7 @@ export class CartComponent implements OnInit {
       return;
     }
 
-    this.importRegistrationService.addItem({
+    this.importRegistrationService.addOrder({
       id: 0,
       name,
       date: new Date().toDateString(),

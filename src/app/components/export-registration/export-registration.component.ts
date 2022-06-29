@@ -25,7 +25,7 @@ export class ExportRegistrationComponent implements OnInit {
     private filterService: FilterService
   ) {}
   ngOnInit(): void {
-    this.items = this.exportRegistrationService.getItems();
+    this.items = this.exportRegistrationService.getOrders();
 
     this.filterService.filterPropObs.subscribe((value) => {
       this.nameToFilter = value;

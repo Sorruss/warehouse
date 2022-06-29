@@ -28,7 +28,4 @@ export class ExportService {
   removeItem(id: number): void {
     delete this.items[id];
   }
-  clearItems(): void {
-    this.items = [];
-  }
 }

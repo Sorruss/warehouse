@@ -2,6 +2,27 @@
 
   Нарешті зробити базу даних / бекенд чи як його там.
 
-  Зробити вхід сторінку, як одну цілу з гарною анімацією знайти в інтернеті. Короче, 
-їх буде дві. Перша - вхід компанії (без можливості реєстрації на сайті) та друга - вхід самого користувача 
-(знову ж таки без реєстрації).
+  Потрібні URL зі сторони бекенду:
+Method - URL - Action
+GET - api/cart - getItems
+GET - api/cart/:id - getItemById
+POST - api/cart - addItem
+DELETE - api/cart/:id - removeItem
+
+GET - api/export - getItems
+GET - api/export/:id - getItemById
+POST - api/export - addItem
+DELETE - api/export/:id - removeItem
+
+GET - api/import-registration - getOrders
+GET - api/import-registration/:id - getOrderById
+POST - api/import-registration - addOrder
+DELETE - api/import-registration/:id - removeOrder
+
+GET - api/export-registration - getOrders
+GET - api/export-registration/:id - getOrderById
+POST - api/export-registration - addOrder
+DELETE - api/export-registration/:id - removeOrder
+
+GET - api/items - getItems
+GET - api/items/:id - getItemById
