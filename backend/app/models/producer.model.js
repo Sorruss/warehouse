@@ -1,29 +1,12 @@
 module.exports = (sequelize, Sequelize) => {
-  const Users = sequelize.define("users", {
-    first_name: {
+  const Producer = sequelize.define("producer", {
+    producer_name: {
       type: Sequelize.STRING,
       allowNull: false,
+      unique: true,
       validate: {
-        len: [2, 42],
+        len: [2, 72],
       },
-    },
-    middle_name: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      validate: {
-        len: [2, 42],
-      },
-    },
-    last_name: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      validate: {
-        len: [2, 42],
-      },
-    },
-    position: {
-      type: Sequelize.STRING,
-      allowNull: false,
     },
     phone1: {
       type: Sequelize.STRING,
@@ -43,11 +26,11 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       allowNull: true,
     },
-    user_password: {
-      type: Sequelize.STRING,
-      allowNull: false,
+    description: {
+      type: Sequelize.TEXT,
+      allowNull: true,
       validate: {
-        len: [7, 42],
+        len: [10, 10000],
       },
     },
 
@@ -63,9 +46,5 @@ module.exports = (sequelize, Sequelize) => {
     },
   });
 
-  Users.belongsTo(require("./company.model.js")(sequelize, Sequelize), {
-    foreignKey: "company_id",
-  });
-
-  return Users;
+  return Producer;
 };

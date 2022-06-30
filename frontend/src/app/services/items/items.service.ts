@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 import { Item, items } from '../../items';
+
+const backUrl = 'http://localhost:8080/api/items';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ItemsService {
-  constructor() {}
+  constructor(private httpClient: HttpClient) {}
 
   getItemById(id: number): Item {
     return items.find((item) => item.id === id)!;

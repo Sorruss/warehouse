@@ -1,29 +1,12 @@
 module.exports = (sequelize, Sequelize) => {
-  const Users = sequelize.define("users", {
-    first_name: {
+  const Company = sequelize.define("company", {
+    company_name: {
       type: Sequelize.STRING,
       allowNull: false,
+      unique: true,
       validate: {
-        len: [2, 42],
+        len: [2, 72],
       },
-    },
-    middle_name: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      validate: {
-        len: [2, 42],
-      },
-    },
-    last_name: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      validate: {
-        len: [2, 42],
-      },
-    },
-    position: {
-      type: Sequelize.STRING,
-      allowNull: false,
     },
     phone1: {
       type: Sequelize.STRING,
@@ -43,11 +26,29 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       allowNull: true,
     },
-    user_password: {
+    special_id: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      unique: true,
+      validate: {
+        is: "/^[1-9]{1}[0-9]{6}$/i",
+        min: 1000001,
+        max: 9999999,
+        len: [7, 7],
+      },
+    },
+    company_password: {
       type: Sequelize.STRING,
       allowNull: false,
       validate: {
         len: [7, 42],
+      },
+    },
+    description: {
+      type: Sequelize.TEXT,
+      allowNull: false,
+      validate: {
+        len: [10, 10000],
       },
     },
 
@@ -63,9 +64,5 @@ module.exports = (sequelize, Sequelize) => {
     },
   });
 
-  Users.belongsTo(require("./company.model.js")(sequelize, Sequelize), {
-    foreignKey: "company_id",
-  });
-
-  return Users;
+  return Company;
 };

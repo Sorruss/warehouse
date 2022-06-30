@@ -5,6 +5,7 @@ export interface Item {
   quantity: number;
   producer: string;
   description: string;
+  photoSrc: string;
 }
 
 const description =
@@ -16,6 +17,7 @@ const description =
   torquent per conubia nostra, per inceptos himenaeos До першого активу транспортний засіб не має \
   термічного макіяжу, діам транспортний засіб — це білок мудрих, з краю лука, це потрібно левові. Але \
   озеро життя – це завжди результат вихідного дня, який стає горлом кота.';
+const photoSrc = '../static/images/4-9.jpg';
 
 export const items: Item[] = [
   {
@@ -24,7 +26,8 @@ export const items: Item[] = [
     quantity: 213,
     date: '21.01.2022',
     producer: 'Microsoft',
-    description: description,
+    description,
+    photoSrc,
   },
   {
     id: 1,
@@ -32,7 +35,8 @@ export const items: Item[] = [
     quantity: 123,
     date: '24.06.2022',
     producer: 'Твій Світ',
-    description: description,
+    description,
+    photoSrc,
   },
   {
     id: 2,
@@ -40,7 +44,8 @@ export const items: Item[] = [
     quantity: 1233,
     date: '25.08.2022',
     producer: 'Xiomi',
-    description: description,
+    description,
+    photoSrc,
   },
   {
     id: 3,
@@ -48,6 +53,7 @@ export const items: Item[] = [
     quantity: 522,
     date: '22.02.2022',
     producer: 'УкрСкло',
-    description: description,
+    description,
+    photoSrc,
   },
 ];

@@ -2,10 +2,7 @@
   <div class="item-content">
     <!-- <h6 class="item-name">{{ item.name }}</h6> -->
     <div class="photo-description">
-      <img
-        src="../../static/images/4-9.jpg"
-        alt="фото товару '{{ item.name }}'"
-      />
+      <img [src]="item.photoSrc" alt="фото товару '{{ item.name }}'" />
       <div class="description">{{ item.description }}</div>
     </div>
 
@@ -46,7 +43,7 @@
       #inputExport
       type="number"
       min="0"
-      max="{{ item.quantity }}"
+      [max]="item.quantity"
       placeholder="0"
       appNgNumber
     />

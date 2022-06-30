@@ -4,7 +4,7 @@ const Sequelize = require("sequelize");
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
   dialect: dbConfig.dialect,
-  operatorsAliases: false,
+  operatorsAliases: "0",
   pool: {
     max: dbConfig.pool.max,
     min: dbConfig.pool.min,
@@ -17,6 +17,7 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
+// MODELS
 db.items = require("./items.model.js")(sequelize, Sequelize);
 db.cart = require("./cart.model.js")(sequelize, Sequelize);
 db.export = require("./export.model.js")(sequelize, Sequelize);
@@ -29,5 +30,7 @@ db.exportRegistration = require("./export-registration.model.js")(
   Sequelize
 );
 db.users = require("./users.model.js")(sequelize, Sequelize);
+db.company = require("./company.model.js")(sequelize, Sequelize);
+db.producer = require("./producer.model.js")(sequelize, Sequelize);
 
 module.exports = db;
