@@ -1,4 +1,4 @@
-module.exports = (app) => {
+module.exports = (backend) => {
   const producer = require("../controllers/producer.controller.js");
 
   const router = require("express").Router();
@@ -18,5 +18,5 @@ module.exports = (app) => {
   // Delete an producer with the specified id.
   router.delete("/:id", producer.delete);
 
-  app.use("api/items", router);
+  backend.use("/api/producer", router);
 };

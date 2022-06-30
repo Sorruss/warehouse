@@ -13,8 +13,15 @@ export class FilterByNamePipe implements PipeTransform {
     }
     q = q.toLocaleLowerCase();
 
+    let prop: string = '';
+    for (let p of Object.keys(items[0])) {
+      if (p.includes('name')) {
+        prop = p;
+      }
+    }
+
     return items.filter((it) => {
-      return it.name.toLocaleLowerCase().startsWith(q);
+      return it[prop].toLocaleLowerCase().startsWith(q);
     });
   }
 }

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Item } from '../../items';
 import { ItemsService } from '../../services/items/items.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { CartService } from 'src/app/services/cart/cart.service';
@@ -14,7 +13,7 @@ import { FilterService } from 'src/app/services/filter/filter.service';
   styleUrls: ['./item-page.component.css'],
 })
 export class ItemPageComponent implements OnInit {
-  public item!: Item;
+  public item: any;
 
   private id!: number;
 
@@ -29,8 +28,20 @@ export class ItemPageComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
-    this.item = this.itemsService.getItemById(this.id);
+    this.retrieveItem();
     this.filterService.hideSearchBar();
+  }
+
+  retrieveItem(): void {
+    this.itemsService.get(this.id).subscribe(
+      (data) => {
+        this.item = data;
+        console.log(data);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   addToCart(quantity: string): void {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Item } from './../../items';
+import { Item } from 'src/app/interfaces';
 
 export interface IExportRegistrationElem {
   [id: number]: IExportRegistrationCont;

@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-  const Users = sequelize.define("users", {
+  const User = sequelize.define("users", {
     first_name: {
       type: Sequelize.STRING,
       allowNull: false,
@@ -21,7 +21,7 @@ module.exports = (sequelize, Sequelize) => {
         len: [2, 42],
       },
     },
-    position: {
+    user_position: {
       type: Sequelize.STRING,
       allowNull: false,
     },
@@ -41,6 +41,7 @@ module.exports = (sequelize, Sequelize) => {
     },
     photo_src: {
       type: Sequelize.STRING,
+      defaultValue: "default1.png",
       allowNull: true,
     },
     user_password: {
@@ -63,9 +64,13 @@ module.exports = (sequelize, Sequelize) => {
     },
   });
 
-  Users.belongsTo(require("./company.model.js")(sequelize, Sequelize), {
+  User.belongsTo(require("./company.model.js")(sequelize, Sequelize), {
     foreignKey: "company_id",
   });
 
-  return Users;
+  // User.hasMany(require("./cart.model.js")(sequelize, Sequelize));
+  // User.hasMany(require("./import-registration.model.js")(sequelize, Sequelize));
+  // User.hasMany(require("./export-registration.model.js")(sequelize, Sequelize));
+
+  return User;
 };

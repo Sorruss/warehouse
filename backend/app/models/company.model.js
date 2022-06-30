@@ -24,6 +24,7 @@ module.exports = (sequelize, Sequelize) => {
     },
     photo_src: {
       type: Sequelize.STRING,
+      defaultValue: "default1.png",
       allowNull: true,
     },
     special_id: {
@@ -63,6 +64,9 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.DATE,
     },
   });
+
+  // Company.hasMany(require("./users.model.js")(sequelize, Sequelize));
+  // Company.hasMany(require("./items.model.js")(sequelize, Sequelize));
 
   return Company;
 };

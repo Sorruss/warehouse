@@ -13,13 +13,15 @@ exports.create = (req, res) => {
 
   // Create an User.
   const user = {
-    name: req.body.name,
-    middleName: req.body.middleName,
-    lastName: req.body.lastName,
-    position: req.body.position,
+    first_name: req.body.first_name,
+    middle_name: req.body.middle_name,
+    last_name: req.body.last_name,
+    user_position: req.body.user_position,
     phone1: req.body.phone1,
     phone2: req.body.phone2,
-    photoSrc: req.body.photoSrc,
+    photo_src: req.body.photo_src,
+    user_password: req.body.user_password,
+    company_id: req.body.company_id,
   };
 
   Users.create(user)
@@ -33,11 +35,29 @@ exports.create = (req, res) => {
     });
 };
 
+// Retrieve all Users.
+exports.getItems = (req, res) => {
+  const middle_name = req.query.middle_name;
+  const condition = middle_name
+    ? { middle_name: { [Op.iLike]: `%${middle_name}%` } }
+    : null;
+
+  Users.findAll({ where: condition })
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Some error occurred while retrieving Users.",
+      });
+    });
+};
+
 // Retrieve a single User with specified id.
 exports.getItemById = (req, res) => {
   const id = req.params.id;
 
-  Users.getItemById(id)
+  Users.findByPk(id)
     .then((data) => {
       res.send(data);
     })
@@ -54,7 +74,7 @@ exports.getItemById = (req, res) => {
 exports.delete = (req, res) => {
   const id = req.params.id;
 
-  Users.delete({ where: { id } })
+  Users.destroy({ where: { id } })
     .then((num) => {
       if (num === 1) {
         res.send({ message: "User was deleted successfully" });

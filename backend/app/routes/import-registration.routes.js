@@ -1,5 +1,5 @@
-module.exports = (app) => {
-  const importRegistration = require("../import-registration/cart.controller.js");
+module.exports = (backend) => {
+  const importRegistration = require("../controllers/import-registration.controller.js");
 
   const router = require("express").Router();
 
@@ -15,5 +15,5 @@ module.exports = (app) => {
   // Delete an importRegistration Item with the specified id.
   router.delete("/:id", importRegistration.delete);
 
-  app.use("api/import-registration", router);
+  backend.use("/api/import-registration", router);
 };

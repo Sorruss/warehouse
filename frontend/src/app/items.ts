@@ -1,12 +1,4 @@
-export interface Item {
-  id: number;
-  name: string;
-  date: string;
-  quantity: number;
-  producer: string;
-  description: string;
-  photoSrc: string;
-}
+import { Item } from './interfaces';
 
 const description =
   'Сам біль – це любов, головна система зберігання. Якщо захворювання термічні проблеми. \

@@ -14,12 +14,12 @@ exports.create = (req, res) => {
 
   // Create an Company.
   const item = {
-    name: req.body.name,
+    company_name: req.body.company_name,
     phone1: req.body.phone1,
     phone2: req.body.phone2,
-    photoSrc: req.body.photoSrc,
-    specialId: req.body.specialId,
-    password: req.body.password,
+    photo_src: req.body.photo_src,
+    special_id: req.body.special_id,
+    company_password: req.body.company_password,
     description: req.body.description,
   };
 
@@ -37,10 +37,12 @@ exports.create = (req, res) => {
 
 // Retrieve all Company.
 exports.getItems = (req, res) => {
-  const name = req.query.name;
-  const condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
+  const company_name = req.query.company_name;
+  const condition = company_name
+    ? { company_name: { [Op.iLike]: `%${company_name}%` } }
+    : null;
 
-  Company.getItems({ where: condition })
+  Company.findAll({ where: condition })
     .then((data) => {
       res.send(data);
     })
@@ -55,7 +57,7 @@ exports.getItems = (req, res) => {
 exports.getItemById = (req, res) => {
   const id = req.params.id;
 
-  Company.getItemById(id)
+  Company.findByPk(id)
     .then((data) => {
       res.send(data);
     })
@@ -72,7 +74,7 @@ exports.getItemById = (req, res) => {
 exports.updateItem = (req, res) => {
   const id = req.params.id;
 
-  Company.updateItem(req.body, {
+  Company.update(req.body, {
     where: { id },
   })
     .then((num) => {
@@ -97,7 +99,7 @@ exports.updateItem = (req, res) => {
 exports.delete = (req, res) => {
   const id = req.params.id;
 
-  Company.delete({ where: { id } })
+  Company.destroy({ where: { id } })
     .then((num) => {
       if (num === 1) {
         res.send({ message: "Company was deleted successfully" });
@@ -116,7 +118,7 @@ exports.delete = (req, res) => {
 
 // Delete all Company.
 exports.deleteAll = (req, res) => {
-  Company.delete({
+  Company.destroy({
     where: {},
     truncate: false,
   })

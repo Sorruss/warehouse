@@ -5,7 +5,7 @@ const cors = require("cors");
 const backend = express();
 
 const corsOptions = {
-  origin: "http://localhost:8081",
+  origin: "http://localhost:4200",
 };
 
 backend.use(cors(corsOptions));
@@ -13,17 +13,28 @@ backend.use(bodyParser.json());
 backend.use(bodyParser.urlencoded({ extended: true }));
 
 const db = require("./app/models");
-// db.sequelize.sync();
+db.sequelize.sync();
 
-db.sequelize.sync({ force: true }).then(() => {
-  console.log("Drop and re-sync DB");
-});
+// db.sequelize.sync({ force: true }).then(() => {
+//   console.log("Drop and re-sync DB");
+// });
 
 backend.get("/", (req, res) => {
   res.json({ message: "simple route" });
 });
 
-require("./app/routes/items.routes")(backend);
+for (let route of [
+  "cart",
+  "company",
+  "export-registration",
+  "export",
+  "import-registration",
+  "items",
+  "producer",
+  "users",
+]) {
+  require(`./app/routes/${route}.routes.js`)(backend);
+}
 
 const PORT = process.env.PORT || 8080;
 backend.listen(PORT, () => {

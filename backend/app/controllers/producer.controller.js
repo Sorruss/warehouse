@@ -14,12 +14,10 @@ exports.create = (req, res) => {
 
   // Create an Producer.
   const item = {
-    name: req.body.name,
+    producer_name: req.body.producer_name,
     phone1: req.body.phone1,
     phone2: req.body.phone2,
-    photoSrc: req.body.photoSrc,
-    specialId: req.body.specialId,
-    password: req.body.password,
+    photo_src: req.body.photo_src,
     description: req.body.description,
   };
 
@@ -37,10 +35,12 @@ exports.create = (req, res) => {
 
 // Retrieve all Producer.
 exports.getItems = (req, res) => {
-  const name = req.query.name;
-  const condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
+  const producer_name = req.query.producer_name;
+  const condition = producer_name
+    ? { producer_name: { [Op.iLike]: `%${producer_name}%` } }
+    : null;
 
-  Producer.getItems({ where: condition })
+  Producer.findAll({ where: condition })
     .then((data) => {
       res.send(data);
     })
@@ -56,7 +56,7 @@ exports.getItems = (req, res) => {
 exports.getItemById = (req, res) => {
   const id = req.params.id;
 
-  Producer.getItemById(id)
+  Producer.findByPk(id)
     .then((data) => {
       res.send(data);
     })
@@ -73,7 +73,7 @@ exports.getItemById = (req, res) => {
 exports.updateItem = (req, res) => {
   const id = req.params.id;
 
-  Producer.updateItem(req.body, {
+  Producer.update(req.body, {
     where: { id },
   })
     .then((num) => {
@@ -98,7 +98,7 @@ exports.updateItem = (req, res) => {
 exports.delete = (req, res) => {
   const id = req.params.id;
 
-  Producer.delete({ where: { id } })
+  Producer.destroy({ where: { id } })
     .then((num) => {
       if (num === 1) {
         res.send({ message: "Producer was deleted successfully" });
@@ -117,7 +117,7 @@ exports.delete = (req, res) => {
 
 // Delete all Producer.
 exports.deleteAll = (req, res) => {
-  Producer.delete({
+  Producer.destroy({
     where: {},
     truncate: false,
   })

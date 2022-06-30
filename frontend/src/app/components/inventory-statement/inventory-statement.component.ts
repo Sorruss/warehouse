@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Item } from '../../items';
 
 import { ItemsService } from '../../services/items/items.service';
 import { FilterService } from 'src/app/services/filter/filter.service';
@@ -10,14 +9,29 @@ import { FilterService } from 'src/app/services/filter/filter.service';
   styleUrls: ['./inventory-statement.component.css'],
 })
 export class InventoryStatementComponent implements OnInit {
-  public items: Item[] = [];
+  public items: any[] = [];
 
   constructor(
     private itemsService: ItemsService,
     private filterService: FilterService
   ) {}
   ngOnInit(): void {
-    this.items = this.itemsService.getItems();
+    this.retrieveItems();
     this.filterService.hideSearchBar();
+  }
+
+  retrieveItems() {
+    this.itemsService.getAll().subscribe(
+      (data) => {
+        this.items = data;
+        console.log(data);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+  refresh() {
+    this.retrieveItems();
   }
 }

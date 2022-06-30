@@ -9,6 +9,7 @@ module.exports = (sequelize, Sequelize) => {
     },
     income_date: {
       type: Sequelize.STRING,
+      defaultValue: new Date().toDateString(),
       allowNull: false,
     },
 

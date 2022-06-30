@@ -25,7 +25,10 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/static"
+              "src/static/images/items",
+              "src/static/images/producers",
+              "src/static/images/users",
+              "src/static/images/companies"
             ],
             "styles": [
               "src/assets/bootstrap/css/bootstrap.min.css",
@@ -94,13 +97,8 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.css"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles.css"],
             "scripts": []
           }
         }

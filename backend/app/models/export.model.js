@@ -2,7 +2,7 @@ module.exports = (sequelize, Sequelize) => {
   const ExportItems = sequelize.define("exportItems", {
     ordered_quantity: {
       type: Sequelize.INTEGER,
-      default: 0,
+      defaultValue: 0,
       allowNull: false,
       validate: {
         min: 1,

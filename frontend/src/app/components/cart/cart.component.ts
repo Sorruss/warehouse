@@ -7,7 +7,7 @@ import { FilterService } from 'src/app/services/filter/filter.service';
 import { ImportRegistrationService } from 'src/app/services/import-registration/import-registration.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 
-import { Item } from 'src/app/items';
+import { Item } from 'src/app/interfaces';
 
 import { fadeIn, slide2right } from 'src/app/animations';
 

@@ -1,4 +1,4 @@
-module.exports = (app) => {
+module.exports = (backend) => {
   const export_ = require("../controllers/export.controller.js");
 
   const router = require("express").Router();
@@ -21,5 +21,5 @@ module.exports = (app) => {
   // Delete all export Items.
   router.delete("/", export_.deleteAll);
 
-  app.use("api/export", router);
+  backend.use("/api/export", router);
 };

@@ -2,7 +2,10 @@
   <div class="item-content">
     <!-- <h6 class="item-name">{{ item.name }}</h6> -->
     <div class="photo-description">
-      <img [src]="item.photoSrc" alt="фото товару '{{ item.name }}'" />
+      <img
+        src="../../../static/images/items/{{ item.photo_src }}"
+        alt="фото товару '{{ item.item_name }}'"
+      />
       <div class="description">{{ item.description }}</div>
     </div>
 
@@ -12,9 +15,11 @@
         <li><span class="param">Кількість</span>: {{ item.quantity }}</li>
         <li>
           <span class="param">Дата останнього надходження</span>:
-          {{ item.date }}
+          {{ item.income_date }}
         </li>
-        <li><span class="param">Виробник</span>: {{ item.producer }}</li>
+        <li>
+          <span class="param">Виробник</span>: {{ item.producer.producer_name }}
+        </li>
       </ul>
     </div>
   </div>

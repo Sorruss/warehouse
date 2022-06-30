@@ -1,7 +1,8 @@
+import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Item, items } from '../../items';
+import { catchError, throwError } from 'rxjs';
 
 const backUrl = 'http://localhost:8080/api/items';
 
@@ -11,22 +12,42 @@ const backUrl = 'http://localhost:8080/api/items';
 export class ItemsService {
   constructor(private httpClient: HttpClient) {}
 
-  getItemById(id: number): Item {
-    return items.find((item) => item.id === id)!;
+  getAll(): Observable<any> {
+    return this.httpClient.get<any>(backUrl).pipe(catchError(this.handleError));
   }
-  getItems(): Item[] {
-    return items;
+  get(id: number): Observable<any> {
+    return this.httpClient
+      .get<any>(`${backUrl}/${id}`)
+      .pipe(catchError(this.handleError));
   }
-  searchItems(q: string): Item[] {
-    if (!q.trim()) {
-      return [];
+  create(data: any): Observable<any> {
+    return this.httpClient
+      .post<any>(backUrl, data)
+      .pipe(catchError(this.handleError));
+  }
+  update(id: number, data: any): Observable<any> {
+    return this.httpClient
+      .put<any>(`${backUrl}/${id}`, data)
+      .pipe(catchError(this.handleError));
+  }
+  delete(id: number): Observable<any> {
+    return this.httpClient
+      .delete<any>(`${backUrl}/${id}`)
+      .pipe(catchError(this.handleError));
+  }
+  // filterByName(name: string): Observable<any> {
+  //   return this.httpClient.get(`${backUrl}/?name=${name}`).pipe(catchError(this.handleError));
+  // }
+  handleError(error: any) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      // client-side error
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      // server-side error
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    return items.filter((item) => item.name.includes(q));
-  }
-  update(id: number, item: Item): void {
-    items[items.findIndex((item) => item.id === id)] = item;
-  }
-  delete(id: number): void {
-    // delete items[items.findIndex((item) => item.id === id)];
+    console.log(errorMessage);
+    return throwError(() => new Error(errorMessage));
   }
 }

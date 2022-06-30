@@ -14,8 +14,9 @@ exports.create = (req, res) => {
 
   // Create an Export item.
   const item = {
-    orderedQuantity: req.body.orderedQuantity,
-    itemId: req.body.itemId,
+    ordered_quantity: req.body.ordered_quantity,
+    item_id: req.body.item_id,
+    owner_id: req.body.owner_id,
   };
 
   Export.create(item)
@@ -35,7 +36,7 @@ exports.getItems = (req, res) => {
   const name = req.query.name;
   const condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
 
-  Export.getItems({ where: condition })
+  Export.findAll({ where: condition })
     .then((data) => {
       res.send(data);
     })
@@ -51,7 +52,7 @@ exports.getItems = (req, res) => {
 exports.getItemById = (req, res) => {
   const id = req.params.id;
 
-  Export.getItemById(id)
+  Export.findByPk(id)
     .then((data) => {
       res.send(data);
     })
@@ -68,7 +69,7 @@ exports.getItemById = (req, res) => {
 exports.updateItem = (req, res) => {
   const id = req.params.id;
 
-  Export.updateItem(req.body, {
+  Export.update(req.body, {
     where: { id },
   })
     .then((num) => {
@@ -93,7 +94,7 @@ exports.updateItem = (req, res) => {
 exports.delete = (req, res) => {
   const id = req.params.id;
 
-  Export.delete({ where: { id } })
+  Export.destroy({ where: { id } })
     .then((num) => {
       if (num === 1) {
         res.send({ message: "Export item was deleted successfully" });
@@ -112,7 +113,7 @@ exports.delete = (req, res) => {
 
 // Delete all Export items.
 exports.deleteAll = (req, res) => {
-  Export.delete({
+  Export.destroy({
     where: {},
     truncate: false,
   })

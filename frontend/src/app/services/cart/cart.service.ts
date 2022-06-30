@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Item } from 'src/app/items';
+import { Item } from 'src/app/interfaces';
 
 export interface ICartItem {
   [id: number]: Item & { orderedQuantity: number };

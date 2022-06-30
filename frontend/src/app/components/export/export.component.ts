@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Item } from 'src/app/items';
+import { Item } from 'src/app/interfaces';
 
 import { ExportService } from '../../services/export/export.service';
 import { IExportItem } from '../../services/export/export.service';

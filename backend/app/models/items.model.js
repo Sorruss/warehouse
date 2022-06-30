@@ -10,12 +10,12 @@ module.exports = (sequelize, Sequelize) => {
     },
     income_date: {
       type: Sequelize.STRING,
-      default: new Date().toDateString(),
-      allowNull: true,
+      defaultValue: new Date().toDateString(),
+      allowNull: false,
     },
     quantity: {
       type: Sequelize.INTEGER,
-      default: 0,
+      defaultValue: 0,
       allowNull: false,
       validate: {
         min: 0,
@@ -31,6 +31,7 @@ module.exports = (sequelize, Sequelize) => {
     },
     photo_src: {
       type: Sequelize.STRING,
+      defaultValue: "default1.png",
       allowNull: true,
     },
 
@@ -52,6 +53,14 @@ module.exports = (sequelize, Sequelize) => {
   Items.belongsTo(require("./company.model.js")(sequelize, Sequelize), {
     foreignKey: "company_id",
   });
+
+  // Items.hasMany(require("./cart.model.js")(sequelize, Sequelize));
+  // Items.hasMany(
+  //   require("./import-registration.model.js")(sequelize, Sequelize)
+  // );
+  // Items.hasMany(
+  //   require("./export-registration.model.js")(sequelize, Sequelize)
+  // );
 
   return Items;
 };

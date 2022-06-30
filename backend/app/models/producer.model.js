@@ -24,6 +24,7 @@ module.exports = (sequelize, Sequelize) => {
     },
     photo_src: {
       type: Sequelize.STRING,
+      defaultValue: "default1.png",
       allowNull: true,
     },
     description: {
@@ -45,6 +46,8 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.DATE,
     },
   });
+
+  // Producer.hasMany(require("./items.model.js")(sequelize, Sequelize));
 
   return Producer;
 };

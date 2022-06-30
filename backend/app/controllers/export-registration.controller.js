@@ -14,9 +14,10 @@ exports.create = (req, res) => {
 
   // Create an ExportRegistration item.
   const item = {
-    name: req.body.name,
-    date: req.body.date,
+    order_name: req.body.order_name,
+    income_date: req.body.income_date,
     items: req.body.items,
+    owner_id: req.body.owner_id,
   };
 
   ExportRegistration.create(item)
@@ -34,10 +35,12 @@ exports.create = (req, res) => {
 
 // Retrieve all ExportRegistration items.
 exports.getItems = (req, res) => {
-  const name = req.query.name;
-  const condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
+  const order_name = req.query.order_name;
+  const condition = order_name
+    ? { order_name: { [Op.iLike]: `%${order_name}%` } }
+    : null;
 
-  ExportRegistration.getItems({ where: condition })
+  ExportRegistration.findAll({ where: condition })
     .then((data) => {
       res.send(data);
     })
@@ -54,7 +57,7 @@ exports.getItems = (req, res) => {
 exports.getItemById = (req, res) => {
   const id = req.params.id;
 
-  ExportRegistration.getItemById(id)
+  ExportRegistration.findByPk(id)
     .then((data) => {
       res.send(data);
     })
@@ -71,7 +74,7 @@ exports.getItemById = (req, res) => {
 exports.delete = (req, res) => {
   const id = req.params.id;
 
-  ExportRegistration.delete({ where: { id } })
+  ExportRegistration.destroy({ where: { id } })
     .then((num) => {
       if (num === 1) {
         res.send({

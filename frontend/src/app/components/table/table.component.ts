@@ -6,8 +6,6 @@ import { ExportService } from '../../services/export/export.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { FilterService } from 'src/app/services/filter/filter.service';
 
-import { Item } from '../../items';
-
 import { fadeIn, fadeOut, slide2right } from 'src/app/animations';
 
 @Component({
@@ -28,7 +26,7 @@ export class TableComponent implements OnInit {
     private filterService: FilterService
   ) {}
   ngOnInit(): void {
-    this.items = this.itemsService.getItems();
+    this.retrieveItems();
 
     this.filterService.filterPropObs.subscribe((value) => {
       this.nameToFilter = value;
@@ -36,11 +34,26 @@ export class TableComponent implements OnInit {
     this.filterService.activateSearchBar();
   }
 
-  addToCart(item: Item, quantity: string): void {
+  retrieveItems() {
+    this.itemsService.getAll().subscribe({
+      next: (data) => {
+        this.items = data;
+        console.log(data);
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
+  refreshItems() {
+    this.retrieveItems();
+  }
+
+  addToCart(item: any, quantity: string): void {
     this.cartService.addItem(item, Number(quantity));
     this.notificationService.createImportNotification(item.name, quantity);
   }
-  addToExport(item: Item): void {
+  addToExport(item: any): void {
     const quantity = (
       document.querySelector(
         `#quantityInputExport${item.id}`

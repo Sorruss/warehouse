@@ -14,11 +14,13 @@ exports.create = (req, res) => {
 
   // Create an Item.
   const item = {
-    name: req.body.name,
-    date: req.body.date,
+    item_name: req.body.item_name,
+    income_date: req.body.income_date,
     quantity: req.body.quantity,
-    producer: req.body.producer,
     description: req.body.description,
+    producer_id: req.body.producer_id,
+    photo_src: req.body.photo_src,
+    company_id: req.body.company_id,
   };
 
   Item.create(item)
@@ -34,10 +36,12 @@ exports.create = (req, res) => {
 
 // Retrieve all Items.
 exports.getItems = (req, res) => {
-  const name = req.query.name;
-  const condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
+  const item_name = req.query.item_name;
+  const condition = item_name
+    ? { item_name: { [Op.iLike]: `%${item_name}%` } }
+    : null;
 
-  Item.getItems({ where: condition })
+  Item.findAll({ where: condition })
     .then((data) => {
       res.send(data);
     })
@@ -52,7 +56,7 @@ exports.getItems = (req, res) => {
 exports.getItemById = (req, res) => {
   const id = req.params.id;
 
-  Item.getItemById(id)
+  Item.findByPk(id, { include: db.producer })
     .then((data) => {
       res.send(data);
     })
@@ -69,7 +73,7 @@ exports.getItemById = (req, res) => {
 exports.updateItem = (req, res) => {
   const id = req.params.id;
 
-  Item.updateItem(req.body, {
+  Item.update(req.body, {
     where: { id },
   })
     .then((num) => {
@@ -94,7 +98,7 @@ exports.updateItem = (req, res) => {
 exports.delete = (req, res) => {
   const id = req.params.id;
 
-  Item.delete({ where: { id } })
+  Item.destroy({ where: { id } })
     .then((num) => {
       if (num === 1) {
         res.send({ message: "Item was deleted successfully" });
@@ -113,7 +117,7 @@ exports.delete = (req, res) => {
 
 // Delete all Items.
 exports.deleteAll = (req, res) => {
-  Item.delete({
+  Item.destroy({
     where: {},
     truncate: false,
   })

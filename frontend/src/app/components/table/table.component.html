@@ -1,4 +1,4 @@
-<div *ngIf="items.length" class="table">
+<div *ngIf="items.length | checkLength | async" class="table">
   <div class="table-content">
     <div class="row">
       <div class="col caption">
@@ -28,7 +28,7 @@
       @fadeOut
     >
       <div class="col name">
-        {{ item.name }}
+        {{ item.item_name }}
       </div>
 
       <div class="col quantity">
@@ -36,7 +36,7 @@
       </div>
 
       <div class="col date">
-        {{ item.date }}
+        {{ item.income_date }}
       </div>
 
       <div class="col input-button">
@@ -104,7 +104,7 @@
         <a
           class="button-link"
           routerLink="/item/{{ item.id }}"
-          [state]="{ pageName: item.name }"
+          [state]="{ pageName: item.item_name }"
         >
           <button>
             <i class="bx bx-link-external"></i>
