@@ -12,7 +12,12 @@
       </div>
     </div>
 
-    <div *ngFor= "let item of getValues() | filterByName: nameToFilter" class="row item" @fadeIn @slide2right>
+    <div
+      *ngFor="let item of getValues() | filterByName: nameToFilter"
+      class="row item"
+      @fadeIn
+      @slide2right
+    >
       <div class="col name">
         {{ item.name }}
       </div>
@@ -20,10 +25,10 @@
         {{ item.date }}
       </div>
       <div class="col button">
-        <a 
-          class="button-link" 
-          routerLink="/registrate-export-order/{{ item.id }}" 
-          [state]="{pageName: item.name}"
+        <a
+          class="button-link"
+          routerLink="/registrate-export-order/{{ item.id }}"
+          [state]="{ pageName: item.name }"
         >
           <button>
             <i class="bx bx-link-external"></i>

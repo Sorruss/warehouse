@@ -6,7 +6,6 @@ import { Directive, HostListener } from '@angular/core';
 export class NgNumberDirective {
   @HostListener('keydown', ['$event']) onKeyDown(event: any) {
     let e = <KeyboardEvent>event;
-    console.log(e.key, e.code);
     if (
       ['Delete', 'Backspace', 'Tab', 'Escape', 'Enter'].indexOf(e.key) !== -1 ||
       // Allow: Ctrl+A

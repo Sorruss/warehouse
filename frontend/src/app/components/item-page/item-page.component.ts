@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Item } from '../../items';
 import { ItemsService } from '../../services/items/items.service';
@@ -16,17 +16,20 @@ import { FilterService } from 'src/app/services/filter/filter.service';
 export class ItemPageComponent implements OnInit {
   public item!: Item;
 
+  private id!: number;
+
   constructor(
     private route: ActivatedRoute,
     private itemsService: ItemsService,
     private notificationService: NotificationService,
     private cartService: CartService,
     private exportService: ExportService,
-    private filterService: FilterService
+    private filterService: FilterService,
+    private router: Router
   ) {}
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.item = this.itemsService.getItemById(id);
+    this.id = Number(this.route.snapshot.paramMap.get('id'));
+    this.item = this.itemsService.getItemById(this.id);
     this.filterService.hideSearchBar();
   }
 
@@ -50,5 +53,13 @@ export class ItemPageComponent implements OnInit {
   }
   checkBeforeCreate(quantity: number, exportQuantity: number): boolean {
     return !(exportQuantity > quantity);
+  }
+  removeItem(): void {
+    this.itemsService.delete(this.id);
+    this.router.navigate(['/']);
+    this.notificationService.createSuccessfullyDeletedNotification(
+      this.item.name,
+      true
+    );
   }
 }

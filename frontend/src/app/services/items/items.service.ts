@@ -20,4 +20,10 @@ export class ItemsService {
     }
     return items.filter((item) => item.name.includes(q));
   }
+  update(id: number, item: Item): void {
+    items[items.findIndex((item) => item.id === id)] = item;
+  }
+  delete(id: number): void {
+    // delete items[items.findIndex((item) => item.id === id)];
+  }
 }

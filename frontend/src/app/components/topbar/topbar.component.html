@@ -2,15 +2,18 @@
   <div class="components">
     <div *ngIf="isSearchBarActivated" class="search">
       <i class="bx bx-search" (click)="activeSearch()"></i>
-      <input 
-        id="mainSearchBar" 
-        type="text" 
+      <input
+        id="mainSearchBar"
+        type="text"
         placeholder="Пошук"
         #mainSearchBar
         (input)="setFilterValue(mainSearchBar.value)"
-      >
+      />
     </div>
-    <div class="page-name" [style.padding-left]="isSearchBarActivated ? '0px' : '250px'">
+    <div
+      class="page-name"
+      [style.padding-left]="isSearchBarActivated ? '0px' : '250px'"
+    >
       <h6>{{ pageName }}</h6>
     </div>
     <div class="navigation">

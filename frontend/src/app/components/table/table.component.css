@@ -24,7 +24,7 @@
   padding: 5px 0px;
 }
 
-button {
+.button button {
   border: none;
   outline: none;
   background: #11101d;
@@ -34,6 +34,11 @@ button {
   transition: all 0.4s ease;
   font-size: 18px;
 }
+.col.input-button .button .disabled button {
+  cursor: default;
+  background: #2d2c32;
+}
+
 .button-link {
   width: 50%;
   display: flex;
@@ -57,12 +62,14 @@ button {
   position: relative;
 }
 
-.col.input-button .button {
+.col.input-button .button,
+.col.input-button .button .default,
+.col.input-button .button .disabled {
   position: relative;
   display: flex;
   justify-content: center;
   margin-left: 0;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
 }
 .hint {
   position: absolute;
@@ -81,7 +88,12 @@ button {
   transition: 0s;
   text-align: center;
 }
-.col.button:hover .hint, .col.input-button .button:hover .hint {
+.col.input-button .button .disabled .hint {
+  background: #2d2c32;
+}
+
+.col.button:hover .hint,
+.col.input-button .button:hover .hint {
   opacity: 1;
   pointer-events: auto;
   transition: all 0.4s ease;
@@ -91,7 +103,7 @@ button {
 
 .col.input-button .input {
   width: 0;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
 }
 
 /* 
@@ -108,9 +120,8 @@ button {
 .col.input-button:hover .input {
   width: 60%;
 }
-
-.col.input-button:hover .button {
-  margin-left: 10px;
+.col.input-button:hover .input {
+  margin-right: 10px;
 }
 
 .col.input-button .input input {
@@ -128,7 +139,7 @@ button {
   text-align: center;
   opacity: 0;
   overflow: hidden;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
 }
 .col.input-button .input.active input {
   opacity: 1;

@@ -14,36 +14,45 @@
         <h6>Деталі</h6>
       </div>
       <div class="col caption">
-        <input 
-          type="checkbox" 
-          [(ngModel)]="isAllChecked" 
-          class="form-check-input" 
+        <input
+          type="checkbox"
+          [(ngModel)]="isAllChecked"
+          class="form-check-input"
           (click)="chooseAll()"
           id="selectAll"
-        >
+        />
       </div>
     </div>
 
-    <div *ngFor= "let item of getValues() | filterByName: nameToFilter" class="row item" @fadeIn @slide2right>
+    <div
+      *ngFor="let item of getValues() | filterByName: nameToFilter"
+      class="row item"
+      @fadeIn
+      @slide2right
+    >
       <div class="col name">
         {{ item.name }}
       </div>
       <div class="col quantity">
-        <input 
-          #input 
-          type="number" 
-          [value]="item.orderedQuantity" 
-          (change)="changeOrderQuantity(item, input.value)" 
-          min="1" 
+        <input
+          #input
+          type="number"
+          [value]="item.orderedQuantity"
+          (change)="changeOrderQuantity(item, input.value)"
+          min="1"
           max="999999999"
           appNgNumber
-        >
+        />
       </div>
       <div class="col date">
         {{ item.date }}
       </div>
       <div class="col button">
-        <a class="button-link" routerLink="/item/{{ item.id }}" [state]="{pageName: item.name}">
+        <a
+          class="button-link"
+          routerLink="/item/{{ item.id }}"
+          [state]="{ pageName: item.name }"
+        >
           <button>
             <i class="bx bx-link-external"></i>
           </button>
@@ -52,37 +61,35 @@
       </div>
       <div class="col">
         <label class="lbl-checkbox">
-          <input 
+          <input
             id="{{ item.id }}"
-            #checkbox 
-            type="checkbox" 
-            class="form-check-input checkbox" 
+            #checkbox
+            type="checkbox"
+            class="form-check-input checkbox"
             (change)="chooseOne(checkbox.checked, item.id)"
-          >
+          />
         </label>
       </div>
     </div>
   </div>
-  
+
   <div class="buttons">
     <button id="btn-import" (click)="changeModalDialogState()">
       Замовити обрані товари
       <span id="counter">({{ selectedItemsId.length }})</span>
     </button>
-    
+
     <button id="btn-remove" (click)="removeFromCart()">
       <i class="bx bx-trash"></i>
     </button>
   </div>
 </div>
 
-<app-modal-dialog 
+<app-modal-dialog
   *ngIf="goingToOrder"
   [modalTitle]="'Налаштування замовлення'"
   (onSaveEvent)="makeAnOrder($event)"
   (onCloseEvent)="changeModalDialogState()"
 ></app-modal-dialog>
 
-<div *ngIf="!(items | keyvalue)?.length" class="cart-is-empty">
-  Пусто
-</div>
+<div *ngIf="!(items | keyvalue)?.length" class="cart-is-empty">Пусто</div>

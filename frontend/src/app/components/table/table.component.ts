@@ -40,7 +40,13 @@ export class TableComponent implements OnInit {
     this.cartService.addItem(item, Number(quantity));
     this.notificationService.createImportNotification(item.name, quantity);
   }
-  addToExport(item: Item, quantity: string): void {
+  addToExport(item: Item): void {
+    const quantity = (
+      document.querySelector(
+        `#quantityInputExport${item.id}`
+      ) as HTMLInputElement
+    ).value;
+
     if (!this.checkBeforeCreate(item.quantity, Number(quantity))) {
       this.notificationService.createTooMuchNotification(item.name, quantity);
     } else {

@@ -26,7 +26,11 @@
         {{ item.date }}
       </div>
       <div class="col button">
-        <a class="button-link" routerLink="/item/{{ item.id }}" [state]="{pageName: item.name}">
+        <a
+          class="button-link"
+          routerLink="/item/{{ item.id }}"
+          [state]="{ pageName: item.name }"
+        >
           <button>
             <i class="bx bx-link-external"></i>
           </button>
@@ -35,12 +39,10 @@
       </div>
     </div>
   </div>
-  
+
   <div class="buttons">
     <button>Завантажити .docx файл</button>
   </div>
 </div>
 
-<div *ngIf="!items.length" class="inventory-is-empty">
-  Пусто
-</div>
+<div *ngIf="!items.length" class="inventory-is-empty">Пусто</div>

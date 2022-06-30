@@ -1,116 +1,169 @@
 <div class="entry-wrapper">
-  <div class="entry">  	
-    <input type="checkbox" id="chk" aria-hidden="true">
-      <div class="company">
-        <form>
-          <label for="chk" aria-hidden="true">Дані компанії</label>
-          <input 
-            ngModel
-            name="companyId"
-            #companyId="ngModel"
-            class="form-control" 
-            type="text" 
-            placeholder="ID компанії" 
-            required
-            minlength="7"
-            maxlength="7"
-          >
-          <div class="errors dark" [class.active]="companyId.control.touched && !companyId.control.valid">
-            <div *ngIf="companyId.control.errors !== null">
-              <span class="error" *ngIf="companyId.control.errors.required">Це поле є необхідним</span>
-              <span class="error" *ngIf="companyId.control.errors!.minlength || companyId.control.errors!.maxlength">
-                ID має длину в {{ companyId.control.errors!.minlength.requiredLength }} символів. 
-                Ви вели {{ companyId.control.errors!.minlength.actualLength }}
-              </span>
-            </div>
-          </div>
-
-          <input 
-            ngModel
-            name="companyPassword"
-            #companyPassword="ngModel"
-            class="form-control" 
-            type="password" 
-            placeholder="Пароль" 
-            required
-            minlength="7"
-            maxlength="42"
-            autocomplete="on"
-          >
-        </form>
-        <div class="errors dark" [class.active]="companyPassword.control.touched && !companyPassword.control.valid">
+  <div class="entry">
+    <input type="checkbox" id="chk" aria-hidden="true" />
+    <div class="company">
+      <form>
+        <label for="chk" aria-hidden="true">Дані компанії</label>
+        <input
+          ngModel
+          name="companyId"
+          #companyId="ngModel"
+          class="form-control"
+          type="text"
+          placeholder="ID компанії"
+          required
+          minlength="7"
+          maxlength="7"
+          appNgNumber
+        />
+        <div
+          class="errors dark"
+          [class.active]="companyId.control.touched && !companyId.control.valid"
+        >
           <div *ngIf="companyId.control.errors !== null">
-            <span class="error" *ngIf="companyPassword.control.errors!.required">Це поле є необхідним</span>
-            <span class="error" *ngIf="companyPassword.control.errors!.minlength">
-              Мінімальна длина паролю {{ companyPassword.control.errors!.minlength.requiredLength }}. 
-              Ви вели {{ companyPassword.control.errors!.minlength.actualLength }}
-            </span>
-            <span class="error" *ngIf="companyPassword.control.errors!.maxlength">
-              Максимальна длина паролю {{ companyPassword.control.errors!.maxlength.requiredLength }}. 
-              Ви вели {{ companyPassword.control.errors!.maxlength.actualLength }}
+            <span class="error" *ngIf="companyId.control.errors.required"
+              >Це поле є необхідним</span
+            >
+            <span
+              class="error"
+              *ngIf="
+                companyId.control.errors!.minlength ||
+                companyId.control.errors!.maxlength
+              "
+            >
+              ID має длину в
+              {{ companyId.control.errors!.minlength.requiredLength }} символів.
+              Ви вели {{ companyId.control.errors!.minlength.actualLength }}
             </span>
           </div>
         </div>
 
-        <button type="submit" style="display: none;width: 0;height: 0;opacity: 0;"></button>
-      </div>
-  
-      <div class="worker">
-        <form>
-          <label for="chk" aria-hidden="true">Дані робіника</label>
-          <input 
-            ngModel
-            name="workerLogin"
-            #workerLogin="ngModel"
-            class="form-control" 
-            type="email" 
-            placeholder="Логін" 
-            required
-            minlength="2"
-            maxlength="42"
+        <input
+          ngModel
+          name="companyPassword"
+          #companyPassword="ngModel"
+          class="form-control"
+          type="password"
+          placeholder="Пароль"
+          required
+          minlength="7"
+          maxlength="42"
+          autocomplete="on"
+        />
+      </form>
+      <div
+        class="errors dark"
+        [class.active]="
+          companyPassword.control.touched && !companyPassword.control.valid
+        "
+      >
+        <div *ngIf="companyPassword.control.errors !== null">
+          <span class="error" *ngIf="companyPassword.control.errors!.required"
+            >Це поле є необхідним</span
           >
-          <div class="errors light" [class.active]="workerLogin.control.touched && !workerLogin.control.valid">
-            <div *ngIf="companyId.control.errors !== null">
-              <span class="error" *ngIf="workerLogin.control.errors!.required">Це поле є необхідним</span>
-              <span class="error" *ngIf="workerLogin.control.errors!.minlength">
-                Мінімальна длина логіну {{ workerLogin.control.errors!.minlength.requiredLength }}. 
-                Ви вели {{ workerLogin.control.errors!.minlength.actualLength }}
-              </span>
-              <span class="error" *ngIf="workerLogin.control.errors!.maxlength">
-                Максимальна длина логіну {{ workerLogin.control.errors!.maxlength.requiredLength }}. 
-                Ви вели {{ workerLogin.control.errors!.maxlength.actualLength }}
-              </span>
-            </div>
-          </div>
-
-          <input 
-            ngModel
-            name="workerPassword"
-            #workerPassword="ngModel"
-            class="form-control" 
-            type="password" 
-            placeholder="Пароль" 
-            required
-            minlength="7"
-            maxlength="42"
-            autocomplete="on"
-          >
-          <div class="errors light" [class.active]="workerPassword.control.touched && !workerPassword.control.valid">
-            <div *ngIf="companyId.control.errors !== null">
-              <span class="error" *ngIf="workerPassword.control.errors!.required">Це поле є необхідним</span>
-              <span class="error" *ngIf="workerPassword.control.errors!.minlength">
-                Мінімальна длина паролю {{ workerPassword.control.errors!.minlength.requiredLength }}. 
-                Ви вели {{ workerPassword.control.errors!.minlength.actualLength }}
-              </span>
-              <span class="error" *ngIf="workerPassword.control.errors!.maxlength">
-                Максимальна длина паролю {{ workerPassword.control.errors!.maxlength.requiredLength }}. 
-                Ви вели {{ workerPassword.control.errors!.maxlength.actualLength }}
-              </span>
-            </div>
-          </div>
-
-          <button (click)="logIn({companyId, companyPassword, workerLogin, workerPassword})">Увійти</button>
-        </form>
+          <span class="error" *ngIf="companyPassword.control.errors!.minlength">
+            Мінімальна длина паролю
+            {{ companyPassword.control.errors!.minlength.requiredLength }}. Ви
+            вели {{ companyPassword.control.errors!.minlength.actualLength }}
+          </span>
+          <span class="error" *ngIf="companyPassword.control.errors!.maxlength">
+            Максимальна длина паролю
+            {{ companyPassword.control.errors!.maxlength.requiredLength }}. Ви
+            вели {{ companyPassword.control.errors!.maxlength.actualLength }}
+          </span>
+        </div>
       </div>
+
+      <button
+        type="submit"
+        style="display: none; width: 0; height: 0; opacity: 0"
+      ></button>
+    </div>
+
+    <div class="worker">
+      <form>
+        <label for="chk" aria-hidden="true">Дані робіника</label>
+        <input
+          ngModel
+          name="workerLogin"
+          #workerLogin="ngModel"
+          class="form-control"
+          type="email"
+          placeholder="Логін"
+          required
+          minlength="2"
+          maxlength="42"
+        />
+        <div
+          class="errors light"
+          [class.active]="
+            workerLogin.control.touched && !workerLogin.control.valid
+          "
+        >
+          <div *ngIf="workerLogin.control.errors !== null">
+            <span class="error" *ngIf="workerLogin.control.errors!.required"
+              >Це поле є необхідним</span
+            >
+            <span class="error" *ngIf="workerLogin.control.errors!.minlength">
+              Мінімальна длина логіну
+              {{ workerLogin.control.errors!.minlength.requiredLength }}. Ви
+              вели {{ workerLogin.control.errors!.minlength.actualLength }}
+            </span>
+            <span class="error" *ngIf="workerLogin.control.errors!.maxlength">
+              Максимальна длина логіну
+              {{ workerLogin.control.errors!.maxlength.requiredLength }}. Ви
+              вели {{ workerLogin.control.errors!.maxlength.actualLength }}
+            </span>
+          </div>
+        </div>
+
+        <input
+          ngModel
+          name="workerPassword"
+          #workerPassword="ngModel"
+          class="form-control"
+          type="password"
+          placeholder="Пароль"
+          required
+          minlength="7"
+          maxlength="42"
+          autocomplete="on"
+        />
+        <div
+          class="errors light"
+          [class.active]="
+            workerPassword.control.touched && !workerPassword.control.valid
+          "
+        >
+          <div *ngIf="workerPassword.control.errors !== null">
+            <span class="error" *ngIf="workerPassword.control.errors!.required"
+              >Це поле є необхідним</span
+            >
+            <span
+              class="error"
+              *ngIf="workerPassword.control.errors!.minlength"
+            >
+              Мінімальна длина паролю
+              {{ workerPassword.control.errors!.minlength.requiredLength }}. Ви
+              вели {{ workerPassword.control.errors!.minlength.actualLength }}
+            </span>
+            <span
+              class="error"
+              *ngIf="workerPassword.control.errors!.maxlength"
+            >
+              Максимальна длина паролю
+              {{ workerPassword.control.errors!.maxlength.requiredLength }}. Ви
+              вели {{ workerPassword.control.errors!.maxlength.actualLength }}
+            </span>
+          </div>
+        </div>
+
+        <button
+          (click)="logIn({companyId, companyPassword, workerLogin, workerPassword})"
+        >
+          Увійти
+        </button>
+      </form>
+    </div>
   </div>
 </div>

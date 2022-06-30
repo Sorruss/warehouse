@@ -111,7 +111,6 @@ export class CartComponent implements OnInit {
     return true;
   }
   checkOnSelected(): boolean {
-    console.log('hola');
     const result = this.selectedItemsId.length !== 0;
 
     if (!result) {

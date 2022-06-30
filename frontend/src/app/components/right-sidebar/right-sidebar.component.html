@@ -19,7 +19,7 @@
     </li>
 
     <li>
-      <a routerLink="cart" [state]="{pageName: 'загальне замовлення'}">
+      <a routerLink="cart" [state]="{ pageName: 'загальне замовлення' }">
         <i class="bx bx-cart-alt"></i>
         <span class="links_name">Загальне замовлення</span>
       </a>
@@ -27,7 +27,7 @@
     </li>
 
     <li>
-      <a routerLink="export" [state]="{pageName: 'загальний вивіз'}">
+      <a routerLink="export" [state]="{ pageName: 'загальний вивіз' }">
         <i class="bx bx-export bx-rotate-90"></i>
         <span class="links_name">Загальний вивіз</span>
       </a>
@@ -35,7 +35,10 @@
     </li>
 
     <li>
-      <a routerLink="import-registration" [state]="{pageName: 'реєстрація надходження'}">
+      <a
+        routerLink="import-registration"
+        [state]="{ pageName: 'реєстрація надходження' }"
+      >
         <i class="bx bxs-file-import"></i>
         <span class="links_name">Реєстрація надходження</span>
       </a>
@@ -43,7 +46,10 @@
     </li>
 
     <li>
-      <a routerLink="export-registration" [state]="{pageName: 'реєстрація вивезення'}">
+      <a
+        routerLink="export-registration"
+        [state]="{ pageName: 'реєстрація вивезення' }"
+      >
         <i class="bx bxs-file-export"></i>
         <span class="links_name">Реєстрація вивезення</span>
       </a>
@@ -51,7 +57,10 @@
     </li>
 
     <li>
-      <a routerLink="inventory-statement" [state]="{pageName: 'інвентарна відомість'}">
+      <a
+        routerLink="inventory-statement"
+        [state]="{ pageName: 'інвентарна відомість' }"
+      >
         <i class="bx bx-info-square"></i>
         <span class="links_name">Інвентарна відомість</span>
       </a>
@@ -59,7 +68,7 @@
     </li>
 
     <li>
-      <a routerLink="user-page" [state]="{pageName: 'сторінка користувача'}">
+      <a routerLink="user-page" [state]="{ pageName: 'сторінка користувача' }">
         <i class="bx bx-user"></i>
         <span class="links_name">Сторінка користувача</span>
       </a>
@@ -67,7 +76,10 @@
     </li>
 
     <li>
-      <a routerLink="site-settings" [state]="{pageName: 'налаштування сайту'}">
+      <a
+        routerLink="site-settings"
+        [state]="{ pageName: 'налаштування сайту' }"
+      >
         <i class="bx bxs-cog"></i>
         <span class="links_name">Налаштування сайту</span>
       </a>
@@ -75,14 +87,18 @@
     </li>
 
     <li class="profile">
-        <div class="profile-details">
-          <img src="../../static/images/4-9.jpg" alt="profile image" (click)="toUserPage()">
-          <div class="name_job">
-            <div class="name" (click)="toUserPage()">Артур Ткачов</div>
-            <div class="job">Робітник</div>
-          </div>
+      <div class="profile-details">
+        <img
+          src="../../static/images/4-9.jpg"
+          alt="profile image"
+          (click)="toUserPage()"
+        />
+        <div class="name_job">
+          <div class="name" (click)="toUserPage()">Артур Ткачов</div>
+          <div class="job">Робітник</div>
         </div>
-        <i class="bx bx-log-out" id="log_out" (click)="exit()"></i>
+      </div>
+      <i class="bx bx-log-out" id="log_out" (click)="exit()"></i>
     </li>
   </ul>
 </div>

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { FilterService } from 'src/app/services/filter/filter.service';
+import { ItemsService } from 'src/app/services/items/items.service';
 
 import { fadeIn, slide2right } from 'src/app/animations';
 
@@ -20,18 +21,34 @@ export class RegistrateImportOrderComponent implements OnInit {
   public order!: IImportRegistrationCont;
   public nameToFilter: string = '';
 
+  private id!: number;
+
   constructor(
     private importRegistrationService: ImportRegistrationService,
     private route: ActivatedRoute,
-    private filterService: FilterService
+    private filterService: FilterService,
+    private itemsService: ItemsService,
+    private router: Router
   ) {}
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.order = this.importRegistrationService.getOrderById(id);
+    this.id = Number(this.route.snapshot.paramMap.get('id'));
+    this.order = this.importRegistrationService.getOrderById(this.id);
 
     this.filterService.filterPropObs.subscribe((value) => {
       this.nameToFilter = value;
     });
     this.filterService.activateSearchBar();
+  }
+
+  registerImport(): void {
+    for (let item of this.order.items) {
+      item.quantity += item.orderedQuantity!;
+      delete item.orderedQuantity;
+      this.itemsService.update(item.id, item);
+    }
+
+    this.importRegistrationService.removeOrder(this.id);
+
+    this.router.navigate(['/']);
   }
 }

@@ -1,16 +1,19 @@
 <div class="notifications-component">
   <div class="notifications-content">
     <div class="notifications">
-      <div 
-        *ngFor="let item of items" 
+      <div
+        *ngFor="let item of items"
         class="notification"
         [style.background]="
-          item.color === 'dark' ? 'rgba(17, 16, 29, 0.6)' : 
-          (item.color === 'red' ? 'rgba(255, 0, 0, 0.3)' : 
-          item.color === 'green' ? 'rgba(0, 255, 0, 0.2)' :
-          item.color
-        )" 
-        @fadeIn 
+          item.color === 'dark'
+            ? 'rgba(17, 16, 29, 0.6)'
+            : item.color === 'red'
+            ? 'rgba(255, 0, 0, 0.3)'
+            : item.color === 'green'
+            ? 'rgba(0, 255, 0, 0.2)'
+            : item.color
+        "
+        @fadeIn
         @fadeOut
       >
         <div class="notification-title">

@@ -10,7 +10,7 @@ export interface IExportRegistrationCont {
   id: number;
   name: string;
   date: string;
-  items: (Item & { orderedQuantity: number })[];
+  items: (Item & { orderedQuantity?: number })[];
 }
 
 @Injectable({

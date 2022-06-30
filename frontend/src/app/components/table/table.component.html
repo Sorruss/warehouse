@@ -21,7 +21,12 @@
       </div>
     </div>
 
-    <div *ngFor="let item of items | filterByName: nameToFilter" class="row item" @fadeIn @fadeOut>
+    <div
+      *ngFor="let item of items | filterByName: nameToFilter"
+      class="row item"
+      @fadeIn
+      @fadeOut
+    >
       <div class="col name">
         {{ item.name }}
       </div>
@@ -36,20 +41,20 @@
 
       <div class="col input-button">
         <div class="input">
-          <input 
-            #quantityInputImport 
-            type="number"  
-            placeholder="0" 
+          <input
+            #quantityInputImport
+            type="number"
+            placeholder="0"
             (blur)="toggleClass2Active(quantityInputImport)"
             (mouseleave)="toggleClass2Active(quantityInputImport)"
             min="0"
-            max="{{ item.quantity }}"
+            [max]="item.quantity"
             appNgNumber
           />
         </div>
         <div class="button">
-          <a 
-            class="button-link" 
+          <a
+            class="button-link"
             (click)="addToCart(item, quantityInputImport.value)"
           >
             <button>
@@ -61,33 +66,46 @@
       </div>
 
       <div class="col input-button">
-        <div class="input">
-          <input 
-            #quantityInputExport 
-            type="number"  
-            placeholder="0" 
+        <div class="input" *ngIf="item.quantity">
+          <input
+            #quantityInputExport
+            id="quantityInputExport{{ item.id }}"
+            type="number"
+            placeholder="0"
             (blur)="toggleClass2Active(quantityInputExport)"
             (mouseleave)="toggleClass2Active(quantityInputExport)"
             min="0"
-            max="{{ item.quantity }}"
+            [max]="item.quantity"
             appNgNumber
           />
         </div>
         <div class="button">
-          <a 
-            class="button-link" 
-            (click)="addToExport(item, quantityInputExport.value)"
-          >
-            <button>
-              <i class="bx bx-export"></i>
-            </button>
-          </a>
-          <span class="hint">додати до експорту</span>
+          <div *ngIf="item.quantity" class="default">
+            <a class="button-link" (click)="addToExport(item)">
+              <button>
+                <i class="bx bx-export"></i>
+              </button>
+            </a>
+            <span class="hint">додати до експорту</span>
+          </div>
+
+          <div *ngIf="!item.quantity" class="disabled">
+            <a class="button-link">
+              <button>
+                <i class="bx bx-export"></i>
+              </button>
+            </a>
+            <span class="hint">немає в наявності</span>
+          </div>
         </div>
       </div>
-      
+
       <div class="col button">
-        <a class="button-link" routerLink="/item/{{ item.id }}" [state]="{pageName: item.name}">
+        <a
+          class="button-link"
+          routerLink="/item/{{ item.id }}"
+          [state]="{ pageName: item.name }"
+        >
           <button>
             <i class="bx bx-link-external"></i>
           </button>
@@ -98,6 +116,4 @@
   </div>
 </div>
 
-<div *ngIf="!items.length" class="table-is-empty">
-  Пусто
-</div>
+<div *ngIf="!items.length" class="table-is-empty">Пусто</div>

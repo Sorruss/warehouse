@@ -132,4 +132,15 @@ export class NotificationService {
       compressed,
     });
   }
+  createSuccessfullyDeletedNotification(
+    name: string,
+    compressed: boolean = false
+  ): void {
+    this.addItem({
+      title: `Запис '${name.toUpperCase()}' був успішно видалений.`,
+      message: '',
+      color: 'green',
+      compressed,
+    });
+  }
 }
