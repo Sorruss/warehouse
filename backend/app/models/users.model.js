@@ -1,89 +1,100 @@
-module.exports = (sequelize, Sequelize) => {
-  const User = sequelize.define("users", {
-    first_name: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      validate: {
-        len: [2, 42],
-      },
-    },
-    middle_name: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      validate: {
-        len: [2, 42],
-      },
-    },
-    last_name: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      validate: {
-        len: [2, 42],
-      },
-    },
-    user_position: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
-    phone1: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      validate: {
-        len: [10, 42],
-      },
-    },
-    phone2: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      validate: {
-        len: [10, 42],
-      },
-    },
-    photo_src: {
-      type: Sequelize.STRING,
-      defaultValue: "default",
-      allowNull: true,
-    },
-    user_password: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      validate: {
-        len: [7, 42],
-      },
-    },
+const { Model } = require("sequelize");
 
-    createdAt: {
-      allowNull: false,
-      defaultValue: new Date(),
-      type: Sequelize.DATE,
-    },
-    updatedAt: {
-      allowNull: false,
-      defaultValue: new Date(),
-      type: Sequelize.DATE,
-    },
-  });
+module.exports = (sequelize, DataTypes) => {
+  class User extends Model {
+    static associate({ Cart, Export, ImportOrder, ExportOrder, Company }) {
+      this.hasMany(Cart, {
+        onDelete: "cascade",
+        foreignKey: "owner_id",
+      });
+      this.hasMany(Export, {
+        onDelete: "cascade",
+        foreignKey: "owner_id",
+      });
+      this.hasMany(ImportOrder, {
+        onDelete: "cascade",
+        foreignKey: "owner_id",
+      });
+      this.hasMany(ExportOrder, {
+        onDelete: "cascade",
+        foreignKey: "owner_id",
+      });
 
-  User.hasMany(require("./cart.model.js")(sequelize, Sequelize), {
-    onDelete: "cascade",
-    foreignKey: "owner_id",
-  });
-  User.hasMany(require("./export.model.js")(sequelize, Sequelize), {
-    onDelete: "cascade",
-    foreignKey: "owner_id",
-  });
-  User.hasMany(
-    require("./import-registration.model.js")(sequelize, Sequelize),
-    {
-      onDelete: "cascade",
-      foreignKey: "owner_id",
+      this.belongsTo(Company, {
+        foreignKey: "company_id",
+      });
     }
-  );
-  User.hasMany(
-    require("./export-registration.model.js")(sequelize, Sequelize),
+  }
+
+  User.init(
     {
-      onDelete: "cascade",
-      foreignKey: "owner_id",
+      first_name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          len: [2, 42],
+        },
+      },
+      middle_name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          len: [2, 42],
+        },
+      },
+      last_name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          len: [2, 42],
+        },
+      },
+      user_position: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      phone1: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          len: [10, 42],
+        },
+      },
+      phone2: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          len: [10, 42],
+        },
+      },
+      photo_src: {
+        type: DataTypes.STRING,
+        defaultValue: "default",
+        allowNull: true,
+      },
+      user_password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          len: [7, 42],
+        },
+      },
+
+      createdAt: {
+        allowNull: false,
+        defaultValue: new Date(),
+        type: DataTypes.DATE,
+      },
+      updatedAt: {
+        allowNull: false,
+        defaultValue: new Date(),
+        type: DataTypes.DATE,
+      },
+    },
+    {
+      sequelize,
+      modelName: "User",
+      tableName: "users",
     }
   );
 

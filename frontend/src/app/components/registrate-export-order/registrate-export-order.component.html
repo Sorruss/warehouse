@@ -13,22 +13,22 @@
     </div>
 
     <div
-      *ngFor="let item of order.items | filterByName: nameToFilter"
+      *ngFor="let item of order.Exports | filterByName: nameToFilter"
       class="row item"
       @fadeIn
       @slide2right
     >
       <div class="col name">
-        {{ item.name }}
+        {{ item.Item.item_name }}
       </div>
       <div class="col quantity">
-        {{ item.orderedQuantity }}
+        {{ item.ordered_quantity }}
       </div>
       <div class="col button">
         <a
           class="button-link"
-          routerLink="/item/{{ item.id }}"
-          [state]="{ pageName: item.name }"
+          routerLink="/item/{{ item.Item.id }}"
+          [state]="{ pageName: item.Item.item_name }"
         >
           <button>
             <i class="bx bx-link-external"></i>

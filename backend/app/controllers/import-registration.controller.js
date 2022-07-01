@@ -1,6 +1,8 @@
-const db = require("../models");
-const ImportRegistration = db.importRegistration;
-const Op = db.Sequelize.Op;
+// const db = require("../models");
+// const ImportRegistration = db.ImportOrders;
+// const Op = db.Sequelize.Op;
+
+const { ImportOrder } = require("../models");
 
 // Create and save new ImportRegistration item.
 exports.create = (req, res) => {
@@ -30,7 +32,7 @@ exports.create = (req, res) => {
     item.order_name = `Замовлення №${item.special_id}`;
   }
 
-  ImportRegistration.create(item)
+  ImportOrder.create(item)
     .then((data) => {
       res.send(data);
     })
@@ -45,12 +47,12 @@ exports.create = (req, res) => {
 
 // Retrieve all ImportRegistration items.
 exports.getItems = (req, res) => {
-  const order_name = req.query.order_name;
-  const condition = order_name
-    ? { order_name: { [Op.iLike]: `%${norder_nameme}%` } }
-    : null;
+  // const order_name = req.query.order_name;
+  // const condition = order_name
+  //   ? { order_name: { [Op.iLike]: `%${norder_nameme}%` } }
+  //   : null;
 
-  ImportRegistration.findAll({ where: condition })
+  ImportOrder.findAll()
     .then((data) => {
       res.send(data);
     })
@@ -67,7 +69,7 @@ exports.getItems = (req, res) => {
 exports.getItemById = (req, res) => {
   const id = req.params.id;
 
-  ImportRegistration.findByPk(id)
+  ImportOrder.findByPk(id)
     .then((data) => {
       res.send(data);
     })
@@ -84,7 +86,7 @@ exports.getItemById = (req, res) => {
 exports.delete = (req, res) => {
   const id = req.params.id;
 
-  ImportRegistration.destroy({ where: { id } })
+  ImportOrder.destroy({ where: { id } })
     .then((num) => {
       if (num === 1) {
         res.send({

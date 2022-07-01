@@ -1,5 +1,7 @@
-const db = require("../models");
-const Users = db.users;
+// const db = require("../models");
+// const Users = db.Users;
+
+const { User } = require("../models");
 
 // Create and save new User.
 exports.create = (req, res) => {
@@ -33,7 +35,7 @@ exports.create = (req, res) => {
     company_id: req.body.company_id,
   };
 
-  Users.create(user)
+  User.create(user)
     .then((data) => {
       res.send(data);
     })
@@ -46,12 +48,12 @@ exports.create = (req, res) => {
 
 // Retrieve all Users.
 exports.getItems = (req, res) => {
-  const middle_name = req.query.middle_name;
-  const condition = middle_name
-    ? { middle_name: { [Op.iLike]: `%${middle_name}%` } }
-    : null;
+  // const middle_name = req.query.middle_name;
+  // const condition = middle_name
+  //   ? { middle_name: { [Op.iLike]: `%${middle_name}%` } }
+  //   : null;
 
-  Users.findAll({ where: condition })
+  User.findAll()
     .then((data) => {
       res.send(data);
     })
@@ -66,7 +68,7 @@ exports.getItems = (req, res) => {
 exports.getItemById = (req, res) => {
   const id = req.params.id;
 
-  Users.findByPk(id)
+  User.findByPk(id)
     .then((data) => {
       res.send(data);
     })
@@ -83,7 +85,7 @@ exports.getItemById = (req, res) => {
 exports.delete = (req, res) => {
   const id = req.params.id;
 
-  Users.destroy({ where: { id } })
+  User.destroy({ where: { id } })
     .then((num) => {
       if (num === 1) {
         res.send({ message: "User was deleted successfully" });

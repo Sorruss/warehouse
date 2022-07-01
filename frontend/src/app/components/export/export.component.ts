@@ -90,9 +90,22 @@ export class ExportComponent implements OnInit {
       }
     );
   }
-  removeFromExport(): void {
-    for (const id of this.selectedItemsId) {
-      this.deleteItem(id);
+  removeFromExport(orderId = 0, add: boolean = false): void {
+    if (add) {
+      for (const id of this.selectedItemsId) {
+        this.exportService.update(id, { export_order_id: orderId }).subscribe(
+          (response) => {
+            console.log('response: ', response);
+          },
+          (error) => {
+            console.log('error: ', error);
+          }
+        );
+      }
+    } else {
+      for (const id of this.selectedItemsId) {
+        this.deleteItem(id);
+      }
     }
     this.selectedItemsId = [];
   }
@@ -136,20 +149,23 @@ export class ExportComponent implements OnInit {
       return;
     }
 
+    let id;
     this.exportRegistrationService
       .create({
         order_name,
+        owner_id: 1,
         income_date: new Date().toDateString(),
       })
       .subscribe(
         (response) => {
-          console.log(response);
+          console.log('response', response);
+          id = response.id;
         },
         (error) => {
-          console.log(error);
+          console.log('error', error);
         }
       );
-    this.removeFromExport();
+    this.removeFromExport(id, true);
     this.changeModalDialogState();
     this.notificationService.createOrderNotification(order_name, true);
   }

@@ -1,6 +1,8 @@
-const db = require("../models");
-const Item = db.items;
-const Op = db.Sequelize.Op;
+// const db = require("../models");
+// const Item = db.Items;
+// const Op = db.Sequelize.Op;
+
+const { Item, Producer } = require("../models");
 
 // Create and save new item.
 exports.create = (req, res) => {
@@ -42,12 +44,12 @@ exports.create = (req, res) => {
 
 // Retrieve all Items.
 exports.getItems = (req, res) => {
-  const item_name = req.query.item_name;
-  const condition = item_name
-    ? { item_name: { [Op.iLike]: `%${item_name}%` } }
-    : null;
+  // const item_name = req.query.item_name;
+  // const condition = item_name
+  //   ? { item_name: { [Op.iLike]: `%${item_name}%` } }
+  //   : null;
 
-  Item.findAll({ where: condition })
+  Item.findAll()
     .then((data) => {
       res.send(data);
     })
@@ -62,7 +64,7 @@ exports.getItems = (req, res) => {
 exports.getItemById = (req, res) => {
   const id = req.params.id;
 
-  Item.findByPk(id, { include: db.producer })
+  Item.findByPk(id, { include: Producer })
     .then((data) => {
       res.send(data);
     })

@@ -1,6 +1,8 @@
-const db = require("../models");
-const ExportRegistration = db.exportRegistration;
-const Op = db.Sequelize.Op;
+// const db = require("../models");
+// const ExportRegistration = db.ExportOrders;
+// const Op = db.Sequelize.Op;
+
+const { ExportOrder, Export } = require("../models");
 
 // Create and save new ExportRegistration item.
 exports.create = (req, res) => {
@@ -30,7 +32,7 @@ exports.create = (req, res) => {
     item.order_name = `Замовлення №${item.special_id}`;
   }
 
-  ExportRegistration.create(item)
+  ExportOrder.create(item)
     .then((data) => {
       res.send(data);
     })
@@ -38,19 +40,19 @@ exports.create = (req, res) => {
       res.status(500).send({
         message:
           err.message ||
-          "Some error ocurred while creating the ExportRegistration item.",
+          "Some error ocurred while creating the ExportOrder item.",
       });
     });
 };
 
-// Retrieve all ExportRegistration items.
+// Retrieve all ExportOrder items.
 exports.getItems = (req, res) => {
-  const order_name = req.query.order_name;
-  const condition = order_name
-    ? { order_name: { [Op.iLike]: `%${order_name}%` } }
-    : null;
+  // const order_name = req.query.order_name;
+  // const condition = order_name
+  //   ? { order_name: { [Op.iLike]: `%${order_name}%` } }
+  //   : null;
 
-  ExportRegistration.findAll({ where: condition })
+  ExportOrder.findAll()
     .then((data) => {
       res.send(data);
     })
@@ -64,10 +66,10 @@ exports.getItems = (req, res) => {
 };
 
 // Retrieve a single ExportRegistration item with specified id.
-exports.getItemById = (req, res) => {
+exports.getItemById = async (req, res) => {
   const id = req.params.id;
 
-  ExportRegistration.findByPk(id)
+  await ExportOrder.findByPk(id, { include: { all: true, nested: true } })
     .then((data) => {
       res.send(data);
     })
@@ -84,7 +86,7 @@ exports.getItemById = (req, res) => {
 exports.delete = (req, res) => {
   const id = req.params.id;
 
-  ExportRegistration.destroy({ where: { id } })
+  ExportOrder.destroy({ where: { id } })
     .then((num) => {
       if (num === 1) {
         res.send({

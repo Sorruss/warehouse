@@ -1,6 +1,5 @@
-const db = require("../models");
-const Cart = db.cart;
-const Op = db.Sequelize.Op;
+const { Cart, Item } = require("../models");
+// const Op = Sequelize.Op;
 
 // Create and save new Cart item.
 exports.create = (req, res) => {
@@ -33,10 +32,10 @@ exports.create = (req, res) => {
 
 // Retrieve all Cart items.
 exports.getItems = (req, res) => {
-  const name = req.query.name;
-  const condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
+  // const name = req.query.name;
+  // const condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
 
-  Cart.findAll({ where: condition, include: db.items })
+  Cart.findAll({ include: Item })
     .then((data) => {
       res.send(data);
     })

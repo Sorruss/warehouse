@@ -1,31 +1,44 @@
-module.exports = (sequelize, Sequelize) => {
-  const CartItems = sequelize.define("cartItems", {
-    ordered_quantity: {
-      type: Sequelize.INTEGER,
-      defaultValue: 0,
-      allowNull: false,
-      validate: {
-        min: 1,
-        max: 9999999,
+const { Model } = require("sequelize");
+
+module.exports = (sequelize, DataTypes) => {
+  class CartItem extends Model {
+    static associate({ Item }) {
+      this.belongsTo(Item, {
+        onDelete: "cascade",
+        foreignKey: "item_id",
+      });
+    }
+  }
+
+  CartItem.init(
+    {
+      ordered_quantity: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+        allowNull: false,
+        validate: {
+          min: 1,
+          max: 9999999,
+        },
+      },
+
+      createdAt: {
+        allowNull: false,
+        defaultValue: new Date(),
+        type: DataTypes.DATE,
+      },
+      updatedAt: {
+        allowNull: false,
+        defaultValue: new Date(),
+        type: DataTypes.DATE,
       },
     },
+    {
+      sequelize,
+      modelName: "Cart",
+      tableName: "cart",
+    }
+  );
 
-    createdAt: {
-      allowNull: false,
-      defaultValue: new Date(),
-      type: Sequelize.DATE,
-    },
-    updatedAt: {
-      allowNull: false,
-      defaultValue: new Date(),
-      type: Sequelize.DATE,
-    },
-  });
-
-  CartItems.belongsTo(require("./items.model.js")(sequelize, Sequelize), {
-    onDelete: "cascade",
-    foreignKey: "item_id",
-  });
-
-  return CartItems;
+  return CartItem;
 };

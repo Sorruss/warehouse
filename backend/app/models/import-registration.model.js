@@ -1,38 +1,51 @@
-module.exports = (sequelize, Sequelize) => {
-  const ImportOrders = sequelize.define("importOrders", {
-    special_id: {
-      type: Sequelize.INTEGER,
-      allowNull: true,
-    },
-    order_name: {
-      type: Sequelize.STRING,
-      allowNull: true,
-      validate: {
-        len: [1, 72],
+const { Model } = require("sequelize");
+
+module.exports = (sequelize, DataTypes) => {
+  class ImportOrder extends Model {
+    static associate({ Cart }) {
+      this.hasMany(Cart, {
+        onDelete: "cascade",
+        foreignKey: "import_order_id",
+      });
+    }
+  }
+
+  ImportOrder.init(
+    {
+      special_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
+      order_name: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        validate: {
+          len: [1, 72],
+        },
+      },
+      income_date: {
+        type: DataTypes.STRING,
+        defaultValue: new Date().toDateString(),
+        allowNull: false,
+      },
+
+      createdAt: {
+        allowNull: false,
+        defaultValue: new Date(),
+        type: DataTypes.DATE,
+      },
+      updatedAt: {
+        allowNull: false,
+        defaultValue: new Date(),
+        type: DataTypes.DATE,
       },
     },
-    income_date: {
-      type: Sequelize.STRING,
-      defaultValue: new Date().toDateString(),
-      allowNull: false,
-    },
+    {
+      sequelize,
+      modelName: "ImportOrder",
+      tableName: "import_orders",
+    }
+  );
 
-    createdAt: {
-      allowNull: false,
-      defaultValue: new Date(),
-      type: Sequelize.DATE,
-    },
-    updatedAt: {
-      allowNull: false,
-      defaultValue: new Date(),
-      type: Sequelize.DATE,
-    },
-  });
-
-  ImportOrders.hasMany(require("./cart.model.js")(sequelize, Sequelize), {
-    onDelete: "cascade",
-    foreignKey: "import_order_id",
-  });
-
-  return ImportOrders;
+  return ImportOrder;
 };

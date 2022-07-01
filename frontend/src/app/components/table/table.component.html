@@ -1,7 +1,7 @@
 <div *ngIf="(itemsLoaded | async) && items.length" class="table">
   <div class="table-content">
     <div class="row">
-      <div class="col caption">
+      <div class="col col-3 caption">
         <h6>Товар</h6>
       </div>
       <div class="col caption">
@@ -16,7 +16,7 @@
       <div class="col caption">
         <h6>Вивіз</h6>
       </div>
-      <div class="col caption">
+      <div class="col col-1 caption">
         <h6>Деталі</h6>
       </div>
     </div>
@@ -27,7 +27,7 @@
       @fadeIn
       @fadeOut
     >
-      <div class="col name">
+      <div class="col col-3 name">
         {{ item.item_name }}
       </div>
 
@@ -100,7 +100,7 @@
         </div>
       </div>
 
-      <div class="col button">
+      <div class="col col-1 button">
         <a
           class="button-link"
           routerLink="/item/{{ item.id }}"
@@ -110,7 +110,7 @@
             <i class="bx bx-link-external"></i>
           </button>
         </a>
-        <span class="hint">переглянути деталі</span>
+        <span class="hint details">переглянути деталі</span>
       </div>
     </div>
   </div>

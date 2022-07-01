@@ -17,19 +17,19 @@
 
     <div *ngFor="let item of items" class="row item">
       <div class="col name">
-        {{ item.name }}
+        {{ item.item_name }}
       </div>
       <div class="col quantity">
         {{ item.quantity }}
       </div>
       <div class="col date">
-        {{ item.date }}
+        {{ item.income_date }}
       </div>
       <div class="col button">
         <a
           class="button-link"
           routerLink="/item/{{ item.id }}"
-          [state]="{ pageName: item.name }"
+          [state]="{ pageName: item.item_name }"
         >
           <button>
             <i class="bx bx-link-external"></i>

@@ -1,6 +1,4 @@
-const db = require("../models");
-const Company = db.company;
-const Op = db.Sequelize.Op;
+const { Company } = require("../models");
 
 // Create and save new Company.
 exports.create = (req, res) => {
@@ -44,12 +42,12 @@ exports.create = (req, res) => {
 
 // Retrieve all Company.
 exports.getItems = (req, res) => {
-  const company_name = req.query.company_name;
-  const condition = company_name
-    ? { company_name: { [Op.iLike]: `%${company_name}%` } }
-    : null;
+  // const company_name = req.query.company_name;
+  // const condition = company_name
+  //   ? { company_name: { [Op.iLike]: `%${company_name}%` } }
+  //   : null;
 
-  Company.findAll({ where: condition })
+  Company.findAll()
     .then((data) => {
       res.send(data);
     })

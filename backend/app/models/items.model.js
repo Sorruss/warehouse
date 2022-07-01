@@ -1,55 +1,71 @@
-module.exports = (sequelize, Sequelize) => {
-  const Items = sequelize.define("items", {
-    item_name: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      unique: true,
-      validate: {
-        len: [1, 72],
+const { Model } = require("sequelize");
+
+module.exports = (sequelize, DataTypes) => {
+  class Item extends Model {
+    static associate({ Company, Producer }) {
+      this.belongsTo(Company, {
+        foreignKey: "company_id",
+      });
+      this.belongsTo(Producer, {
+        foreignKey: "producer_id",
+      });
+    }
+  }
+
+  Item.init(
+    {
+      item_name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+          len: [1, 72],
+        },
+      },
+      income_date: {
+        type: DataTypes.STRING,
+        defaultValue: new Date().toDateString(),
+        allowNull: false,
+      },
+      quantity: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+        allowNull: false,
+        validate: {
+          min: 0,
+          max: 9999999,
+        },
+      },
+      description: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+        validate: {
+          len: [10, 10000],
+        },
+      },
+      photo_src: {
+        type: DataTypes.STRING,
+        defaultValue: "default",
+        allowNull: true,
+      },
+
+      createdAt: {
+        allowNull: false,
+        defaultValue: new Date(),
+        type: DataTypes.DATE,
+      },
+      updatedAt: {
+        allowNull: false,
+        defaultValue: new Date(),
+        type: DataTypes.DATE,
       },
     },
-    income_date: {
-      type: Sequelize.STRING,
-      defaultValue: new Date().toDateString(),
-      allowNull: false,
-    },
-    quantity: {
-      type: Sequelize.INTEGER,
-      defaultValue: 0,
-      allowNull: false,
-      validate: {
-        min: 0,
-        max: 9999999,
-      },
-    },
-    description: {
-      type: Sequelize.TEXT,
-      allowNull: false,
-      validate: {
-        len: [10, 10000],
-      },
-    },
-    photo_src: {
-      type: Sequelize.STRING,
-      defaultValue: "default",
-      allowNull: true,
-    },
+    {
+      sequelize,
+      modelName: "Item",
+      tableName: "items",
+    }
+  );
 
-    createdAt: {
-      allowNull: false,
-      defaultValue: new Date(),
-      type: Sequelize.DATE,
-    },
-    updatedAt: {
-      allowNull: false,
-      defaultValue: new Date(),
-      type: Sequelize.DATE,
-    },
-  });
-
-  // Items.belongsTo(require("./company.model.js")(sequelize, Sequelize), {
-  //   foreignKey: "company_id",
-  // });
-
-  return Items;
+  return Item;
 };

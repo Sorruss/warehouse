@@ -56,7 +56,7 @@
   text-transform: uppercase;
 }
 .col.name {
-  text-transform: capitalize;
+  padding: 0;
 }
 .col.button {
   position: relative;
@@ -87,6 +87,10 @@
   pointer-events: none;
   transition: 0s;
   text-align: center;
+}
+.hint.details {
+  top: 0px;
+  right: 50px;
 }
 .col.input-button .button .disabled .hint {
   background: #2d2c32;

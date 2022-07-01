@@ -1,9 +1,11 @@
-const db = require("../models");
-const Export = db.export;
-const Op = db.Sequelize.Op;
+// const db = require("../models");
+// const Export = db.Export;
+// const Op = db.Sequelize.Op;
+
+const { Export, Item } = require("../models");
 
 // Create and save new Export item.
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
   // Validate request.
   if (!req.body.ordered_quantity || !req.body.item_id || !req.body.owner_id) {
     res.status(400).send({
@@ -19,7 +21,7 @@ exports.create = (req, res) => {
     owner_id: req.body.owner_id,
   };
 
-  Export.create(item)
+  await Export.create(item)
     .then((data) => {
       res.send(data);
     })
@@ -32,11 +34,11 @@ exports.create = (req, res) => {
 };
 
 // Retrieve all Export items.
-exports.getItems = (req, res) => {
-  const name = req.query.name;
-  const condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
+exports.getItems = async (req, res) => {
+  // const name = req.query.name;
+  // const condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
 
-  Export.findAll({ where: condition, include: db.items })
+  await Export.findAll({ include: Item })
     .then((data) => {
       res.send(data);
     })
@@ -49,10 +51,10 @@ exports.getItems = (req, res) => {
 };
 
 // Retrieve a single Export item with specified id.
-exports.getItemById = (req, res) => {
+exports.getItemById = async (req, res) => {
   const id = req.params.id;
 
-  Export.findByPk(id)
+  await Export.findByPk(id)
     .then((data) => {
       res.send(data);
     })
@@ -66,10 +68,10 @@ exports.getItemById = (req, res) => {
 };
 
 // Update an Export item by the id.
-exports.updateItem = (req, res) => {
+exports.updateItem = async (req, res) => {
   const id = req.params.id;
 
-  Export.update(req.body, {
+  await Export.update(req.body, {
     where: { id },
   })
     .then((num) => {
@@ -91,10 +93,10 @@ exports.updateItem = (req, res) => {
 };
 
 // Delete an Export item with the specified id.
-exports.delete = (req, res) => {
+exports.delete = async (req, res) => {
   const id = req.params.id;
 
-  Export.destroy({ where: { id } })
+  await Export.destroy({ where: { id } })
     .then((num) => {
       if (num === 1) {
         res.send({ message: "Export item was deleted successfully" });
@@ -112,8 +114,8 @@ exports.delete = (req, res) => {
 };
 
 // Delete all Export items.
-exports.deleteAll = (req, res) => {
-  Export.destroy({
+exports.deleteAll = async (req, res) => {
+  await Export.destroy({
     where: {},
     truncate: false,
   })
