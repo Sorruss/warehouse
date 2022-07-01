@@ -1,4 +1,4 @@
-<div *ngIf="(items | keyvalue)?.length" class="table">
+<div *ngIf="items.length" class="table">
   <div class="table-content">
     <div class="row">
       <div class="col caption">
@@ -13,22 +13,22 @@
     </div>
 
     <div
-      *ngFor="let item of getValues() | filterByName: nameToFilter"
+      *ngFor="let item of items | filterByName: nameToFilter"
       class="row item"
       @fadeIn
       @slide2right
     >
       <div class="col name">
-        {{ item.name }}
+        {{ item.order_name }}
       </div>
       <div class="col date">
-        {{ item.date }}
+        {{ item.income_date }}
       </div>
       <div class="col button">
         <a
           class="button-link"
           routerLink="/registrate-import-order/{{ item.id }}"
-          [state]="{ pageName: item.name }"
+          [state]="{ pageName: item.order_name }"
         >
           <button>
             <i class="bx bx-link-external"></i>
@@ -40,6 +40,4 @@
   </div>
 </div>
 
-<div *ngIf="!(items | keyvalue)?.length" class="import-registration-is-empty">
-  Пусто
-</div>
+<div *ngIf="!items.length" class="import-registration-is-empty">Пусто</div>

@@ -31,7 +31,7 @@ module.exports = (sequelize, Sequelize) => {
     },
     photo_src: {
       type: Sequelize.STRING,
-      defaultValue: "default1.png",
+      defaultValue: "default",
       allowNull: true,
     },
 
@@ -47,20 +47,9 @@ module.exports = (sequelize, Sequelize) => {
     },
   });
 
-  Items.belongsTo(require("./producer.model.js")(sequelize, Sequelize), {
-    foreignKey: "producer_id",
-  });
-  Items.belongsTo(require("./company.model.js")(sequelize, Sequelize), {
-    foreignKey: "company_id",
-  });
-
-  // Items.hasMany(require("./cart.model.js")(sequelize, Sequelize));
-  // Items.hasMany(
-  //   require("./import-registration.model.js")(sequelize, Sequelize)
-  // );
-  // Items.hasMany(
-  //   require("./export-registration.model.js")(sequelize, Sequelize)
-  // );
+  // Items.belongsTo(require("./company.model.js")(sequelize, Sequelize), {
+  //   foreignKey: "company_id",
+  // });
 
   return Items;
 };

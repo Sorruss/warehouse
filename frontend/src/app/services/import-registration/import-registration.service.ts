@@ -1,42 +1,60 @@
+import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
-import { Item } from 'src/app/interfaces';
+import { catchError, throwError } from 'rxjs';
 
-export interface IImportRegistrationElem {
-  [id: number]: IImportRegistrationCont;
-}
+import {
+  Item,
+  IImportRegistrationCont,
+  IImportRegistrationElem,
+} from 'src/app/interfaces';
 
-export interface IImportRegistrationCont {
-  id: number;
-  name: string;
-  date: string;
-  items: (Item & { orderedQuantity?: number })[];
-}
+const backUrl = 'http://localhost:8080/api/import-registration';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ImportRegistrationService {
-  private orders: IImportRegistrationElem = {};
-  constructor() {}
+  constructor(private httpClient: HttpClient) {}
 
-  getOrders(): IImportRegistrationElem {
-    return this.orders;
+  getAll(): Observable<any> {
+    return this.httpClient.get<any>(backUrl).pipe(catchError(this.handleError));
   }
-  getOrderById(id: number): IImportRegistrationCont {
-    return this.orders[id];
+  get(id: number): Observable<any> {
+    return this.httpClient
+      .get<any>(`${backUrl}/${id}`)
+      .pipe(catchError(this.handleError));
   }
-  addOrder(item: IImportRegistrationCont): void {
-    item.id = this.getRandomNumber();
-    if (!item.name) {
-      item.name = `Замовлення №${item.id}`;
+  create(data: any): Observable<any> {
+    return this.httpClient
+      .post<any>(backUrl, data)
+      .pipe(catchError(this.handleError));
+  }
+  update(id: number, data: any): Observable<any> {
+    return this.httpClient
+      .put<any>(`${backUrl}/${id}`, data)
+      .pipe(catchError(this.handleError));
+  }
+  delete(id: number): Observable<any> {
+    return this.httpClient
+      .delete<any>(`${backUrl}/${id}`)
+      .pipe(catchError(this.handleError));
+  }
+
+  handleError(error: any) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      // client-side error
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      // server-side error
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    this.orders[item.id] = item;
+    console.log(errorMessage);
+    return throwError(() => new Error(errorMessage));
   }
-  removeOrder(id: number): void {
-    delete this.orders[id];
-  }
-  getRandomNumber(min: number = 1001, max: number = 9999): number {
-    return Math.floor(Math.random() * (max - min) + min);
-  }
+  // filterByName(name: string): Observable<any> {
+  //   return this.httpClient.get(`${backUrl}/?name=${name}`).pipe(catchError(this.handleError));
+  // }
 }

@@ -5,7 +5,12 @@ const Op = db.Sequelize.Op;
 // Create and save new Producer.
 exports.create = (req, res) => {
   // Validate request.
-  if (!req.body.title) {
+  if (
+    !req.body.producer_name ||
+    !req.body.phone1 ||
+    !req.body.phone2 ||
+    !req.body.description
+  ) {
     res.status(400).send({
       message: "Content can not be empty",
     });

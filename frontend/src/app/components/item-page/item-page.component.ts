@@ -33,44 +33,86 @@ export class ItemPageComponent implements OnInit {
   }
 
   retrieveItem(): void {
-    this.itemsService.get(this.id).subscribe(
-      (data) => {
+    this.itemsService.get(this.id).subscribe({
+      next: (data) => {
         this.item = data;
         console.log(data);
       },
-      (error) => {
+      error: (error) => {
         console.log(error);
-      }
-    );
+      },
+    });
   }
 
+  createCartItem(quantity: string): void {
+    this.cartService
+      .create({
+        item_id: this.item.id,
+        owner_id: 1,
+        ordered_quantity: Number(quantity),
+      })
+      .subscribe(
+        (response) => {
+          console.log('response: ', response);
+          this.notificationService.createImportNotification(
+            this.item.item_name,
+            quantity
+          );
+        },
+        (error) => {
+          console.log('error: ', error);
+        }
+      );
+  }
+  createExportItem(quantity: string): void {
+    this.exportService
+      .create({
+        item_id: this.item.id,
+        owner_id: 1,
+        ordered_quantity: Number(quantity),
+      })
+      .subscribe(
+        (response) => {
+          console.log('response: ', response);
+          this.notificationService.createExportNotification(
+            this.item.item_name,
+            quantity
+          );
+        },
+        (error) => {
+          console.log('error: ', error);
+        }
+      );
+  }
   addToCart(quantity: string): void {
-    this.cartService.addItem(this.item, Number(quantity));
-    this.notificationService.createImportNotification(this.item.name, quantity);
+    this.createCartItem(quantity);
   }
   addToExport(quantity: string): void {
     if (!this.checkBeforeCreate(this.item.quantity, Number(quantity))) {
       this.notificationService.createTooMuchNotification(
-        this.item.name,
+        this.item.item_name,
         quantity
       );
     } else {
-      this.exportService.addItem(this.item, Number(quantity));
-      this.notificationService.createExportNotification(
-        this.item.name,
-        quantity
-      );
+      this.createExportItem(quantity);
     }
   }
   checkBeforeCreate(quantity: number, exportQuantity: number): boolean {
     return !(exportQuantity > quantity);
   }
   removeItem(): void {
-    this.itemsService.delete(this.id);
-    this.router.navigate(['/']);
-    this.notificationService.createSuccessfullyDeletedNotification(
-      this.item.name,
-      true
+    this.itemsService.delete(this.id).subscribe(
+      (response) => {
+        console.log('response: ', response);
+        this.router.navigate(['/']);
+        this.notificationService.createSuccessfullyDeletedNotification(
+          this.item.item_name,
+          true
+        );
+      },
+      (error) => {
+        console.log('error: ', error);
+      }
     );
   }
 }

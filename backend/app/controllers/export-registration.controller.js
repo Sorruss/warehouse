@@ -5,7 +5,7 @@ const Op = db.Sequelize.Op;
 // Create and save new ExportRegistration item.
 exports.create = (req, res) => {
   // Validate request.
-  if (!req.body.title) {
+  if (!req.body.owner_id) {
     res.status(400).send({
       message: "Content can not be empty",
     });
@@ -15,10 +15,20 @@ exports.create = (req, res) => {
   // Create an ExportRegistration item.
   const item = {
     order_name: req.body.order_name,
+    special_id: req.body.special_id,
     income_date: req.body.income_date,
-    items: req.body.items,
     owner_id: req.body.owner_id,
   };
+
+  // Set default values if they were not specified.
+  if (!item.special_id) {
+    const min = 10001;
+    const max = 99999;
+    item.special_id = Math.floor(Math.random() * (max - min) + min);
+  }
+  if (!item.order_name) {
+    item.order_name = `Замовлення №${item.special_id}`;
+  }
 
   ExportRegistration.create(item)
     .then((data) => {

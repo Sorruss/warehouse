@@ -41,7 +41,7 @@ module.exports = (sequelize, Sequelize) => {
     },
     photo_src: {
       type: Sequelize.STRING,
-      defaultValue: "default1.png",
+      defaultValue: "default",
       allowNull: true,
     },
     user_password: {
@@ -64,13 +64,28 @@ module.exports = (sequelize, Sequelize) => {
     },
   });
 
-  User.belongsTo(require("./company.model.js")(sequelize, Sequelize), {
-    foreignKey: "company_id",
+  User.hasMany(require("./cart.model.js")(sequelize, Sequelize), {
+    onDelete: "cascade",
+    foreignKey: "owner_id",
   });
-
-  // User.hasMany(require("./cart.model.js")(sequelize, Sequelize));
-  // User.hasMany(require("./import-registration.model.js")(sequelize, Sequelize));
-  // User.hasMany(require("./export-registration.model.js")(sequelize, Sequelize));
+  User.hasMany(require("./export.model.js")(sequelize, Sequelize), {
+    onDelete: "cascade",
+    foreignKey: "owner_id",
+  });
+  User.hasMany(
+    require("./import-registration.model.js")(sequelize, Sequelize),
+    {
+      onDelete: "cascade",
+      foreignKey: "owner_id",
+    }
+  );
+  User.hasMany(
+    require("./export-registration.model.js")(sequelize, Sequelize),
+    {
+      onDelete: "cascade",
+      foreignKey: "owner_id",
+    }
+  );
 
   return User;
 };

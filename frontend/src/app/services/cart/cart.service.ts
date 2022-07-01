@@ -1,31 +1,52 @@
+import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Item } from 'src/app/interfaces';
+import { HttpClient } from '@angular/common/http';
 
-export interface ICartItem {
-  [id: number]: Item & { orderedQuantity: number };
-}
+import { catchError, throwError } from 'rxjs';
+
+import { Item, ICartItem } from 'src/app/interfaces';
+
+const backUrl = 'http://localhost:8080/api/cart';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
-  private items: ICartItem = {};
+  constructor(private httpClient: HttpClient) {}
 
-  constructor() {}
-  addItem(item: Item, quantity: number): void {
-    if (this.items.hasOwnProperty(item.id)) {
-      this.items[item.id].orderedQuantity += quantity;
+  getAll(): Observable<any> {
+    return this.httpClient.get<any>(backUrl).pipe(catchError(this.handleError));
+  }
+  get(id: number): Observable<any> {
+    return this.httpClient
+      .get<any>(`${backUrl}/${id}`)
+      .pipe(catchError(this.handleError));
+  }
+  create(data: any): Observable<any> {
+    return this.httpClient
+      .post<any>(backUrl, data)
+      .pipe(catchError(this.handleError));
+  }
+  update(id: number, data: any): Observable<any> {
+    return this.httpClient
+      .put<any>(`${backUrl}/${id}`, data)
+      .pipe(catchError(this.handleError));
+  }
+  delete(id: number): Observable<any> {
+    return this.httpClient
+      .delete<any>(`${backUrl}/${id}`)
+      .pipe(catchError(this.handleError));
+  }
+  handleError(error: any) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      // client-side error
+      errorMessage = `Error: ${error.error.message}`;
     } else {
-      this.items[item.id] = { ...item, orderedQuantity: quantity };
+      // server-side error
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-  }
-  getItem(id: number): Item {
-    return this.items[id]!;
-  }
-  getItems(): ICartItem {
-    return this.items;
-  }
-  removeItem(id: number): void {
-    delete this.items[id];
+    console.log(errorMessage);
+    return throwError(() => new Error(errorMessage));
   }
 }

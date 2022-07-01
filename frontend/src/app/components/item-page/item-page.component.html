@@ -1,9 +1,12 @@
 <div class="item">
   <div class="item-content">
-    <!-- <h6 class="item-name">{{ item.name }}</h6> -->
+    <!-- <h6 class="item-name">{{ item.item_name }}</h6> -->
     <div class="photo-description">
       <img
-        src="../../../static/images/items/{{ item.photo_src }}"
+        [src]="
+          '../../../static/images/items/' +
+          (item.photo_src !== 'default' ? item.photo_src : 'default1.png')
+        "
         alt="фото товару '{{ item.item_name }}'"
       />
       <div class="description">{{ item.description }}</div>

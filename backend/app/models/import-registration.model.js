@@ -1,8 +1,12 @@
 module.exports = (sequelize, Sequelize) => {
   const ImportOrders = sequelize.define("importOrders", {
+    special_id: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+    },
     order_name: {
       type: Sequelize.STRING,
-      allowNull: false,
+      allowNull: true,
       validate: {
         len: [1, 72],
       },
@@ -25,11 +29,9 @@ module.exports = (sequelize, Sequelize) => {
     },
   });
 
-  ImportOrders.hasMany(require("./items.model.js")(sequelize, Sequelize), {
-    foreignKey: "items_id",
-  });
-  ImportOrders.belongsTo(require("./users.model.js")(sequelize, Sequelize), {
-    foreignKey: "owner_id",
+  ImportOrders.hasMany(require("./cart.model.js")(sequelize, Sequelize), {
+    onDelete: "cascade",
+    foreignKey: "import_order_id",
   });
 
   return ImportOrders;

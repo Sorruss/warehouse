@@ -35,9 +35,7 @@ export class ItemsService {
       .delete<any>(`${backUrl}/${id}`)
       .pipe(catchError(this.handleError));
   }
-  // filterByName(name: string): Observable<any> {
-  //   return this.httpClient.get(`${backUrl}/?name=${name}`).pipe(catchError(this.handleError));
-  // }
+
   handleError(error: any) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
@@ -50,4 +48,7 @@ export class ItemsService {
     console.log(errorMessage);
     return throwError(() => new Error(errorMessage));
   }
+  // filterByName(name: string): Observable<any> {
+  //   return this.httpClient.get(`${backUrl}/?name=${name}`).pipe(catchError(this.handleError));
+  // }
 }

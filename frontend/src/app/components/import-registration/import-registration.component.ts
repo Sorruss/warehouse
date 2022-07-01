@@ -5,10 +5,11 @@ import { FilterService } from 'src/app/services/filter/filter.service';
 import { fadeIn, slide2right } from 'src/app/animations';
 
 import {
-  ImportRegistrationService,
-  IImportRegistrationElem,
   IImportRegistrationCont,
-} from './../../services/import-registration/import-registration.service';
+  IImportRegistrationElem,
+} from 'src/app/interfaces';
+
+import { ImportRegistrationService } from './../../services/import-registration/import-registration.service';
 
 @Component({
   selector: 'app-import-registration',
@@ -17,7 +18,7 @@ import {
   animations: [fadeIn, slide2right],
 })
 export class ImportRegistrationComponent implements OnInit {
-  public items: IImportRegistrationElem = {};
+  public items: any = [];
   public nameToFilter: string = '';
 
   constructor(
@@ -25,14 +26,21 @@ export class ImportRegistrationComponent implements OnInit {
     private filterService: FilterService
   ) {}
   ngOnInit(): void {
-    this.items = this.importRegistrationService.getOrders();
+    this.retrieveOrders();
 
     this.filterService.filterPropObs.subscribe((value) => {
       this.nameToFilter = value;
     });
     this.filterService.activateSearchBar();
   }
-  getValues(): IImportRegistrationCont[] {
-    return Object.values(this.items);
+
+  retrieveOrders(): void {
+    this.importRegistrationService.getAll().subscribe({
+      next: (data) => {
+        this.items = data;
+        console.log('data: ', data);
+      },
+      error: (error) => console.log('error: ', error),
+    });
   }
 }

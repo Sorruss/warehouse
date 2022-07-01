@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Item } from 'src/app/interfaces';
-
 import { ExportService } from '../../services/export/export.service';
-import { IExportItem } from '../../services/export/export.service';
+import { Item, IExportItem } from 'src/app/interfaces';
 
 import { FilterService } from 'src/app/services/filter/filter.service';
 import { ExportRegistrationService } from 'src/app/services/export-registration/export-registration.service';
@@ -18,7 +16,7 @@ import { fadeIn, slide2right } from 'src/app/animations';
   animations: [fadeIn, slide2right],
 })
 export class ExportComponent implements OnInit {
-  public items: IExportItem = {};
+  public items: any = [];
   public selectedItemsId: number[] = [];
 
   public isAllChecked: boolean = false;
@@ -32,12 +30,24 @@ export class ExportComponent implements OnInit {
     private notificationService: NotificationService
   ) {}
   ngOnInit(): void {
-    this.items = this.exportService.getItems();
+    this.retrieveItems();
 
     this.filterService.filterPropObs.subscribe((value) => {
       this.nameToFilter = value;
     });
     this.filterService.activateSearchBar();
+  }
+
+  retrieveItems(): void {
+    this.exportService.getAll().subscribe({
+      next: (data) => {
+        console.log('data: ', data);
+        this.items = data;
+      },
+      error: (error) => {
+        console.log('error: ', error);
+      },
+    });
   }
 
   chooseOne(checked: boolean, id: number): void {
@@ -69,18 +79,26 @@ export class ExportComponent implements OnInit {
     }
   }
 
+  deleteItem(id: number): void {
+    this.exportService.delete(id).subscribe(
+      (response) => {
+        console.log('response: ', response);
+        this.retrieveItems();
+      },
+      (error) => {
+        console.log('error: ', error);
+      }
+    );
+  }
   removeFromExport(): void {
     for (const id of this.selectedItemsId) {
-      this.exportService.removeItem(id);
+      this.deleteItem(id);
     }
     this.selectedItemsId = [];
   }
 
-  getValues(): (Item & { orderedQuantity: number })[] {
-    return Object.values(this.items);
-  }
-  getSelected(): (Item & { orderedQuantity: number })[] {
-    return this.getValues().filter((item) =>
+  getSelected(): (any & { orderedQuantity: number })[] {
+    return this.items.filter((item: any) =>
       this.selectedItemsId.includes(item.id)
     );
   }
@@ -88,16 +106,51 @@ export class ExportComponent implements OnInit {
   changeModalDialogState(): void {
     this.goingToOrder = !this.goingToOrder;
   }
+  checkOnWrongQuantity(): boolean {
+    for (let item of this.items) {
+      if (this.selectedItemsId.includes(item.id)) {
+        if (item.ordered_quantity <= 0) {
+          this.notificationService.createWrongQuantityNotification(
+            item.name,
+            String(item.ordered_quantity)
+          );
+          this.changeModalDialogState();
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+  checkOnSelected(): boolean {
+    const result = this.selectedItemsId.length !== 0;
 
-  makeAnOrder(name: string = ''): void {
-    this.exportRegistrationService.addOrder({
-      id: 0,
-      name,
-      date: new Date().toDateString(),
-      items: this.getSelected(),
-    });
+    if (!result) {
+      this.notificationService.createNoSelectedNotification(true);
+      this.changeModalDialogState();
+    }
+
+    return result;
+  }
+  makeAnOrder(order_name: string = ''): void {
+    if (!this.checkOnWrongQuantity() || !this.checkOnSelected()) {
+      return;
+    }
+
+    this.exportRegistrationService
+      .create({
+        order_name,
+        income_date: new Date().toDateString(),
+      })
+      .subscribe(
+        (response) => {
+          console.log(response);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     this.removeFromExport();
     this.changeModalDialogState();
-    this.notificationService.createOrderNotification(name, true);
+    this.notificationService.createOrderNotification(order_name, true);
   }
 }

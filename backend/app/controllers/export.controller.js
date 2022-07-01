@@ -5,7 +5,7 @@ const Op = db.Sequelize.Op;
 // Create and save new Export item.
 exports.create = (req, res) => {
   // Validate request.
-  if (!req.body.title) {
+  if (!req.body.ordered_quantity || !req.body.item_id || !req.body.owner_id) {
     res.status(400).send({
       message: "Content can not be empty",
     });
@@ -36,7 +36,7 @@ exports.getItems = (req, res) => {
   const name = req.query.name;
   const condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
 
-  Export.findAll({ where: condition })
+  Export.findAll({ where: condition, include: db.items })
     .then((data) => {
       res.send(data);
     })

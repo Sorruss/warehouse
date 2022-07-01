@@ -5,7 +5,13 @@ const Op = db.Sequelize.Op;
 // Create and save new item.
 exports.create = (req, res) => {
   // Validate request.
-  if (!req.body.title) {
+  if (
+    !req.body.item_name ||
+    !req.body.quantity ||
+    !req.body.description ||
+    !req.body.producer_id ||
+    !req.body.company_id
+  ) {
     res.status(400).send({
       message: "Content can not be empty",
     });

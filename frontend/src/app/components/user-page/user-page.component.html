@@ -1,11 +1,14 @@
 <div class="user-page">
   <div class="page-content">
     <div class="user-photo">
-      <img src="../../../static/images/4-9.jpg" alt="user's photo">
+      <img
+        src="../../../static/images/workers/default1.png"
+        alt="user's photo"
+      />
     </div>
     <div class="user-info">
       <ul id="user-info-keys">
-        <li>Ім'я:</li> 
+        <li>Ім'я:</li>
         <li>Фамілія:</li>
         <li>По Батькові:</li>
         <li>Посада:</li>
@@ -13,7 +16,7 @@
         <li>Телефон 2:</li>
       </ul>
       <ul id="user-info-values">
-        <li>Ткачов</li> 
+        <li>Ткачов</li>
         <li>Артур</li>
         <li>Олегович</li>
         <li>Робітник</li>
@@ -23,3 +26,8 @@
     </div>
   </div>
 </div>
+
+<!-- [src]="
+  '../../../static/workers/items/' +
+  (user.photo_src !== 'default' ? user.photo_src : 'default1.png')
+" -->

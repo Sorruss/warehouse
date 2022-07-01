@@ -1,4 +1,4 @@
-<div *ngIf="items.length | checkLength | async" class="table">
+<div *ngIf="(itemsLoaded | async) && items.length" class="table">
   <div class="table-content">
     <div class="row">
       <div class="col caption">
@@ -116,4 +116,6 @@
   </div>
 </div>
 
-<div *ngIf="!items.length" class="table-is-empty">Пусто</div>
+<div *ngIf="(itemsLoaded | async) && !items.length" class="table-is-empty">
+  Пусто
+</div>

@@ -6,10 +6,9 @@ import { ItemsService } from 'src/app/services/items/items.service';
 
 import { fadeIn, slide2right } from 'src/app/animations';
 
-import {
-  ExportRegistrationService,
-  IExportRegistrationCont,
-} from 'src/app/services/export-registration/export-registration.service';
+import { IExportRegistrationCont } from 'src/app/interfaces';
+
+import { ExportRegistrationService } from 'src/app/services/export-registration/export-registration.service';
 
 @Component({
   selector: 'app-registrate-export-order',
@@ -18,7 +17,7 @@ import {
   animations: [fadeIn, slide2right],
 })
 export class RegistrateExportOrderComponent implements OnInit {
-  public order!: IExportRegistrationCont;
+  public order!: any;
   public nameToFilter: string = '';
 
   private id!: number;
@@ -32,7 +31,7 @@ export class RegistrateExportOrderComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
-    this.order = this.exportRegistrationService.getOrderById(this.id);
+    this.retrieveOrder();
 
     this.filterService.filterPropObs.subscribe((value) => {
       this.nameToFilter = value;
@@ -40,15 +39,38 @@ export class RegistrateExportOrderComponent implements OnInit {
     this.filterService.activateSearchBar();
   }
 
-  registerExport(): void {
+  retrieveOrder(): void {
+    this.exportRegistrationService.get(this.id).subscribe({
+      next: (data) => {
+        console.log(data);
+        this.order = data;
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
+
+  changeItemsQuantity(): void {
     for (let item of this.order.items) {
-      item.quantity -= item.orderedQuantity!;
+      item.quantity += item.orderedQuantity!;
       delete item.orderedQuantity;
       this.itemsService.update(item.id, item);
     }
-
-    this.exportRegistrationService.removeOrder(this.id);
-
-    this.router.navigate(['/']);
+  }
+  deleteOrder(): void {
+    this.exportRegistrationService.delete(this.id).subscribe(
+      (response) => {
+        console.log('response: ', response);
+        this.router.navigate(['/']);
+      },
+      (error) => {
+        console.log('error: ', error);
+      }
+    );
+  }
+  registerExport(): void {
+    // this.changeItemsQuantity();
+    this.deleteOrder();
   }
 }

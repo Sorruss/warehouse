@@ -5,7 +5,14 @@ const Op = db.Sequelize.Op;
 // Create and save new Company.
 exports.create = (req, res) => {
   // Validate request.
-  if (!req.body.title) {
+  if (
+    !req.body.company_name ||
+    !req.body.phone1 ||
+    !req.body.phone2 ||
+    !req.body.special_id ||
+    !req.body.company_password ||
+    !req.body.description
+  ) {
     res.status(400).send({
       message: "Content can not be empty",
     });

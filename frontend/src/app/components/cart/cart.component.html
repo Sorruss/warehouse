@@ -1,4 +1,4 @@
-<div *ngIf="(items | keyvalue)?.length" class="table">
+<div *ngIf="items.length" class="table">
   <div class="table-content">
     <div class="row">
       <div class="col caption">
@@ -25,19 +25,19 @@
     </div>
 
     <div
-      *ngFor="let item of getValues() | filterByName: nameToFilter"
+      *ngFor="let item of items | filterByName: nameToFilter"
       class="row item"
       @fadeIn
       @slide2right
     >
       <div class="col name">
-        {{ item.name }}
+        {{ item.item.item_name }}
       </div>
       <div class="col quantity">
         <input
           #input
           type="number"
-          [value]="item.orderedQuantity"
+          [value]="item.ordered_quantity"
           (change)="changeOrderQuantity(item, input.value)"
           min="1"
           max="999999999"
@@ -45,13 +45,13 @@
         />
       </div>
       <div class="col date">
-        {{ item.date }}
+        {{ item.item.income_date }}
       </div>
       <div class="col button">
         <a
           class="button-link"
-          routerLink="/item/{{ item.id }}"
-          [state]="{ pageName: item.name }"
+          routerLink="/item/{{ item.item.id }}"
+          [state]="{ pageName: item.item.item_name }"
         >
           <button>
             <i class="bx bx-link-external"></i>
@@ -92,4 +92,4 @@
   (onCloseEvent)="changeModalDialogState()"
 ></app-modal-dialog>
 
-<div *ngIf="!(items | keyvalue)?.length" class="cart-is-empty">Пусто</div>
+<div *ngIf="!items.length" class="cart-is-empty">Пусто</div>

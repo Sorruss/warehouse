@@ -23,10 +23,8 @@ module.exports = (sequelize, Sequelize) => {
   });
 
   ExportItems.belongsTo(require("./items.model.js")(sequelize, Sequelize), {
+    onDelete: "cascade",
     foreignKey: "item_id",
-  });
-  ExportItems.belongsTo(require("./users.model.js")(sequelize, Sequelize), {
-    foreignKey: "owner_id",
   });
 
   return ExportItems;

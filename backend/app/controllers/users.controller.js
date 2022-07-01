@@ -4,7 +4,16 @@ const Users = db.users;
 // Create and save new User.
 exports.create = (req, res) => {
   // Validate request.
-  if (!req.body.title) {
+  if (
+    !req.body.first_name ||
+    !req.body.middle_name ||
+    !req.body.last_name ||
+    !req.body.user_position ||
+    !req.body.phone1 ||
+    !req.body.phone2 ||
+    !req.body.user_password ||
+    !req.body.company_id
+  ) {
     res.status(400).send({
       message: "Content can not be empty",
     });

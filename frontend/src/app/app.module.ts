@@ -26,6 +26,7 @@ import { EntryComponent } from './components/entry/entry.component';
 import { RegistrateImportOrderComponent } from './components/registrate-import-order/registrate-import-order.component';
 import { RegistrateExportOrderComponent } from './components/registrate-export-order/registrate-export-order.component';
 import { ModalDialogComponent } from './components/helpers/modal-dialog/modal-dialog.component';
+import { CheckLengthPipe } from './pipes/check-length/check-length.pipe';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { ModalDialogComponent } from './components/helpers/modal-dialog/modal-di
     ModalDialogComponent,
     NgNumberDirective,
     EntryComponent,
+    CheckLengthPipe,
   ],
   imports: [
     BrowserModule,

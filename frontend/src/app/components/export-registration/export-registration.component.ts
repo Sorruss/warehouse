@@ -5,10 +5,11 @@ import { FilterService } from 'src/app/services/filter/filter.service';
 import { fadeIn, slide2right } from 'src/app/animations';
 
 import {
-  ExportRegistrationService,
-  IExportRegistrationElem,
   IExportRegistrationCont,
-} from './../../services/export-registration/export-registration.service';
+  IExportRegistrationElem,
+} from 'src/app/interfaces';
+
+import { ExportRegistrationService } from './../../services/export-registration/export-registration.service';
 
 @Component({
   selector: 'app-export-registration',
@@ -17,7 +18,7 @@ import {
   animations: [fadeIn, slide2right],
 })
 export class ExportRegistrationComponent implements OnInit {
-  public items: IExportRegistrationElem = {};
+  public items: any = {};
   public nameToFilter: string = '';
 
   constructor(
@@ -25,14 +26,21 @@ export class ExportRegistrationComponent implements OnInit {
     private filterService: FilterService
   ) {}
   ngOnInit(): void {
-    this.items = this.exportRegistrationService.getOrders();
+    this.retrieveOrders();
 
     this.filterService.filterPropObs.subscribe((value) => {
       this.nameToFilter = value;
     });
     this.filterService.activateSearchBar();
   }
-  getValues(): IExportRegistrationCont[] {
-    return Object.values(this.items);
+
+  retrieveOrders(): void {
+    this.exportRegistrationService.getAll().subscribe({
+      next: (data) => {
+        this.items = data;
+        console.log('data: ', data);
+      },
+      error: (error) => console.log('error: ', error),
+    });
   }
 }

@@ -24,7 +24,7 @@ module.exports = (sequelize, Sequelize) => {
     },
     photo_src: {
       type: Sequelize.STRING,
-      defaultValue: "default1.png",
+      defaultValue: "default",
       allowNull: true,
     },
     description: {
@@ -47,7 +47,10 @@ module.exports = (sequelize, Sequelize) => {
     },
   });
 
-  // Producer.hasMany(require("./items.model.js")(sequelize, Sequelize));
+  Producer.hasMany(require("./items.model.js")(sequelize, Sequelize), {
+    onDelete: "cascade",
+    foreignKey: "producer_id",
+  });
 
   return Producer;
 };

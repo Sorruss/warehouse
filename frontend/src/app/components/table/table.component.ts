@@ -15,6 +15,8 @@ import { fadeIn, fadeOut, slide2right } from 'src/app/animations';
   animations: [fadeIn, fadeOut, slide2right],
 })
 export class TableComponent implements OnInit {
+  public itemsLoaded: Promise<boolean> = Promise.resolve(false);
+
   public items: any;
   public nameToFilter: string = '';
 
@@ -39,6 +41,7 @@ export class TableComponent implements OnInit {
       next: (data) => {
         this.items = data;
         console.log(data);
+        this.itemsLoaded = Promise.resolve(true);
       },
       error: (error) => {
         console.log(error);
@@ -49,9 +52,48 @@ export class TableComponent implements OnInit {
     this.retrieveItems();
   }
 
+  createCarttItem(item: any, quantity: string): void {
+    this.cartService
+      .create({
+        item_id: item.id,
+        owner_id: 1,
+        ordered_quantity: Number(quantity),
+      })
+      .subscribe(
+        (response) => {
+          console.log('response: ', response);
+          this.notificationService.createExportNotification(
+            item.item_name,
+            quantity
+          );
+        },
+        (error) => {
+          console.log('error: ', error);
+        }
+      );
+  }
+  createExportItem(item: any, quantity: string): void {
+    this.exportService
+      .create({
+        item_id: item.id,
+        owner_id: 1,
+        ordered_quantity: Number(quantity),
+      })
+      .subscribe(
+        (response) => {
+          console.log('response: ', response);
+          this.notificationService.createImportNotification(
+            item.item_name,
+            quantity
+          );
+        },
+        (error) => {
+          console.log('error: ', error);
+        }
+      );
+  }
   addToCart(item: any, quantity: string): void {
-    this.cartService.addItem(item, Number(quantity));
-    this.notificationService.createImportNotification(item.name, quantity);
+    this.createCarttItem(item, quantity);
   }
   addToExport(item: any): void {
     const quantity = (
@@ -63,8 +105,7 @@ export class TableComponent implements OnInit {
     if (!this.checkBeforeCreate(item.quantity, Number(quantity))) {
       this.notificationService.createTooMuchNotification(item.name, quantity);
     } else {
-      this.exportService.addItem(item, Number(quantity));
-      this.notificationService.createExportNotification(item.name, quantity);
+      this.createExportItem(item, quantity);
     }
   }
   checkBeforeCreate(quantity: number, exportQuantity: number): boolean {

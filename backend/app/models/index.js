@@ -18,6 +18,9 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 // MODELS
+db.company = require("./company.model.js")(sequelize, Sequelize);
+db.producer = require("./producer.model.js")(sequelize, Sequelize);
+db.users = require("./users.model.js")(sequelize, Sequelize);
 db.items = require("./items.model.js")(sequelize, Sequelize);
 db.cart = require("./cart.model.js")(sequelize, Sequelize);
 db.export = require("./export.model.js")(sequelize, Sequelize);
@@ -29,8 +32,5 @@ db.exportRegistration = require("./export-registration.model.js")(
   sequelize,
   Sequelize
 );
-db.users = require("./users.model.js")(sequelize, Sequelize);
-db.company = require("./company.model.js")(sequelize, Sequelize);
-db.producer = require("./producer.model.js")(sequelize, Sequelize);
 
 module.exports = db;

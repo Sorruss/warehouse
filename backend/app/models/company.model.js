@@ -24,7 +24,7 @@ module.exports = (sequelize, Sequelize) => {
     },
     photo_src: {
       type: Sequelize.STRING,
-      defaultValue: "default1.png",
+      defaultValue: "default",
       allowNull: true,
     },
     special_id: {
@@ -65,8 +65,14 @@ module.exports = (sequelize, Sequelize) => {
     },
   });
 
-  // Company.hasMany(require("./users.model.js")(sequelize, Sequelize));
-  // Company.hasMany(require("./items.model.js")(sequelize, Sequelize));
+  Company.hasMany(require("./items.model.js")(sequelize, Sequelize), {
+    foreignKey: "company_id",
+    onDelete: "cascade",
+  });
+  Company.hasMany(require("./users.model.js")(sequelize, Sequelize), {
+    foreignKey: "company_id",
+    onDelete: "cascade",
+  });
 
   return Company;
 };

@@ -18,8 +18,5 @@ module.exports = (backend) => {
   // Delete an export Item with the specified id.
   router.delete("/:id", export_.delete);
 
-  // Delete all export Items.
-  router.delete("/", export_.deleteAll);
-
   backend.use("/api/export", router);
 };
