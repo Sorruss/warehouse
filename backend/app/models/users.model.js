@@ -72,6 +72,13 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: "default",
         allowNull: true,
       },
+      user_login: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          len: [7, 42],
+        },
+      },
       user_password: {
         type: DataTypes.STRING,
         allowNull: false,

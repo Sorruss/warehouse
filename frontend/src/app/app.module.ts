@@ -1,3 +1,7 @@
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+
+import { InterceptorService } from './services/interceptor/interceptor.service';
+
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -26,7 +30,6 @@ import { EntryComponent } from './components/entry/entry.component';
 import { RegistrateImportOrderComponent } from './components/registrate-import-order/registrate-import-order.component';
 import { RegistrateExportOrderComponent } from './components/registrate-export-order/registrate-export-order.component';
 import { ModalDialogComponent } from './components/helpers/modal-dialog/modal-dialog.component';
-import { CheckLengthPipe } from './pipes/check-length/check-length.pipe';
 
 @NgModule({
   declarations: [
@@ -49,7 +52,6 @@ import { CheckLengthPipe } from './pipes/check-length/check-length.pipe';
     ModalDialogComponent,
     NgNumberDirective,
     EntryComponent,
-    CheckLengthPipe,
   ],
   imports: [
     BrowserModule,
@@ -58,7 +60,13 @@ import { CheckLengthPipe } from './pipes/check-length/check-length.pipe';
     BrowserAnimationsModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptorService,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

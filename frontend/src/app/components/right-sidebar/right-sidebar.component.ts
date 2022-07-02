@@ -49,8 +49,7 @@ export class RightSidebarComponent implements OnInit {
     this.router.navigate(['user-page']);
   }
 
-  exit(): void {
-    this.authService.exit();
-    this.router.navigate(['entry']);
+  logout(): void {
+    this.authService.logout();
   }
 }

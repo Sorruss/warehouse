@@ -15,12 +15,13 @@ import { fadeIn, fadeOut } from 'src/app/animations';
   animations: [fadeIn, fadeOut],
 })
 export class EntryComponent implements OnInit {
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-    private notificationService: NotificationService
-  ) {}
-  ngOnInit(): void {}
+  private isLogin: boolean = false;
+  private errorMessage: any;
+
+  constructor(private authService: AuthService, private router: Router) {}
+  ngOnInit(): void {
+    this.isUserLogin();
+  }
 
   logIn(credentials: {
     companyId: NgModel;
@@ -28,18 +29,34 @@ export class EntryComponent implements OnInit {
     workerLogin: NgModel;
     workerPassword: NgModel;
   }): void {
-    const res = this.authService.authentication(credentials);
-    if (res) {
-      this.goHome();
-    } else {
-      this.notificationService.createInvalidCredentialsNotification(true);
-    }
+    this.authService
+      .login({
+        company_id: credentials.companyId.control.value,
+        company_password: credentials.companyPassword.control.value,
+        user_login: credentials.workerLogin.control.value,
+        user_password: credentials.workerPassword.control.value,
+      })
+      .subscribe(
+        (response) => {
+          if (response.status) {
+            console.log('response: ', response);
+            this.authService.setDataInLocalStorage(
+              'userData',
+              JSON.stringify(response.data)
+            );
+            this.authService.setDataInLocalStorage('token', response.token);
+            this.router.navigate(['']);
+          }
+        },
+        (error) => {
+          console.log('error: ', error);
+        }
+      );
   }
 
-  goHome(): void {
-    this.router.navigateByUrl('/');
-  }
-  placeholder(t: any): void {
-    console.log(t);
+  isUserLogin() {
+    if (this.authService.getUserDetails() != null) {
+      this.isLogin = true;
+    }
   }
 }

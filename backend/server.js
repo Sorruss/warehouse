@@ -7,6 +7,7 @@ const backend = express();
 
 const corsOptions = {
   origin: "http://localhost:4200",
+  credentials: true,
 };
 
 backend.use(cors(corsOptions));

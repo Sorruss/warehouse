@@ -9,10 +9,14 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 })
 export class AppComponent implements OnInit {
   title = 'warehouse';
-  public isAuthenticated: boolean = true;
+  public isAuthenticated: boolean = false;
 
   constructor(private authService: AuthService) {}
   ngOnInit() {
+    if (this.authService.getUserDetails() != null) {
+      this.isAuthenticated = true;
+    }
+
     this.authService.isAuthenticatedObs.subscribe((value: boolean) => {
       this.isAuthenticated = value;
     });

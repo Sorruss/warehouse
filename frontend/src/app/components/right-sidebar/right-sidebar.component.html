@@ -94,11 +94,13 @@
           (click)="toUserPage()"
         />
         <div class="name_job">
-          <div class="name" (click)="toUserPage()">Артур Ткачов</div>
-          <div class="job">Робітник</div>
+          <div class="name" (click)="toUserPage()">
+            {{ user.first_name }} {{ user.last_name }}
+          </div>
+          <div class="job">{{ user.user_position }}</div>
         </div>
       </div>
-      <i class="bx bx-log-out" id="log_out" (click)="exit()"></i>
+      <i class="bx bx-log-out" id="log_out" (click)="logout()"></i>
     </li>
   </ul>
 </div>

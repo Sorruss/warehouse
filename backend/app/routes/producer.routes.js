@@ -1,25 +1,27 @@
+const auth = require("../middleware/auth");
+
 module.exports = (backend) => {
   const producer = require("../controllers/producer.controller.js");
 
   const router = require("express").Router();
 
   // Retrieve all producer.
-  router.get("/", producer.getItems);
+  router.get("/", auth.verifyToken, producer.getItems);
 
   // Create and save new producer.
-  router.post("/", producer.create);
+  router.post("/", auth.verifyToken, producer.create);
 
   // Retrieve a single producer with specified id.
-  router.get("/:id", producer.getItemById);
+  router.get("/:id", auth.verifyToken, producer.getItemById);
 
   // Update an producer by the id.
-  router.put("/:id", producer.updateItem);
+  router.put("/:id", auth.verifyToken, producer.updateItem);
 
   // Patch an producer by the id.
-  router.patch("/:id", producer.patchItem);
+  router.patch("/:id", auth.verifyToken, producer.patchItem);
 
   // Delete an producer with the specified id.
-  router.delete("/:id", producer.delete);
+  router.delete("/:id", auth.verifyToken, producer.delete);
 
   backend.use("/api/producer", router);
 };

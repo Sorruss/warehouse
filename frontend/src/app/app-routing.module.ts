@@ -14,22 +14,54 @@ import { RegistrateImportOrderComponent } from './components/registrate-import-o
 import { RegistrateExportOrderComponent } from './components/registrate-export-order/registrate-export-order.component';
 import { EntryComponent } from './components/entry/entry.component';
 
+import { AuthGuardService } from './services/auth-guard/auth-guard.service';
+
 const routes: Routes = [
-  { path: '', component: TableComponent },
-  { path: 'item/:id', component: ItemPageComponent },
-  { path: 'cart', component: CartComponent },
-  { path: 'export', component: ExportComponent },
-  { path: 'export-registration', component: ExportRegistrationComponent },
-  { path: 'import-registration', component: ImportRegistrationComponent },
-  { path: 'inventory-statement', component: InventoryStatementComponent },
-  { path: 'user-page', component: UserPageComponent },
-  { path: 'site-settings', component: SiteSettingsComponent },
+  { path: '', canActivate: [AuthGuardService], component: TableComponent },
+  {
+    path: 'item/:id',
+    canActivate: [AuthGuardService],
+    component: ItemPageComponent,
+  },
+  { path: 'cart', canActivate: [AuthGuardService], component: CartComponent },
+  {
+    path: 'export',
+    canActivate: [AuthGuardService],
+    component: ExportComponent,
+  },
+  {
+    path: 'export-registration',
+    canActivate: [AuthGuardService],
+    component: ExportRegistrationComponent,
+  },
+  {
+    path: 'import-registration',
+    canActivate: [AuthGuardService],
+    component: ImportRegistrationComponent,
+  },
+  {
+    path: 'inventory-statement',
+    canActivate: [AuthGuardService],
+    component: InventoryStatementComponent,
+  },
+  {
+    path: 'user-page',
+    canActivate: [AuthGuardService],
+    component: UserPageComponent,
+  },
+  {
+    path: 'site-settings',
+    canActivate: [AuthGuardService],
+    component: SiteSettingsComponent,
+  },
   {
     path: 'registrate-import-order/:id',
+    canActivate: [AuthGuardService],
     component: RegistrateImportOrderComponent,
   },
   {
     path: 'registrate-export-order/:id',
+    canActivate: [AuthGuardService],
     component: RegistrateExportOrderComponent,
   },
   { path: 'entry', component: EntryComponent },
