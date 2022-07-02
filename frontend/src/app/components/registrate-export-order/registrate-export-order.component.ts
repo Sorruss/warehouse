@@ -10,6 +10,13 @@ import { IExportRegistrationCont } from 'src/app/interfaces';
 
 import { ExportRegistrationService } from 'src/app/services/export-registration/export-registration.service';
 
+// @ts-ignore
+import PizZip from 'pizzip';
+import Docxtemplater from 'docxtemplater';
+import { saveAs } from 'file-saver';
+
+import { getCurrentDateTime, loadFile } from 'src/app/functions';
+
 @Component({
   selector: 'app-registrate-export-order',
   templateUrl: './registrate-export-order.component.html',
@@ -81,5 +88,37 @@ export class RegistrateExportOrderComponent implements OnInit {
   registerExport(): void {
     this.changeItemsQuantity();
     this.deleteOrder();
+  }
+
+  downloadDOCX(): void {
+    loadFile(
+      '../../../static/other/registrate_import_order_template.docx',
+      (error: any, content: any) => {
+        if (error) {
+          throw error;
+        }
+        const zip = new PizZip(content);
+        const doc = new Docxtemplater(zip, {
+          paragraphLoop: true,
+          linebreaks: true,
+        });
+
+        const { dateFile, dateDocument } = getCurrentDateTime();
+
+        doc.render({
+          order_name: this.order.order_name,
+          items: this.order.RegistrationModels,
+          dateDocument,
+        });
+
+        const out = doc.getZip().generate({
+          type: 'blob',
+          mimeType:
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        });
+
+        saveAs(out, `реєстрація_імпорту_${dateFile}.docx`);
+      }
+    );
   }
 }

@@ -28,7 +28,8 @@
               "src/static/images/items",
               "src/static/images/producers",
               "src/static/images/workers",
-              "src/static/images/companies"
+              "src/static/images/companies",
+              "src/static/other"
             ],
             "styles": [
               "src/assets/bootstrap/css/bootstrap.min.css",

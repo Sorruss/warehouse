@@ -12,7 +12,7 @@
 }
 
 .item {
-  border-top: 1px #11101D solid;
+  border-top: 1px #11101d solid;
   padding: 5px 0px;
 }
 
@@ -33,14 +33,14 @@
 .buttons button {
   border: none;
   outline: none;
-  background: #11101D;
+  background: #11101d;
   color: white;
   padding: 4px 5px 4px 5px;
-  transition: all .4s ease;
+  transition: all 0.4s ease;
   font-size: 18px;
-  width: 100%;
+  width: 50%;
   height: 60px;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
 }
 .buttons button:hover {
   background: #1d1b31;
@@ -49,11 +49,11 @@
 button {
   border: none;
   outline: none;
-  background: #11101D;
+  background: #11101d;
   color: white;
   border-radius: 4px;
   padding: 4px 5px 4px 5px;
-  transition: all .4s ease;
+  transition: all 0.4s ease;
   font-size: 18px;
 }
 .button-link {

@@ -54,11 +54,12 @@ module.exports = (sequelize, DataTypes) => {
             "Субота",
           ];
           const date =
-            today.getDate() +
-            " " +
             custom_months[today.getMonth()] +
             " " +
-            custom_days[today.getDay()];
+            custom_days[today.getDay()] +
+            "(" +
+            today.getDate() +
+            ")";
           const time = today.getHours() + ":" + today.getMinutes();
           return date + " " + time;
         })(),
