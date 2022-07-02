@@ -89,7 +89,10 @@
     <li class="profile">
       <div class="profile-details">
         <img
-          src="../../../static/images/workers/default1.png"
+          [src]="
+            '../../../static/images/workers/' +
+            (user.photo_src !== 'default' ? user.photo_src : 'default1.png')
+          "
           alt="profile image"
           (click)="toUserPage()"
         />

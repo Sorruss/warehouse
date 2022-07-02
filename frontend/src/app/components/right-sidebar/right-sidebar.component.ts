@@ -14,12 +14,15 @@ export class RightSidebarComponent implements OnInit {
   private content: any;
   private menuBtn: any;
 
+  public user: any;
   constructor(private router: Router, private authService: AuthService) {}
   ngOnInit(): void {
     this.sidebar = document.querySelector('.sidebar');
     this.searchBar = document.querySelector('#searchBar');
     this.content = document.querySelector('.content');
     this.menuBtn = document.querySelector('#menu-button');
+
+    this.user = this.authService.getUserDetails();
   }
   toggleActive() {
     this.sidebar?.classList.toggle('open');

@@ -1,6 +1,7 @@
 const { User } = require("../models");
 const md5 = require("md5");
 const jwt = require("jsonwebtoken");
+const conf = require("../config/config.json");
 
 exports.logIn = async function (req, res) {
   // Validate request.
@@ -24,8 +25,12 @@ exports.logIn = async function (req, res) {
   })
     .then((user) => {
       if (user) {
-        let token = jwt.sign({ user }, "secret");
-        res.status(200).send({ status: 1, user, token: token });
+        let token = jwt.sign({ user }, conf.jwt_secret, {
+          algorithm: "RS256",
+          expiresIn: 120,
+          subject: user.id,
+        });
+        res.status(200).send({ status: 1, user, token });
       } else {
         res.status(400).send({
           message: "Incorrect credentials",
@@ -39,11 +44,3 @@ exports.logIn = async function (req, res) {
       });
     });
 };
-
-// Log Out.
-exports.logOut = async (req, res) => {
-  // we just have to reset our user session here.
-};
-
-// Log Up.
-exports.logUp = async (req, res) => {};

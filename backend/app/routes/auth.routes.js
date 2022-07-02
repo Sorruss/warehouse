@@ -7,10 +7,10 @@ module.exports = (backend) => {
   router.post("/login", auth.logIn);
 
   // Log Out.
-  router.post("/logout", auth.logOut);
+  // router.post("/logout", auth.logOut);
 
   // Log Up.
-  router.post("/logup", auth.logUp);
+  // router.post("/logup", auth.logUp);
 
   backend.use("/auth", router);
 };

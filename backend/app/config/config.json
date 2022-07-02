@@ -25,5 +25,6 @@
     "password": "???",
     "database": "???",
     "dialect": "postgres"
-  }
+  },
+  "jwt_secret": "Wdewm7sK28kydpEqE7y5ro5DbUMi7XqlScML1QVN"
 }

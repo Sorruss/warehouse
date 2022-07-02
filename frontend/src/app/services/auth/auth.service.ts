@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { Observable, catchError, throwError, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-const baseUrl = 'http://localhost:8080/auth';
+const backUrl = 'http://localhost:8080/auth';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +19,7 @@ export class AuthService {
 
   login(payload: object): Observable<any> {
     return this.httpClient
-      .post(`${baseUrl}/login`, payload, {
+      .post(`${backUrl}/login`, payload, {
         withCredentials: true,
       })
       .pipe(
@@ -30,7 +30,7 @@ export class AuthService {
       )
       .pipe(catchError(this.handleError));
   }
-  logout() {
+  logout(): void {
     this.isAuthenticated.next(false);
     this.clearStorage();
     this.router.navigate(['/entry']);
@@ -38,7 +38,7 @@ export class AuthService {
 
   getUserDetails() {
     if (localStorage.getItem('userData')) {
-      return localStorage.getItem('userData');
+      return JSON.parse(<any>localStorage.getItem('userData'));
     } else {
       return null;
     }
@@ -57,10 +57,10 @@ export class AuthService {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
       // client-side error
-      errorMessage = `Error: ${error.error.message}`;
+      errorMessage = `Error (client-side error): ${error.error.message}`;
     } else {
       // server-side error
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      errorMessage = `Error Code (server-side error): ${error.status}\nMessage: ${error.message}`;
     }
     console.log(errorMessage);
     return throwError(() => new Error(errorMessage));

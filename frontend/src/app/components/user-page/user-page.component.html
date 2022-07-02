@@ -2,7 +2,10 @@
   <div class="page-content">
     <div class="user-photo">
       <img
-        src="../../../static/images/workers/default1.png"
+        [src]="
+          '../../../static/images/workers/' +
+          (user.photo_src !== 'default' ? user.photo_src : 'default1.png')
+        "
         alt="user's photo"
       />
     </div>
@@ -16,12 +19,12 @@
         <li>Телефон 2:</li>
       </ul>
       <ul id="user-info-values">
-        <li>Ткачов</li>
-        <li>Артур</li>
-        <li>Олегович</li>
-        <li>Робітник</li>
-        <li>+(38)-095-225-75-48</li>
-        <li>+(38)-095-525-15-11</li>
+        <li>{{ user.first_name }}</li>
+        <li>{{ user.last_name }}</li>
+        <li>{{ user.middle_name }}</li>
+        <li>{{ user.user_position }}</li>
+        <li>{{ user.phone1 }}</li>
+        <li>{{ user.phone2 }}</li>
       </ul>
     </div>
   </div>

@@ -42,7 +42,7 @@ export class EntryComponent implements OnInit {
             console.log('response: ', response);
             this.authService.setDataInLocalStorage(
               'userData',
-              JSON.stringify(response.data)
+              JSON.stringify(response.user)
             );
             this.authService.setDataInLocalStorage('token', response.token);
             this.router.navigate(['']);
