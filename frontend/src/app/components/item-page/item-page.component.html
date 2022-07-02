@@ -1,63 +1,66 @@
-<div class="item">
-  <div class="item-content">
-    <!-- <h6 class="item-name">{{ item.item_name }}</h6> -->
-    <div class="photo-description">
-      <img
-        [src]="
-          '../../../static/images/items/' +
-          (item.photo_src !== 'default' ? item.photo_src : 'default1.png')
-        "
-        alt="фото товару '{{ item.item_name }}'"
+<div *ngIf="item">
+  <div class="item">
+    <div class="item-content">
+      <!-- <h6 class="item-name">{{ item.item_name }}</h6> -->
+      <div class="photo-description">
+        <img
+          [src]="
+            '../../../static/images/items/' +
+            (item.photo_src !== 'default' ? item.photo_src : 'default1.png')
+          "
+          alt="фото товару '{{ item.item_name }}'"
+        />
+        <div class="description">{{ item.description }}</div>
+      </div>
+
+      <div class="info">
+        <ul>
+          <li><span class="param">ID</span>: {{ item.id }}</li>
+          <li><span class="param">Кількість</span>: {{ item.quantity }}</li>
+          <li>
+            <span class="param">Дата останнього надходження</span>:
+            {{ item.income_date }}
+          </li>
+          <li>
+            <span class="param">Виробник</span>:
+            {{ item.Producer.producer_name }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="buttons">
+    <div class="button-import">
+      <button (click)="addToCart(inputImport.value)">
+        <span class="text">Замовлення</span>
+      </button>
+      <input
+        #inputImport
+        type="number"
+        min="0"
+        max="999999999"
+        placeholder="0"
+        appNgNumber
       />
-      <div class="description">{{ item.description }}</div>
     </div>
 
-    <div class="info">
-      <ul>
-        <li><span class="param">ID</span>: {{ item.id }}</li>
-        <li><span class="param">Кількість</span>: {{ item.quantity }}</li>
-        <li>
-          <span class="param">Дата останнього надходження</span>:
-          {{ item.income_date }}
-        </li>
-        <li>
-          <span class="param">Виробник</span>: {{ item.Producer.producer_name }}
-        </li>
-      </ul>
+    <div class="button-export">
+      <button (click)="addToExport(inputExport.value)">
+        <span class="text">Вивіз</span>
+      </button>
+      <input
+        #inputExport
+        type="number"
+        min="0"
+        [max]="item.quantity"
+        placeholder="0"
+        appNgNumber
+      />
     </div>
-  </div>
-</div>
 
-<div class="buttons">
-  <div class="button-import">
-    <button (click)="addToCart(inputImport.value)">
-      <span class="text">Замовлення</span>
+    <button id="btn-remove" (click)="removeItem()">
+      <i class="bx bx-trash"></i>
     </button>
-    <input
-      #inputImport
-      type="number"
-      min="0"
-      max="999999999"
-      placeholder="0"
-      appNgNumber
-    />
   </div>
-
-  <div class="button-export">
-    <button (click)="addToExport(inputExport.value)">
-      <span class="text">Вивіз</span>
-    </button>
-    <input
-      #inputExport
-      type="number"
-      min="0"
-      [max]="item.quantity"
-      placeholder="0"
-      appNgNumber
-    />
-  </div>
-
-  <button id="btn-remove" (click)="removeItem()">
-    <i class="bx bx-trash"></i>
-  </button>
 </div>

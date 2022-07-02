@@ -1,7 +1,7 @@
 const { Company } = require("../models");
 
 // Create and save new Company.
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
   // Validate request.
   if (
     !req.body.company_name ||
@@ -28,7 +28,7 @@ exports.create = (req, res) => {
     description: req.body.description,
   };
 
-  Company.create(item)
+  await Company.create(item)
     .then((data) => {
       res.send(data);
     })
@@ -41,13 +41,13 @@ exports.create = (req, res) => {
 };
 
 // Retrieve all Company.
-exports.getItems = (req, res) => {
+exports.getItems = async (req, res) => {
   // const company_name = req.query.company_name;
   // const condition = company_name
   //   ? { company_name: { [Op.iLike]: `%${company_name}%` } }
   //   : null;
 
-  Company.findAll()
+  await Company.findAll()
     .then((data) => {
       res.send(data);
     })
@@ -59,10 +59,10 @@ exports.getItems = (req, res) => {
 };
 
 // Retrieve a single Company with specified id.
-exports.getItemById = (req, res) => {
+exports.getItemById = async (req, res) => {
   const id = req.params.id;
 
-  Company.findByPk(id)
+  await Company.findByPk(id)
     .then((data) => {
       res.send(data);
     })
@@ -76,10 +76,25 @@ exports.getItemById = (req, res) => {
 };
 
 // Update an Company by the id.
-exports.updateItem = (req, res) => {
+exports.patchItem = async (req, res) => {
   const id = req.params.id;
 
-  Company.update(req.body, {
+  await Company.findByPk(id).then((company) => {
+    if (company) {
+      company.update(req.body).then(() => {
+        res.send({
+          message: "Company was patched successfully.",
+        });
+      });
+    }
+  });
+};
+
+// Update an Company by the id.
+exports.updateItem = async (req, res) => {
+  const id = req.params.id;
+
+  await Company.update(req.body, {
     where: { id },
   })
     .then((num) => {
@@ -101,10 +116,10 @@ exports.updateItem = (req, res) => {
 };
 
 // Delete an Company with the specified id.
-exports.delete = (req, res) => {
+exports.delete = async (req, res) => {
   const id = req.params.id;
 
-  Company.destroy({ where: { id } })
+  await Company.destroy({ where: { id } })
     .then((num) => {
       if (num === 1) {
         res.send({ message: "Company was deleted successfully" });
@@ -122,8 +137,8 @@ exports.delete = (req, res) => {
 };
 
 // Delete all Company.
-exports.deleteAll = (req, res) => {
-  Company.destroy({
+exports.deleteAll = async (req, res) => {
+  await Company.destroy({
     where: {},
     truncate: false,
   })

@@ -15,6 +15,9 @@ module.exports = (backend) => {
   // Update an company by the id.
   router.put("/:id", company.updateItem);
 
+  // Patch an company by the id.
+  router.patch("/:id", company.patchItem);
+
   // Delete an company with the specified id.
   router.delete("/:id", company.delete);
 

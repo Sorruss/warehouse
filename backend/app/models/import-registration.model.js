@@ -2,8 +2,8 @@ const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
   class ImportOrder extends Model {
-    static associate({ Cart }) {
-      this.hasMany(Cart, {
+    static associate({ RegistrationModel }) {
+      this.hasMany(RegistrationModel, {
         onDelete: "cascade",
         foreignKey: "import_order_id",
       });

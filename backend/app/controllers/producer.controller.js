@@ -5,7 +5,7 @@
 const { Producer } = require("../models");
 
 // Create and save new Producer.
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
   // Validate request.
   if (
     !req.body.producer_name ||
@@ -28,7 +28,7 @@ exports.create = (req, res) => {
     description: req.body.description,
   };
 
-  Producer.create(item)
+  await Producer.create(item)
     .then((data) => {
       res.send(data);
     })
@@ -41,13 +41,13 @@ exports.create = (req, res) => {
 };
 
 // Retrieve all Producer.
-exports.getItems = (req, res) => {
+exports.getItems = async (req, res) => {
   // const producer_name = req.query.producer_name;
   // const condition = producer_name
   //   ? { producer_name: { [Op.iLike]: `%${producer_name}%` } }
   //   : null;
 
-  Producer.findAll()
+  await Producer.findAll()
     .then((data) => {
       res.send(data);
     })
@@ -60,10 +60,10 @@ exports.getItems = (req, res) => {
 };
 
 // Retrieve a single Producer with specified id.
-exports.getItemById = (req, res) => {
+exports.getItemById = async (req, res) => {
   const id = req.params.id;
 
-  Producer.findByPk(id)
+  await Producer.findByPk(id)
     .then((data) => {
       res.send(data);
     })
@@ -77,10 +77,25 @@ exports.getItemById = (req, res) => {
 };
 
 // Update an Producer by the id.
-exports.updateItem = (req, res) => {
+exports.patchItem = async (req, res) => {
   const id = req.params.id;
 
-  Producer.update(req.body, {
+  await Producer.findByPk(id).then((producer) => {
+    if (producer) {
+      producer.update(req.body).then(() => {
+        res.send({
+          message: "Producer was patched successfully.",
+        });
+      });
+    }
+  });
+};
+
+// Update an Producer by the id.
+exports.updateItem = async (req, res) => {
+  const id = req.params.id;
+
+  await Producer.update(req.body, {
     where: { id },
   })
     .then((num) => {
@@ -102,10 +117,10 @@ exports.updateItem = (req, res) => {
 };
 
 // Delete an Producer with the specified id.
-exports.delete = (req, res) => {
+exports.delete = async (req, res) => {
   const id = req.params.id;
 
-  Producer.destroy({ where: { id } })
+  await Producer.destroy({ where: { id } })
     .then((num) => {
       if (num === 1) {
         res.send({ message: "Producer was deleted successfully" });
@@ -123,8 +138,8 @@ exports.delete = (req, res) => {
 };
 
 // Delete all Producer.
-exports.deleteAll = (req, res) => {
-  Producer.destroy({
+exports.deleteAll = async (req, res) => {
+  await Producer.destroy({
     where: {},
     truncate: false,
   })

@@ -2,10 +2,10 @@
 // const ExportRegistration = db.ExportOrders;
 // const Op = db.Sequelize.Op;
 
-const { ExportOrder, Export } = require("../models");
+const { ExportOrder, RegistrationModel } = require("../models");
 
 // Create and save new ExportRegistration item.
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
   // Validate request.
   if (!req.body.owner_id) {
     res.status(400).send({
@@ -32,7 +32,7 @@ exports.create = (req, res) => {
     item.order_name = `Замовлення №${item.special_id}`;
   }
 
-  ExportOrder.create(item)
+  await ExportOrder.create(item)
     .then((data) => {
       res.send(data);
     })
@@ -46,13 +46,13 @@ exports.create = (req, res) => {
 };
 
 // Retrieve all ExportOrder items.
-exports.getItems = (req, res) => {
+exports.getItems = async (req, res) => {
   // const order_name = req.query.order_name;
   // const condition = order_name
   //   ? { order_name: { [Op.iLike]: `%${order_name}%` } }
   //   : null;
 
-  ExportOrder.findAll()
+  await ExportOrder.findAll()
     .then((data) => {
       res.send(data);
     })
@@ -69,7 +69,7 @@ exports.getItems = (req, res) => {
 exports.getItemById = async (req, res) => {
   const id = req.params.id;
 
-  await ExportOrder.findByPk(id, { include: { all: true, nested: true } })
+  await ExportOrder.findByPk(id, { include: RegistrationModel })
     .then((data) => {
       res.send(data);
     })
@@ -83,10 +83,10 @@ exports.getItemById = async (req, res) => {
 };
 
 // Delete an ExportRegistration item with the specified id.
-exports.delete = (req, res) => {
+exports.delete = async (req, res) => {
   const id = req.params.id;
 
-  ExportOrder.destroy({ where: { id } })
+  await ExportOrder.destroy({ where: { id } })
     .then((num) => {
       if (num === 1) {
         res.send({

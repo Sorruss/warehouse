@@ -6,6 +6,7 @@ import { Item, IExportItem } from 'src/app/interfaces';
 import { FilterService } from 'src/app/services/filter/filter.service';
 import { ExportRegistrationService } from 'src/app/services/export-registration/export-registration.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
+import { RegistrateModelService } from 'src/app/services/registrate-model/registrate-model.service';
 
 import { fadeIn, slide2right } from 'src/app/animations';
 
@@ -27,7 +28,8 @@ export class ExportComponent implements OnInit {
     private exportService: ExportService,
     private filterService: FilterService,
     private exportRegistrationService: ExportRegistrationService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private registrateModelService: RegistrateModelService
   ) {}
   ngOnInit(): void {
     this.retrieveItems();
@@ -90,17 +92,33 @@ export class ExportComponent implements OnInit {
       }
     );
   }
-  removeFromExport(orderId = 0, add: boolean = false): void {
+  createRModel(item: any, savedOrderId: number): void {
+    item = {
+      ritem_name: item.Item.item_name,
+      ordered_quantity: item.ordered_quantity,
+      ritem_id: item.Item.id,
+      ritem_quantity: item.Item.quantity,
+      export_order_id: savedOrderId,
+    };
+
+    console.log('item: ', item);
+    this.registrateModelService.create(item).subscribe(
+      (response) => {
+        console.log('response', response);
+      },
+      (error) => {
+        console.log('error', error);
+      }
+    );
+  }
+  removeFromExport(add: boolean = false, savedOrderId?: number): void {
     if (add) {
+      let item;
       for (const id of this.selectedItemsId) {
-        this.exportService.update(id, { export_order_id: orderId }).subscribe(
-          (response) => {
-            console.log('response: ', response);
-          },
-          (error) => {
-            console.log('error: ', error);
-          }
-        );
+        item = this.items.find((i: any) => i.id === id);
+
+        this.deleteItem(id);
+        this.createRModel(item, savedOrderId!);
       }
     } else {
       for (const id of this.selectedItemsId) {
@@ -119,6 +137,7 @@ export class ExportComponent implements OnInit {
   changeModalDialogState(): void {
     this.goingToOrder = !this.goingToOrder;
   }
+
   checkOnWrongQuantity(): boolean {
     for (let item of this.items) {
       if (this.selectedItemsId.includes(item.id)) {
@@ -149,7 +168,6 @@ export class ExportComponent implements OnInit {
       return;
     }
 
-    let id;
     this.exportRegistrationService
       .create({
         order_name,
@@ -159,14 +177,13 @@ export class ExportComponent implements OnInit {
       .subscribe(
         (response) => {
           console.log('response', response);
-          id = response.id;
+          this.removeFromExport(true, response.id);
+          this.changeModalDialogState();
+          this.notificationService.createOrderNotification(order_name, true);
         },
         (error) => {
           console.log('error', error);
         }
       );
-    this.removeFromExport(id, true);
-    this.changeModalDialogState();
-    this.notificationService.createOrderNotification(order_name, true);
   }
 }

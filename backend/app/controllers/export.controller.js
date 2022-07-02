@@ -14,6 +14,30 @@ exports.create = async (req, res) => {
     return;
   }
 
+  // Validate if an Item with this item_id already exists.
+  let alreadyExist = false;
+  await Export.findOne({ where: { item_id: req.body.item_id } }).then(
+    (item) => {
+      if (item) {
+        item
+          .update({
+            ordered_quantity: item.ordered_quantity + req.body.ordered_quantity,
+          })
+          .then(() => {
+            res.send({
+              message:
+                "Export Item was patched (ordered_quantity) successfully.",
+            });
+          });
+        alreadyExist = true;
+      }
+    }
+  );
+
+  if (alreadyExist) {
+    return;
+  }
+
   // Create an Export item.
   const item = {
     ordered_quantity: req.body.ordered_quantity,

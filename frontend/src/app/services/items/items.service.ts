@@ -30,6 +30,11 @@ export class ItemsService {
       .put<any>(`${backUrl}/${id}`, data)
       .pipe(catchError(this.handleError));
   }
+  patch(id: number, data: any): Observable<any> {
+    return this.httpClient
+      .patch<any>(`${backUrl}/${id}`, data)
+      .pipe(catchError(this.handleError));
+  }
   delete(id: number): Observable<any> {
     return this.httpClient
       .delete<any>(`${backUrl}/${id}`)
@@ -40,10 +45,10 @@ export class ItemsService {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
       // client-side error
-      errorMessage = `Error: ${error.error.message}`;
+      errorMessage = `Error (client-side): ${error.error.message}`;
     } else {
       // server-side error
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      errorMessage = `Error Code (server-side): ${error.status}\nMessage: ${error.message}`;
     }
     console.log(errorMessage);
     return throwError(() => new Error(errorMessage));

@@ -2,12 +2,33 @@ const { Cart, Item } = require("../models");
 // const Op = Sequelize.Op;
 
 // Create and save new Cart item.
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
   // Validate request.
   if (!req.body.owner_id || !req.body.ordered_quantity || !req.body.item_id) {
     res.status(400).send({
       message: "Content can not be empty",
     });
+    return;
+  }
+
+  // Validate if an Item with this item_id already exists.
+  let alreadyExist = false;
+  await Cart.findOne({ where: { item_id: req.body.item_id } }).then((item) => {
+    if (item) {
+      item
+        .update({
+          ordered_quantity: item.ordered_quantity + req.body.ordered_quantity,
+        })
+        .then(() => {
+          res.send({
+            message: "Cart Item was patched (ordered_quantity) successfully.",
+          });
+        });
+      alreadyExist = true;
+    }
+  });
+
+  if (alreadyExist) {
     return;
   }
 
@@ -18,7 +39,7 @@ exports.create = (req, res) => {
     owner_id: req.body.owner_id,
   };
 
-  Cart.create(item)
+  await Cart.create(item)
     .then((data) => {
       res.send(data);
     })
@@ -31,11 +52,11 @@ exports.create = (req, res) => {
 };
 
 // Retrieve all Cart items.
-exports.getItems = (req, res) => {
+exports.getItems = async (req, res) => {
   // const name = req.query.name;
   // const condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
 
-  Cart.findAll({ include: Item })
+  await Cart.findAll({ include: Item })
     .then((data) => {
       res.send(data);
     })
@@ -48,10 +69,10 @@ exports.getItems = (req, res) => {
 };
 
 // Retrieve a single Cart item with specified id.
-exports.getItemById = (req, res) => {
+exports.getItemById = async (req, res) => {
   const id = req.params.id;
 
-  Cart.findByPk(id)
+  await Cart.findByPk(id)
     .then((data) => {
       res.send(data);
     })
@@ -65,10 +86,10 @@ exports.getItemById = (req, res) => {
 };
 
 // Update an Cart item by the id.
-exports.updateItem = (req, res) => {
+exports.updateItem = async (req, res) => {
   const id = req.params.id;
 
-  Cart.update(req.body, {
+  await Cart.update(req.body, {
     where: { id },
   })
     .then((num) => {
@@ -90,10 +111,10 @@ exports.updateItem = (req, res) => {
 };
 
 // Delete an Cart item with the specified id.
-exports.delete = (req, res) => {
+exports.delete = async (req, res) => {
   const id = req.params.id;
 
-  Cart.destroy({ where: { id } })
+  await Cart.destroy({ where: { id } })
     .then((num) => {
       if (num === 1) {
         res.send({ message: "Cart item was deleted successfully" });
@@ -111,8 +132,8 @@ exports.delete = (req, res) => {
 };
 
 // Delete all Cart items.
-exports.deleteAll = (req, res) => {
-  Cart.destroy({
+exports.deleteAll = async (req, res) => {
+  await Cart.destroy({
     where: {},
     truncate: false,
   })

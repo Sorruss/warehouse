@@ -6,6 +6,7 @@ import { Item, ICartItem } from 'src/app/interfaces';
 import { FilterService } from 'src/app/services/filter/filter.service';
 import { ImportRegistrationService } from 'src/app/services/import-registration/import-registration.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
+import { RegistrateModelService } from 'src/app/services/registrate-model/registrate-model.service';
 
 import { fadeIn, slide2right } from 'src/app/animations';
 
@@ -27,7 +28,8 @@ export class CartComponent implements OnInit {
     private cartService: CartService,
     private filterService: FilterService,
     private importRegistrationService: ImportRegistrationService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private registrateModelService: RegistrateModelService
   ) {}
   ngOnInit(): void {
     this.retrieveItems();
@@ -90,23 +92,46 @@ export class CartComponent implements OnInit {
       }
     );
   }
-  removeFromCart(): void {
-    for (let id of this.selectedItemsId) {
-      this.deleteItem(id);
+  createRModel(item: any, savedOrderId: number): void {
+    item = {
+      ritem_name: item.Item.item_name,
+      ordered_quantity: item.ordered_quantity,
+      ritem_id: item.Item.id,
+      ritem_quantity: item.Item.quantity,
+      import_order_id: savedOrderId,
+    };
+
+    console.log('item: ', item);
+    this.registrateModelService.create(item).subscribe(
+      (response) => {
+        console.log('response', response);
+      },
+      (error) => {
+        console.log('error', error);
+      }
+    );
+  }
+  removeFromCart(add: boolean = false, savedOrderId?: number): void {
+    if (add) {
+      let item;
+      for (const id of this.selectedItemsId) {
+        item = this.items.find((i: any) => i.id === id);
+
+        this.deleteItem(id);
+        this.createRModel(item, savedOrderId!);
+      }
+    } else {
+      for (const id of this.selectedItemsId) {
+        this.deleteItem(id);
+      }
     }
     this.selectedItemsId = [];
   }
 
   getSelected(): (any & { orderedQuantity: number })[] {
-    const selected = [];
-
-    for (let item of this.items) {
-      if (this.selectedItemsId.includes(item.id)) {
-        selected.push(item);
-      }
-    }
-
-    return selected;
+    return this.items.filter((item: any) =>
+      this.selectedItemsId.includes(item.id)
+    );
   }
 
   changeModalDialogState(): void {
@@ -146,25 +171,19 @@ export class CartComponent implements OnInit {
     this.importRegistrationService
       .create({
         order_name,
+        owner_id: 1,
         income_date: new Date().toDateString(),
       })
       .subscribe(
         (response) => {
           console.log('response: ', response);
+          this.removeFromCart(true, response.id);
+          this.changeModalDialogState();
+          this.notificationService.createOrderNotification(order_name, true);
         },
         (error) => {
           console.log('error: ', error);
         }
       );
-    this.removeFromCart();
-    this.changeModalDialogState();
-    this.notificationService.createOrderNotification(order_name, true);
-  }
-
-  changeOrderQuantity(
-    item: any & { orderedQuantity: number },
-    value: string
-  ): void {
-    item.orderedQuantity = Number(value);
   }
 }

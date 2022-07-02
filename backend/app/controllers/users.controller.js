@@ -4,7 +4,7 @@
 const { User } = require("../models");
 
 // Create and save new User.
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
   // Validate request.
   if (
     !req.body.first_name ||
@@ -35,7 +35,7 @@ exports.create = (req, res) => {
     company_id: req.body.company_id,
   };
 
-  User.create(user)
+  await User.create(user)
     .then((data) => {
       res.send(data);
     })
@@ -47,13 +47,13 @@ exports.create = (req, res) => {
 };
 
 // Retrieve all Users.
-exports.getItems = (req, res) => {
+exports.getItems = async (req, res) => {
   // const middle_name = req.query.middle_name;
   // const condition = middle_name
   //   ? { middle_name: { [Op.iLike]: `%${middle_name}%` } }
   //   : null;
 
-  User.findAll()
+  await User.findAll()
     .then((data) => {
       res.send(data);
     })
@@ -65,10 +65,10 @@ exports.getItems = (req, res) => {
 };
 
 // Retrieve a single User with specified id.
-exports.getItemById = (req, res) => {
+exports.getItemById = async (req, res) => {
   const id = req.params.id;
 
-  User.findByPk(id)
+  await User.findByPk(id)
     .then((data) => {
       res.send(data);
     })
@@ -82,10 +82,10 @@ exports.getItemById = (req, res) => {
 };
 
 // Delete an User with the specified id.
-exports.delete = (req, res) => {
+exports.delete = async (req, res) => {
   const id = req.params.id;
 
-  User.destroy({ where: { id } })
+  await User.destroy({ where: { id } })
     .then((num) => {
       if (num === 1) {
         res.send({ message: "User was deleted successfully" });

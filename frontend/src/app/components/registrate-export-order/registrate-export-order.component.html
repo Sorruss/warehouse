@@ -12,29 +12,33 @@
       </div>
     </div>
 
-    <div
-      *ngFor="let item of order.Exports | filterByName: nameToFilter"
-      class="row item"
-      @fadeIn
-      @slide2right
-    >
-      <div class="col name">
-        {{ item.Item.item_name }}
-      </div>
-      <div class="col quantity">
-        {{ item.ordered_quantity }}
-      </div>
-      <div class="col button">
-        <a
-          class="button-link"
-          routerLink="/item/{{ item.Item.id }}"
-          [state]="{ pageName: item.Item.item_name }"
-        >
-          <button>
-            <i class="bx bx-link-external"></i>
-          </button>
-        </a>
-        <span class="hint">переглянути деталі</span>
+    <div *ngIf="order">
+      <div
+        *ngFor="
+          let item of order.RegistrationModels | filterByName: nameToFilter
+        "
+        class="row item"
+        @fadeIn
+        @slide2right
+      >
+        <div class="col name">
+          {{ item.ritem_name }}
+        </div>
+        <div class="col quantity">
+          {{ item.ordered_quantity }}
+        </div>
+        <div class="col button">
+          <a
+            class="button-link"
+            routerLink="/item/{{ item.ritem_id }}"
+            [state]="{ pageName: item.ritem_name }"
+          >
+            <button>
+              <i class="bx bx-link-external"></i>
+            </button>
+          </a>
+          <span class="hint">переглянути деталі</span>
+        </div>
       </div>
     </div>
   </div>

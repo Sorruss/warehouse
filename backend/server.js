@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
-const export_ = require("./app/controllers/export.controller.js");
+const fs = require("fs");
+const path = require("path");
+const basename = path.basename(__filename);
 const backend = express();
 
 const corsOptions = {
@@ -12,28 +14,25 @@ backend.use(express.json());
 backend.use(express.urlencoded({ extended: true }));
 
 const db = require("./app/models");
-// db.sequelize.sync();
+db.sequelize.sync();
 
-db.sequelize.sync({ force: true }).then(() => {
-  console.log("Drop and re-sync DB");
-});
+// db.sequelize.sync({ force: true }).then(() => {
+//   console.log("Drop and re-sync DB");
+// });
 
 backend.get("/", (req, res) => {
   res.json({ message: "simple route" });
 });
 
-for (let route of [
-  "cart",
-  "company",
-  "export-registration",
-  "export",
-  "import-registration",
-  "items",
-  "producer",
-  "users",
-]) {
-  require(`./app/routes/${route}.routes.js`)(backend);
-}
+fs.readdirSync("./app/routes")
+  .filter((file) => {
+    return (
+      file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
+    );
+  })
+  .forEach((file) => {
+    require(`./app/routes/${file}`)(backend);
+  });
 
 const PORT = process.env.PORT || 8080;
 backend.listen(PORT, () => {

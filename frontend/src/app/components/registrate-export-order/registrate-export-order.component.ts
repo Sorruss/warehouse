@@ -52,10 +52,19 @@ export class RegistrateExportOrderComponent implements OnInit {
   }
 
   changeItemsQuantity(): void {
-    for (let item of this.order.items) {
-      item.quantity += item.orderedQuantity!;
-      delete item.orderedQuantity;
-      this.itemsService.update(item.id, item);
+    for (let model of this.order.RegistrationModels) {
+      this.itemsService
+        .patch(model.ritem_id, {
+          quantity: model.ritem_quantity - model.ordered_quantity,
+        })
+        .subscribe(
+          (response) => {
+            console.log('response: ', response);
+          },
+          (error) => {
+            console.log('error: ', error);
+          }
+        );
     }
   }
   deleteOrder(): void {
@@ -70,7 +79,7 @@ export class RegistrateExportOrderComponent implements OnInit {
     );
   }
   registerExport(): void {
-    // this.changeItemsQuantity();
+    this.changeItemsQuantity();
     this.deleteOrder();
   }
 }

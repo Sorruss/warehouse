@@ -2,10 +2,10 @@
 // const ImportRegistration = db.ImportOrders;
 // const Op = db.Sequelize.Op;
 
-const { ImportOrder } = require("../models");
+const { ImportOrder, RegistrationModel } = require("../models");
 
 // Create and save new ImportRegistration item.
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
   // Validate request.
   if (!req.body.owner_id) {
     res.status(400).send({
@@ -32,7 +32,7 @@ exports.create = (req, res) => {
     item.order_name = `Замовлення №${item.special_id}`;
   }
 
-  ImportOrder.create(item)
+  await ImportOrder.create(item)
     .then((data) => {
       res.send(data);
     })
@@ -46,13 +46,13 @@ exports.create = (req, res) => {
 };
 
 // Retrieve all ImportRegistration items.
-exports.getItems = (req, res) => {
+exports.getItems = async (req, res) => {
   // const order_name = req.query.order_name;
   // const condition = order_name
   //   ? { order_name: { [Op.iLike]: `%${norder_nameme}%` } }
   //   : null;
 
-  ImportOrder.findAll()
+  await ImportOrder.findAll()
     .then((data) => {
       res.send(data);
     })
@@ -66,10 +66,10 @@ exports.getItems = (req, res) => {
 };
 
 // Retrieve a single ImportRegistration item with specified id.
-exports.getItemById = (req, res) => {
+exports.getItemById = async (req, res) => {
   const id = req.params.id;
 
-  ImportOrder.findByPk(id)
+  await ImportOrder.findByPk(id, { include: RegistrationModel })
     .then((data) => {
       res.send(data);
     })
@@ -83,10 +83,10 @@ exports.getItemById = (req, res) => {
 };
 
 // Delete an ImportRegistration item with the specified id.
-exports.delete = (req, res) => {
+exports.delete = async (req, res) => {
   const id = req.params.id;
 
-  ImportOrder.destroy({ where: { id } })
+  await ImportOrder.destroy({ where: { id } })
     .then((num) => {
       if (num === 1) {
         res.send({

@@ -15,6 +15,9 @@ module.exports = (backend) => {
   // Update an Item by the id.
   router.put("/:id", items.updateItem);
 
+  // Patch an Item by the id.
+  router.patch("/:id", items.patchItem);
+
   // Delete an Item with the specified id.
   router.delete("/:id", items.delete);
 
