@@ -3,8 +3,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { FilterService } from 'src/app/services/filter/filter.service';
 import { ItemsService } from 'src/app/services/items/items.service';
+import { NotificationService } from 'src/app/services/notification/notification.service';
 
-import { fadeIn, slide2right } from 'src/app/animations';
+import { fadeIn, slide2right } from 'src/app/animations/animations';
 
 import { IExportRegistrationCont } from 'src/app/interfaces';
 
@@ -34,7 +35,8 @@ export class RegistrateExportOrderComponent implements OnInit {
     private route: ActivatedRoute,
     private filterService: FilterService,
     private itemsService: ItemsService,
-    private router: Router
+    private router: Router,
+    private notificationService: NotificationService
   ) {}
   ngOnInit(): void {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
@@ -117,6 +119,7 @@ export class RegistrateExportOrderComponent implements OnInit {
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         });
 
+        this.notificationService.createDOCXFileCreatedNotification(true);
         saveAs(out, `реєстрація_імпорту_${dateFile}.docx`);
       }
     );

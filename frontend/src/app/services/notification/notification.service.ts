@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
+import { AuthService } from '../auth/auth.service';
+
 export interface Notification {
   id: number;
   title: string;
@@ -16,7 +18,10 @@ export class NotificationService {
   public items: Notification[] = [];
   itemsChanged: Subject<Notification[]> = new Subject<Notification[]>();
 
-  constructor() {}
+  private notficationsLimit: number = 8;
+  private secondsToDisappear: number = 3;
+
+  constructor(private authService: AuthService) {}
   addItem(obj: {
     title: string;
     message: string;
@@ -25,9 +30,12 @@ export class NotificationService {
   }): void {
     const id = this.items.length ? this.items[this.items.length - 1].id + 1 : 0;
     const item: Notification = { id, ...obj };
+    if (this.items.length >= this.notficationsLimit) {
+      this.items.shift();
+    }
     this.items.push(item);
     this.changed();
-    this.autoDelete(item.id, 3);
+    this.autoDelete(item.id, this.secondsToDisappear);
   }
   getItem(id: number): Notification {
     return this.items.find((item) => item.id === id)!;
@@ -96,7 +104,7 @@ export class NotificationService {
   }
   createOrderNotification(name: string, compressed: boolean = false): void {
     this.addItem({
-      title: `Замовлення ${name} створене`,
+      title: 'Замовлення' + (name ? ` '${name}' ` : ' ') + 'створене',
       message: '',
       color: 'green',
       compressed,
@@ -140,6 +148,32 @@ export class NotificationService {
       title: `Запис '${name.toUpperCase()}' був успішно видалений.`,
       message: '',
       color: 'green',
+      compressed,
+    });
+  }
+  createSuccessLogInNotification(compressed: boolean = false): void {
+    const user = this.authService.getUserDetails();
+    const name = user.first_name + ' ' + user.last_name;
+    this.addItem({
+      title: `Ви увійшли в систему як ${name}`,
+      message: '',
+      color: 'green',
+      compressed,
+    });
+  }
+  createDOCXFileCreatedNotification(compressed: boolean = false): void {
+    this.addItem({
+      title: `Звіт був успішно сформований`,
+      message: '',
+      color: 'totalgreen',
+      compressed,
+    });
+  }
+  createNoChooseNotification(compressed: boolean = false): void {
+    this.addItem({
+      title: `Ви нічого не обрали`,
+      message: '',
+      color: 'totalred',
       compressed,
     });
   }

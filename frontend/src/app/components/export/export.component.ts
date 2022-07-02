@@ -9,7 +9,7 @@ import { NotificationService } from 'src/app/services/notification/notification.
 import { RegistrateModelService } from 'src/app/services/registrate-model/registrate-model.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
-import { fadeIn, slide2right } from 'src/app/animations';
+import { fadeIn, slide2right } from 'src/app/animations/animations';
 
 @Component({
   selector: 'app-cart',
@@ -118,6 +118,11 @@ export class ExportComponent implements OnInit {
     );
   }
   removeFromExport(add: boolean = false, savedOrderId?: number): void {
+    if (!this.selectedItemsId.length) {
+      this.notificationService.createNoChooseNotification(true);
+      return;
+    }
+
     if (add) {
       let item;
       for (const id of this.selectedItemsId) {

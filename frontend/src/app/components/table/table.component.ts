@@ -7,7 +7,7 @@ import { NotificationService } from 'src/app/services/notification/notification.
 import { FilterService } from 'src/app/services/filter/filter.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
-import { fadeIn, fadeOut, slide2right } from 'src/app/animations';
+import { fadeIn, fadeOut, slide2right } from 'src/app/animations/animations';
 
 @Component({
   selector: 'app-table',
@@ -109,7 +109,10 @@ export class TableComponent implements OnInit {
     ).value;
 
     if (!this.checkBeforeCreate(item.quantity, Number(quantity))) {
-      this.notificationService.createTooMuchNotification(item.name, quantity);
+      this.notificationService.createTooMuchNotification(
+        item.item_name,
+        quantity
+      );
     } else {
       this.createExportItem(item, quantity);
     }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { ItemsService } from '../../services/items/items.service';
 import { FilterService } from 'src/app/services/filter/filter.service';
+import { NotificationService } from 'src/app/services/notification/notification.service';
 
 // @ts-ignore
 import PizZip from 'pizzip';
@@ -20,7 +21,8 @@ export class InventoryStatementComponent implements OnInit {
 
   constructor(
     private itemsService: ItemsService,
-    private filterService: FilterService
+    private filterService: FilterService,
+    private notificationService: NotificationService
   ) {}
   ngOnInit(): void {
     this.retrieveItems();
@@ -65,6 +67,7 @@ export class InventoryStatementComponent implements OnInit {
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         });
 
+        this.notificationService.createDOCXFileCreatedNotification(true);
         saveAs(out, `інвентарна_відомість_${dateFile}.docx`);
       }
     );

@@ -6,7 +6,7 @@ import { NgModel } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 
-import { fadeIn, fadeOut } from 'src/app/animations';
+import { fadeIn, fadeOut } from 'src/app/animations/animations';
 
 @Component({
   selector: 'app-entry',
@@ -18,7 +18,11 @@ export class EntryComponent implements OnInit {
   private isLogin: boolean = false;
   private errorMessage: any;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private notificationService: NotificationService
+  ) {}
   ngOnInit(): void {
     this.isUserLogin();
   }
@@ -45,10 +49,12 @@ export class EntryComponent implements OnInit {
               JSON.stringify(response.user)
             );
             this.authService.setDataInLocalStorage('token', response.token);
+            this.notificationService.createSuccessLogInNotification(true);
             this.router.navigate(['']);
           }
         },
         (error) => {
+          this.notificationService.createInvalidCredentialsNotification(true);
           console.log('error: ', error);
         }
       );

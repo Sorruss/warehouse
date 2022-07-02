@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-import { notificationFadeIn, notificationFadeOut } from 'src/app/animations';
+import {
+  notificationFadeIn,
+  notificationFadeOut,
+} from 'src/app/animations/animations';
 
 import {
   NotificationService,

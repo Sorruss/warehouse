@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { FilterService } from 'src/app/services/filter/filter.service';
 
-import { fadeIn, slide2right } from 'src/app/animations';
+import { fadeIn, slide2right } from 'src/app/animations/animations';
 
 import {
   IExportRegistrationCont,
