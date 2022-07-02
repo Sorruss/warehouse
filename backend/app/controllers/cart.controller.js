@@ -1,5 +1,4 @@
 const { Cart, Item } = require("../models");
-// const Op = Sequelize.Op;
 
 // Create and save new Cart item.
 exports.create = async (req, res) => {
@@ -53,10 +52,7 @@ exports.create = async (req, res) => {
 
 // Retrieve all Cart items.
 exports.getItems = async (req, res) => {
-  // const name = req.query.name;
-  // const condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
-
-  await Cart.findAll({ include: Item })
+  await Cart.findAll({ include: Item, where: { owner_id: req.user.id } })
     .then((data) => {
       res.send(data);
     })

@@ -1,6 +1,3 @@
-// const db = require("../models");
-// const Users = db.Users;
-
 const { User } = require("../models");
 
 // Create and save new User.
@@ -48,11 +45,6 @@ exports.create = async (req, res) => {
 
 // Retrieve all Users.
 exports.getItems = async (req, res) => {
-  // const middle_name = req.query.middle_name;
-  // const condition = middle_name
-  //   ? { middle_name: { [Op.iLike]: `%${middle_name}%` } }
-  //   : null;
-
   await User.findAll()
     .then((data) => {
       res.send(data);

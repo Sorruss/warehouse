@@ -1,7 +1,3 @@
-// const db = require("../models");
-// const Producer = db.Producer;
-// const Op = db.Sequelize.Op;
-
 const { Producer } = require("../models");
 
 // Create and save new Producer.
@@ -42,11 +38,6 @@ exports.create = async (req, res) => {
 
 // Retrieve all Producer.
 exports.getItems = async (req, res) => {
-  // const producer_name = req.query.producer_name;
-  // const condition = producer_name
-  //   ? { producer_name: { [Op.iLike]: `%${producer_name}%` } }
-  //   : null;
-
   await Producer.findAll()
     .then((data) => {
       res.send(data);

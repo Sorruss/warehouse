@@ -7,6 +7,7 @@ import { FilterService } from 'src/app/services/filter/filter.service';
 import { ExportRegistrationService } from 'src/app/services/export-registration/export-registration.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { RegistrateModelService } from 'src/app/services/registrate-model/registrate-model.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 import { fadeIn, slide2right } from 'src/app/animations';
 
@@ -24,12 +25,15 @@ export class ExportComponent implements OnInit {
   public goingToOrder: boolean = false;
   public nameToFilter: string = '';
 
+  private user_id!: number;
+
   constructor(
     private exportService: ExportService,
     private filterService: FilterService,
     private exportRegistrationService: ExportRegistrationService,
     private notificationService: NotificationService,
-    private registrateModelService: RegistrateModelService
+    private registrateModelService: RegistrateModelService,
+    private authService: AuthService
   ) {}
   ngOnInit(): void {
     this.retrieveItems();
@@ -38,6 +42,8 @@ export class ExportComponent implements OnInit {
       this.nameToFilter = value;
     });
     this.filterService.activateSearchBar();
+
+    this.user_id = this.authService.getUserDetails().id;
   }
 
   retrieveItems(): void {
@@ -168,11 +174,13 @@ export class ExportComponent implements OnInit {
       return;
     }
 
+    this.createAnOrder(order_name);
+  }
+  createAnOrder(order_name: string): void {
     this.exportRegistrationService
       .create({
         order_name,
-        owner_id: 1,
-        income_date: new Date().toDateString(),
+        owner_id: this.user_id,
       })
       .subscribe(
         (response) => {

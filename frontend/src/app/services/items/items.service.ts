@@ -13,7 +13,11 @@ export class ItemsService {
   constructor(private httpClient: HttpClient) {}
 
   getAll(): Observable<any> {
-    return this.httpClient.get<any>(backUrl).pipe(catchError(this.handleError));
+    return this.httpClient
+      .get<any>(backUrl, {
+        withCredentials: true,
+      })
+      .pipe(catchError(this.handleError));
   }
   get(id: number): Observable<any> {
     return this.httpClient
@@ -53,7 +57,4 @@ export class ItemsService {
     console.log(errorMessage);
     return throwError(() => new Error(errorMessage));
   }
-  // filterByName(name: string): Observable<any> {
-  //   return this.httpClient.get(`${backUrl}/?name=${name}`).pipe(catchError(this.handleError));
-  // }
 }

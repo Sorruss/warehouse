@@ -42,11 +42,6 @@ exports.create = async (req, res) => {
 
 // Retrieve all Company.
 exports.getItems = async (req, res) => {
-  // const company_name = req.query.company_name;
-  // const condition = company_name
-  //   ? { company_name: { [Op.iLike]: `%${company_name}%` } }
-  //   : null;
-
   await Company.findAll()
     .then((data) => {
       res.send(data);

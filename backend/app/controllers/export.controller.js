@@ -1,7 +1,3 @@
-// const db = require("../models");
-// const Export = db.Export;
-// const Op = db.Sequelize.Op;
-
 const { Export, Item } = require("../models");
 
 // Create and save new Export item.
@@ -59,10 +55,7 @@ exports.create = async (req, res) => {
 
 // Retrieve all Export items.
 exports.getItems = async (req, res) => {
-  // const name = req.query.name;
-  // const condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
-
-  await Export.findAll({ include: Item })
+  await Export.findAll({ include: Item, where: { owner_id: req.user.id } })
     .then((data) => {
       res.send(data);
     })

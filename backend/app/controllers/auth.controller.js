@@ -26,9 +26,7 @@ exports.logIn = async function (req, res) {
     .then((user) => {
       if (user) {
         let token = jwt.sign({ user }, conf.jwt_secret, {
-          algorithm: "RS256",
-          expiresIn: 120,
-          subject: user.id,
+          expiresIn: 12000,
         });
         res.status(200).send({ status: 1, user, token });
       } else {

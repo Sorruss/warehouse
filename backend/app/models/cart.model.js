@@ -2,10 +2,12 @@ const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
   class CartItem extends Model {
-    static associate({ Item }) {
+    static associate({ Item, User }) {
       this.belongsTo(Item, {
-        onDelete: "cascade",
         foreignKey: "item_id",
+      });
+      this.belongsTo(User, {
+        foreignKey: "owner_id",
       });
     }
   }

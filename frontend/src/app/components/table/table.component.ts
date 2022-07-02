@@ -5,6 +5,7 @@ import { CartService } from '../../services/cart/cart.service';
 import { ExportService } from '../../services/export/export.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { FilterService } from 'src/app/services/filter/filter.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 import { fadeIn, fadeOut, slide2right } from 'src/app/animations';
 
@@ -20,12 +21,15 @@ export class TableComponent implements OnInit {
   public items: any;
   public nameToFilter: string = '';
 
+  private user_id!: number;
+
   constructor(
     private itemsService: ItemsService,
     private cartService: CartService,
     private exportService: ExportService,
     private notificationService: NotificationService,
-    private filterService: FilterService
+    private filterService: FilterService,
+    private authService: AuthService
   ) {}
   ngOnInit(): void {
     this.retrieveItems();
@@ -34,6 +38,8 @@ export class TableComponent implements OnInit {
       this.nameToFilter = value;
     });
     this.filterService.activateSearchBar();
+
+    this.user_id = this.authService.getUserDetails().id;
   }
 
   retrieveItems() {
@@ -56,7 +62,7 @@ export class TableComponent implements OnInit {
     this.cartService
       .create({
         item_id: item.id,
-        owner_id: 1,
+        owner_id: this.user_id,
         ordered_quantity: Number(quantity),
       })
       .subscribe(
@@ -76,7 +82,7 @@ export class TableComponent implements OnInit {
     this.exportService
       .create({
         item_id: item.id,
-        owner_id: 1,
+        owner_id: this.user_id,
         ordered_quantity: Number(quantity),
       })
       .subscribe(

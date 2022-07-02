@@ -1,7 +1,3 @@
-// const db = require("../models");
-// const ImportRegistration = db.ImportOrders;
-// const Op = db.Sequelize.Op;
-
 const { ImportOrder, RegistrationModel } = require("../models");
 
 // Create and save new ImportRegistration item.
@@ -47,12 +43,7 @@ exports.create = async (req, res) => {
 
 // Retrieve all ImportRegistration items.
 exports.getItems = async (req, res) => {
-  // const order_name = req.query.order_name;
-  // const condition = order_name
-  //   ? { order_name: { [Op.iLike]: `%${norder_nameme}%` } }
-  //   : null;
-
-  await ImportOrder.findAll()
+  await ImportOrder.findAll({ where: { owner_id: req.user.id } })
     .then((data) => {
       res.send(data);
     })

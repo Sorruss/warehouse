@@ -1,7 +1,3 @@
-// const db = require("../models");
-// const Item = db.Items;
-// const Op = db.Sequelize.Op;
-
 const { Item, Producer } = require("../models");
 
 // Create and save new item.
@@ -44,12 +40,8 @@ exports.create = async (req, res) => {
 
 // Retrieve all Items.
 exports.getItems = async (req, res) => {
-  // const item_name = req.query.item_name;
-  // const condition = item_name
-  //   ? { item_name: { [Op.iLike]: `%${item_name}%` } }
-  //   : null;
-
   await Item.findAll({
+    where: { company_id: req.user.company_id },
     order: [["id", "desc"]],
   })
     .then((data) => {

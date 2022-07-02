@@ -2,15 +2,12 @@ const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
   class ExportItem extends Model {
-    static associate({ Item, ExportOrder }) {
+    static associate({ Item, User }) {
       this.belongsTo(Item, {
-        onDelete: "cascade",
         foreignKey: "item_id",
       });
-      this.belongsTo(ExportOrder, {
-        onDelete: "cascade",
-        foreignKey: "export_order_id",
-        allowNull: true,
+      this.belongsTo(User, {
+        foreignKey: "owner_id",
       });
     }
   }

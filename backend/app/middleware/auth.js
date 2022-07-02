@@ -10,7 +10,7 @@ module.exports.verifyToken = (req, res, next) => {
       conf.jwt_secret,
       function (err, decoded) {
         if (decoded) {
-          req.user = decoded.data;
+          req.user = decoded.user;
           next();
         } else {
           res.status(401).send({ message: "Unauthorized" });

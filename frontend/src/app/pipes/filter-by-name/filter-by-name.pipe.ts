@@ -20,6 +20,12 @@ export class FilterByNamePipe implements PipeTransform {
       }
     }
 
+    if (!prop) {
+      return items.filter((it) => {
+        return it.Item.item_name.toLocaleLowerCase().startsWith(q);
+      });
+    }
+
     return items.filter((it) => {
       return it[prop].toLocaleLowerCase().startsWith(q);
     });

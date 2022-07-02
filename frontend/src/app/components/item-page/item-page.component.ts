@@ -6,6 +6,7 @@ import { NotificationService } from 'src/app/services/notification/notification.
 import { CartService } from 'src/app/services/cart/cart.service';
 import { ExportService } from 'src/app/services/export/export.service';
 import { FilterService } from 'src/app/services/filter/filter.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-item-page',
@@ -16,6 +17,7 @@ export class ItemPageComponent implements OnInit {
   public item: any;
 
   private id!: number;
+  private user_id!: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -24,12 +26,15 @@ export class ItemPageComponent implements OnInit {
     private cartService: CartService,
     private exportService: ExportService,
     private filterService: FilterService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
   ngOnInit(): void {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
     this.retrieveItem();
     this.filterService.hideSearchBar();
+
+    this.user_id = this.authService.getUserDetails().id;
   }
 
   retrieveItem(): void {
@@ -48,7 +53,7 @@ export class ItemPageComponent implements OnInit {
     this.cartService
       .create({
         item_id: this.item.id,
-        owner_id: 1,
+        owner_id: this.user_id,
         ordered_quantity: Number(quantity),
       })
       .subscribe(
@@ -68,7 +73,7 @@ export class ItemPageComponent implements OnInit {
     this.exportService
       .create({
         item_id: this.item.id,
-        owner_id: 1,
+        owner_id: this.user_id,
         ordered_quantity: Number(quantity),
       })
       .subscribe(
