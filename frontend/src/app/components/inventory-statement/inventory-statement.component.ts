@@ -20,7 +20,7 @@ export class InventoryStatementComponent implements OnInit {
     this.filterService.hideSearchBar();
   }
 
-  retrieveItems() {
+  retrieveItems(): void {
     this.itemsService.getAll().subscribe(
       (data) => {
         this.items = data;
@@ -31,7 +31,6 @@ export class InventoryStatementComponent implements OnInit {
       }
     );
   }
-  refresh() {
-    this.retrieveItems();
-  }
+
+  downloadDOCX(): void {}
 }

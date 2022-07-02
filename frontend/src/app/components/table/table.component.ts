@@ -42,7 +42,7 @@ export class TableComponent implements OnInit {
     this.user_id = this.authService.getUserDetails().id;
   }
 
-  retrieveItems() {
+  retrieveItems(): void {
     this.itemsService.getAll().subscribe({
       next: (data) => {
         this.items = data;

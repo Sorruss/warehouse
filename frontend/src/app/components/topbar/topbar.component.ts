@@ -46,7 +46,7 @@ export class TopbarComponent implements OnInit {
       this.isSearchBarActivated = value;
     });
   }
-  activeSearch() {
+  activeSearch(): void {
     this.mainSearchBar.focus();
   }
   goBack(): void {

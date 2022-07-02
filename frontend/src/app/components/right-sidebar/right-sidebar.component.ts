@@ -24,21 +24,21 @@ export class RightSidebarComponent implements OnInit {
 
     this.user = this.authService.getUserDetails();
   }
-  toggleActive() {
+  toggleActive(): void {
     this.sidebar?.classList.toggle('open');
     this.content?.classList.toggle('offset');
     this.menuBtnChange();
   }
-  addActive() {
+  addActive(): void {
     this.sidebar?.classList.add('open');
     this.content?.classList.add('offset');
     this.menuBtnChange();
     this.activeSearch();
   }
-  activeSearch() {
+  activeSearch(): void {
     this.searchBar.focus();
   }
-  menuBtnChange() {
+  menuBtnChange(): void {
     if (this.sidebar.classList.contains('open')) {
       this.menuBtn.classList.replace('bx-menu', 'bx-menu-alt-right');
     } else {

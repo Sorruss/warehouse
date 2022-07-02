@@ -54,7 +54,7 @@ export class EntryComponent implements OnInit {
       );
   }
 
-  isUserLogin() {
+  isUserLogin(): void {
     if (this.authService.getUserDetails() != null) {
       this.isLogin = true;
     }
