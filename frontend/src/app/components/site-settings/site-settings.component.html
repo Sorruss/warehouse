@@ -2,37 +2,55 @@
   <div class="page-content">
     <div class="settings">
       <ul id="settings-keys">
-        <li>Тема сайту: </li>
-        <li>Мова сайту: </li>
-        <li>Час зникання повідомлень: </li>
+        <li>Тема сайту:</li>
+        <li>Мова сайту:</li>
+        <li>Час зникання повідомлень:</li>
       </ul>
       <ul id="settings-values">
         <li>
-          <select name="theme" id="select-theme">
+          <select
+            #theme
+            (change)="selectTheme(theme.value)"
+            name="theme"
+            id="select-theme"
+            [value]="selectedTheme"
+          >
             <option value="dark">Темна</option>
-            <option value="light" disabled>Світла</option>
+            <option value="light">Світла</option>
           </select>
         </li>
         <li>
-          <select name="language" id="select-language">
+          <select
+            #language
+            (change)="selectLanguage(language.value)"
+            name="language"
+            id="select-language"
+            [value]="selectedLanguage"
+          >
             <option value="ukrainian">Українська</option>
-            <option value="polish" disabled>Polish</option>
-            <option value="english" disabled>English</option>
+            <option value="polish">Polish</option>
+            <option value="english">English</option>
           </select>
         </li>
         <li>
-          <select name="notifications-time" id="notifications-time">
-            <option value="never" disabled>Ніколи</option>
-            <option value="english">0.5 с.</option>
-            <option value="english" disabled>1 с.</option>
-            <option value="english" disabled>1.5 с.</option>
-            <option value="english" disabled>2 с.</option>
-            <option value="english" disabled>2.5 с.</option>
-            <option value="english" disabled>3 с.</option>
-            <option value="english" disabled>3.5 с.</option>
-            <option value="english" disabled>4 с.</option>
-            <option value="english" disabled>4.5 с.</option>
-            <option value="english" disabled>5 с.</option>
+          <select
+            #notificationTime
+            (change)="selectNotificationTime(notificationTime.value)"
+            name="notifications-time"
+            id="notifications-time"
+            [value]="selectedNotificationTime"
+          >
+            <option value="never">Ніколи</option>
+            <option value="500">0.5 с.</option>
+            <option value="1000">1 с.</option>
+            <option value="1500">1.5 с.</option>
+            <option value="2000">2 с.</option>
+            <option value="2500">2.5 с.</option>
+            <option value="3000">3 с.</option>
+            <option value="3500">3.5 с.</option>
+            <option value="4000">4 с.</option>
+            <option value="4500">4.5 с.</option>
+            <option value="5000">5 с.</option>
           </select>
         </li>
       </ul>

@@ -1,6 +1,7 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { InterceptorService } from './services/interceptor/interceptor.service';
+import { CookieService } from 'ngx-cookie-service';
 
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -61,6 +62,7 @@ import { ModalDialogComponent } from './components/helpers/modal-dialog/modal-di
     HttpClientModule,
   ],
   providers: [
+    CookieService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: InterceptorService,

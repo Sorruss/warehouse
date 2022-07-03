@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
+import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from '../auth/auth.service';
 
 export interface Notification {
@@ -19,9 +20,12 @@ export class NotificationService {
   itemsChanged: Subject<Notification[]> = new Subject<Notification[]>();
 
   private notficationsLimit: number = 8;
-  private secondsToDisappear: number = 3;
+  private msecondsToDisappear: number = 3000;
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private cookieService: CookieService
+  ) {}
   addItem(obj: {
     title: string;
     message: string;
@@ -35,7 +39,16 @@ export class NotificationService {
     }
     this.items.push(item);
     this.changed();
-    this.autoDelete(item.id, this.secondsToDisappear);
+
+    if (this.cookieService.check('notificationTime')) {
+      let time: any = this.cookieService.get('notificationTime');
+      if (time !== 'never') {
+        time = Number(time);
+        this.autoDelete(item.id, time);
+      }
+    } else {
+      this.autoDelete(item.id, this.msecondsToDisappear);
+    }
   }
   getItem(id: number): Notification {
     return this.items.find((item) => item.id === id)!;
@@ -55,8 +68,8 @@ export class NotificationService {
   changed() {
     this.itemsChanged.next(this.items);
   }
-  autoDelete(id: number, seconds: number): void {
-    setTimeout(() => this.removeItem(id), seconds * 1000);
+  autoDelete(id: number, mseconds: number): void {
+    setTimeout(() => this.removeItem(id), mseconds);
     this.changed();
   }
 

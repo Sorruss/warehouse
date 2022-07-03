@@ -23,6 +23,7 @@
     "@types/pizzip": "^3.0.2",
     "docxtemplater": "^3.31.0",
     "file-saver": "^2.0.5",
+    "ngx-cookie-service": "^14.0.1",
     "pizzip": "^3.1.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
