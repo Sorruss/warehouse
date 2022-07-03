@@ -98,23 +98,7 @@ button {
   pointer-events: auto;
   transition: all 0.4s ease;
   top: -20px;
-  transform: translate(35%, -50%);
-}
-
-#selectAll {
-  cursor: pointer;
-}
-.checkbox {
-  transition: all 0.3s ease;
-}
-.lbl-checkbox {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  cursor: pointer;
-}
-.lbl-checkbox:hover .checkbox {
-  transform: scale(1.1);
+  transform: translateY(-50%);
 }
 
 .inventory-is-empty {

@@ -40,7 +40,7 @@ export function getCurrentDateTime() {
     '_' +
     today.getHours() +
     '_' +
-    today.getMinutes();
+    (today.getMinutes() < 10 ? `0${today.getMinutes()}` : today.getMinutes());
   const dateDocument =
     custom_months[today.getMonth()] +
     ' ' +
@@ -51,7 +51,7 @@ export function getCurrentDateTime() {
     ' ' +
     today.getHours() +
     ':' +
-    today.getMinutes();
+    (today.getMinutes() < 10 ? `0${today.getMinutes()}` : today.getMinutes());
 
   return { dateFile, dateDocument };
 }

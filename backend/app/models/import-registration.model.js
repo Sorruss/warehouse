@@ -60,7 +60,12 @@ module.exports = (sequelize, DataTypes) => {
             "(" +
             today.getDate() +
             ")";
-          const time = today.getHours() + ":" + today.getMinutes();
+          const time =
+            today.getHours() +
+            ":" +
+            (today.getMinutes() < 10
+              ? `0${today.getMinutes()}`
+              : today.getMinutes());
           return date + " " + time;
         })(),
         allowNull: true,
