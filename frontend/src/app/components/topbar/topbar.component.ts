@@ -14,7 +14,7 @@ export class TopbarComponent implements OnInit {
   public goBackCond: boolean = false;
   public goHomeCond: boolean = false;
 
-  public pageName!: string;
+  public pageName: string = 'склад';
   public isSearchBarActivated: boolean = false;
 
   constructor(
