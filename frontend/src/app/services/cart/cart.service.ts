@@ -37,6 +37,11 @@ export class CartService {
       .delete<any>(`${backUrl}/${id}`)
       .pipe(catchError(this.handleError));
   }
+  patch(id: number, data: any): Observable<any> {
+    return this.httpClient
+      .patch<any>(`${backUrl}/${id}`, data)
+      .pipe(catchError(this.handleError));
+  }
 
   handleError(error: any) {
     let errorMessage = '';

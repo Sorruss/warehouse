@@ -17,6 +17,9 @@ module.exports = (backend) => {
   // Update an cart Item by the id.
   router.put("/:id", auth.verifyToken, cart.updateItem);
 
+  // Patch an cart Item by the id.
+  router.patch("/:id", auth.verifyToken, cart.patchItem);
+
   // Delete an cart Item with the specified id.
   router.delete("/:id", auth.verifyToken, cart.delete);
 

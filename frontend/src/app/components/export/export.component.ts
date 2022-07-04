@@ -44,6 +44,27 @@ export class ExportComponent implements OnInit {
     this.filterService.activateSearchBar();
 
     this.user_id = this.authService.getUserDetails().id;
+
+    // Save data before component destroy
+    window.onbeforeunload = () => this.ngOnDestroy();
+  }
+  ngOnDestroy(): void {
+    // Save data before component destroy
+    if (!this.items.length) {
+      return;
+    }
+    for (let item of this.items) {
+      this.exportService
+        .patch(item.id, { ordered_quantity: item.ordered_quantity })
+        .subscribe(
+          (response) => {
+            console.log('response: ', response);
+          },
+          (error) => {
+            console.log('error: ', error);
+          }
+        );
+    }
   }
 
   retrieveItems(): void {

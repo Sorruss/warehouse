@@ -17,6 +17,9 @@ module.exports = (backend) => {
   // Update an export Item by the id.
   router.put("/:id", auth.verifyToken, export_.updateItem);
 
+  // Patch an export Item by the id.
+  router.patch("/:id", auth.verifyToken, export_.patchItem);
+
   // Delete an export Item with the specified id.
   router.delete("/:id", auth.verifyToken, export_.delete);
 

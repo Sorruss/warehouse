@@ -1,4 +1,4 @@
-<div class="sidebar">
+<div class="sidebar" [style.pointer-events]="isPointerEvents ? 'all' : 'none'">
   <div class="logo-details">
     <i class="bx bx-sitemap icon" (click)="toHome()"></i>
     <div class="logo_name" (click)="toHome()">Склад</div>

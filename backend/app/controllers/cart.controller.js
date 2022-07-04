@@ -82,6 +82,21 @@ exports.getItemById = async (req, res) => {
 };
 
 // Update an Cart item by the id.
+exports.patchItem = async (req, res) => {
+  const id = req.params.id;
+
+  await Cart.findByPk(id).then((item) => {
+    if (item) {
+      item.update(req.body).then(() => {
+        res.send({
+          message: "Cart item was patched successfully.",
+        });
+      });
+    }
+  });
+};
+
+// Update an Cart item by the id.
 exports.updateItem = async (req, res) => {
   const id = req.params.id;
 

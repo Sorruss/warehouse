@@ -120,7 +120,12 @@ export class RegistrateExportOrderComponent implements OnInit {
         });
 
         this.notificationService.createDOCXFileCreatedNotification(true);
-        saveAs(out, `реєстрація_імпорту_${dateFile}.docx`);
+        saveAs(
+          out,
+          `${this.order.order_name
+            .split(' ')
+            .join('_')}(експорт)_${dateFile}.docx`
+        );
       }
     );
   }

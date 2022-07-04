@@ -85,6 +85,21 @@ exports.getItemById = async (req, res) => {
 };
 
 // Update an Export item by the id.
+exports.patchItem = async (req, res) => {
+  const id = req.params.id;
+
+  await Export.findByPk(id).then((item) => {
+    if (item) {
+      item.update(req.body).then(() => {
+        res.send({
+          message: "Export item was patched successfully.",
+        });
+      });
+    }
+  });
+};
+
+// Update an Export item by the id.
 exports.updateItem = async (req, res) => {
   const id = req.params.id;
 

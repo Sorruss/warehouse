@@ -18,7 +18,7 @@ import { fadeIn, slide2right } from 'src/app/animations/animations';
   animations: [fadeIn, slide2right],
 })
 export class CartComponent implements OnInit {
-  public items: any = {};
+  public items: any = [];
   public selectedItemsId: number[] = [];
 
   public isAllChecked: boolean = false;
@@ -44,6 +44,28 @@ export class CartComponent implements OnInit {
     this.filterService.activateSearchBar();
 
     this.user_id = this.authService.getUserDetails().id;
+
+    // Save data before component destroy
+    window.onbeforeunload = () => this.ngOnDestroy();
+  }
+  ngOnDestroy(): void {
+    // Save data before component destroy
+    if (!this.items.length) {
+      return;
+    }
+    for (let item of this.items) {
+      console.log({ ordered_quantity: Number(item.ordered_quantity) });
+      this.cartService
+        .patch(item.id, { ordered_quantity: Number(item.ordered_quantity) })
+        .subscribe(
+          (response) => {
+            console.log('response: ', response);
+          },
+          (error) => {
+            console.log('error: ', error);
+          }
+        );
+    }
   }
 
   retrieveItems(): void {

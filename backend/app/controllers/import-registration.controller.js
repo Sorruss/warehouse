@@ -43,7 +43,10 @@ exports.create = async (req, res) => {
 
 // Retrieve all ImportRegistration items.
 exports.getItems = async (req, res) => {
-  await ImportOrder.findAll({ where: { owner_id: req.user.id } })
+  await ImportOrder.findAll({
+    where: { owner_id: req.user.id },
+    order: [["id", "desc"]],
+  })
     .then((data) => {
       res.send(data);
     })
