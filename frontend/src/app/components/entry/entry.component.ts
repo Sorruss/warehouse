@@ -15,16 +15,15 @@ import { fadeIn, fadeOut } from 'src/app/animations/animations';
   animations: [fadeIn, fadeOut],
 })
 export class EntryComponent implements OnInit {
-  private isLogin: boolean = false;
-  private errorMessage: any;
-
   constructor(
     private authService: AuthService,
     private router: Router,
     private notificationService: NotificationService
   ) {}
   ngOnInit(): void {
-    this.isUserLogin();
+    if (this.authService.getUserDetails()) {
+      this.router.navigate(['/']);
+    }
   }
 
   logIn(credentials: {
@@ -50,7 +49,8 @@ export class EntryComponent implements OnInit {
             );
             this.authService.setDataInLocalStorage('token', response.token);
             this.notificationService.createSuccessLogInNotification(true);
-            this.router.navigate(['']);
+            this.router.navigate(['/']);
+            this.authService.isAuthenticated.next(true);
           }
         },
         (error) => {
@@ -58,11 +58,5 @@ export class EntryComponent implements OnInit {
           console.log('error: ', error);
         }
       );
-  }
-
-  isUserLogin(): void {
-    if (this.authService.getUserDetails() != null) {
-      this.isLogin = true;
-    }
   }
 }

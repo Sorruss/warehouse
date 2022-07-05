@@ -24,6 +24,7 @@
 .photo-description .description {
   padding: 0px 0px 0px 20px;
   margin: 0px 10px 0px 0px;
+  word-break: break-all;
 }
 .info {
   padding: 20px 0px;
@@ -46,6 +47,10 @@
 .buttons .button-import,
 .buttons .button-export {
   position: relative;
+  width: 50%;
+}
+.buttons.admin-page .button-import,
+.buttons.admin-page .button-export {
   width: 45%;
 }
 

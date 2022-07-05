@@ -30,7 +30,7 @@
     </div>
   </div>
 
-  <div class="buttons">
+  <div class="buttons" [class.admin-page]="user_role === 'admin'">
     <div class="button-import">
       <button (click)="addToCart(inputImport.value)">
         <span class="text">Замовлення</span>
@@ -59,7 +59,11 @@
       />
     </div>
 
-    <button id="btn-remove" (click)="removeItem()">
+    <button
+      *ngIf="user_role === 'admin'"
+      id="btn-remove"
+      (click)="removeItem()"
+    >
       <i class="bx bx-trash"></i>
     </button>
   </div>

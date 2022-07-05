@@ -28,12 +28,6 @@ export class AuthService {
       .post(`${backUrl}/login`, payload, {
         withCredentials: true,
       })
-      .pipe(
-        map((res: any) => {
-          this.isAuthenticated.next(true);
-          return res;
-        })
-      )
       .pipe(catchError(this.handleError));
   }
   logout(): void {

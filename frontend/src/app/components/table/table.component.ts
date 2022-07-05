@@ -6,6 +6,7 @@ import { ExportService } from '../../services/export/export.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { FilterService } from 'src/app/services/filter/filter.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { ObservablesService } from 'src/app/services/observables/observables.service';
 
 import { fadeIn, fadeOut, slide2right } from 'src/app/animations/animations';
 
@@ -29,7 +30,8 @@ export class TableComponent implements OnInit {
     private exportService: ExportService,
     private notificationService: NotificationService,
     private filterService: FilterService,
-    private authService: AuthService
+    private authService: AuthService,
+    private observablesService: ObservablesService
   ) {}
   ngOnInit(): void {
     this.retrieveItems();
@@ -40,17 +42,21 @@ export class TableComponent implements OnInit {
     this.filterService.activateSearchBar();
 
     this.user_id = this.authService.getUserDetails().id;
+
+    this.observablesService.isNewItemObs.subscribe((value) => {
+      this.retrieveItems();
+    });
   }
 
   retrieveItems(): void {
     this.itemsService.getAll().subscribe({
       next: (data) => {
         this.items = data;
-        console.log(data);
+        console.log('data: ', data);
         this.itemsLoaded = Promise.resolve(true);
       },
       error: (error) => {
-        console.log(error);
+        console.log('error: ', error);
       },
     });
   }

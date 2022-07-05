@@ -139,8 +139,8 @@ values ('Surface Laptop Go', 213, 'surface_laptop_go_microsoft.jpg', 1, 1,
 
 
 insert into users(first_name, middle_name, last_name, user_position, phone1, phone2, photo_src,
-                 user_login, user_password, company_id)
+                 user_login, user_password, user_role, company_id)
 values ('Боб', 'Олександрович', 'Тимохінко', 'Робітник', '+380951128599', '+380951277734', 
-       'bob.jpg', 'bob', '93e38c83de992dfcb2f1cd838ac5fa57', 1),
+       'bob.jpg', 'bob', '93e38c83de992dfcb2f1cd838ac5fa57', 'worker', 1),
        ('Том', 'Максимович', 'Щуролов', 'Старший робітник', '+380951128212', '+380958328690', 
-       'tom.jpg', 'tom', '1fc4278666975a5c171370308640710e', 2);
+       'tom.jpg', 'tom', '1fc4278666975a5c171370308640710e', 'admin', 2);

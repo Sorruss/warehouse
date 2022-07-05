@@ -190,4 +190,16 @@ export class NotificationService {
       compressed,
     });
   }
+  createSomethingWasCreatedNotification(
+    name1: string,
+    name2: string,
+    compressed: boolean = false
+  ): void {
+    this.addItem({
+      title: `Успіх`,
+      message: `${name1} '${name2}' був успішно створений`,
+      color: 'green',
+      compressed,
+    });
+  }
 }

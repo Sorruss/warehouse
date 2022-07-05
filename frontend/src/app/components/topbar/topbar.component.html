@@ -10,12 +10,14 @@
         (input)="setFilterValue(mainSearchBar.value)"
       />
     </div>
+
     <div
       class="page-name"
       [style.padding-left]="isSearchBarActivated ? '20%' : '0px'"
     >
       <h6>{{ pageName }}</h6>
     </div>
+
     <div class="navigation">
       <button class="go-back" [class.d-none]="!goBackCond" (click)="goBack()">
         <i class="bx bxs-chevron-left"></i>
@@ -23,6 +25,1031 @@
       <button class="go-home" [class.d-none]="!goHomeCond" (click)="goHome()">
         <i class="bx bxs-chevrons-left"></i>
       </button>
+    </div>
+
+    <div *ngIf="isUserAdmin && currentPageIsMain" class="admin-features">
+      <button class="add-new-item" (click)="openAddItemModal()">
+        <i class="bx bxs-file-plus"></i>
+      </button>
+
+      <button class="add-new-item" (click)="openAddUserModal()">
+        <i class="bx bxs-user-plus"></i>
+      </button>
+
+      <button class="add-new-item" (click)="openAddProdModal()">
+        <i class="bx bxs-factory"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div [hidden]="!isItemModalActive" class="modal-wrapper">
+  <div class="modal-content">
+    <div class="modal-title">
+      Створити нову модель товару
+      <span class="modal-close" (click)="closeAddItemModal()">
+        <i class="bx bx-x" id="default"></i>
+        <i class="bx bx-x-circle" id="with-circle"></i>
+      </span>
+    </div>
+    <div class="modal-body item">
+      <form id="test">
+        <div class="row">
+          <div class="title col-6">
+            <span>Назва</span>
+          </div>
+          <div class="col-6">
+            <input
+              ngModel
+              #item_nameInput="ngModel"
+              id="item_nameInput"
+              name="item_nameInput"
+              type="text"
+              (change)="newItem.item_name = item_nameInput.control.value"
+              required
+              minlength="2"
+              maxlength="72"
+            />
+            <div
+              class="errors light"
+              *ngIf="
+                item_nameInput.control.touched && !item_nameInput.control.valid
+              "
+            >
+              <div *ngIf="item_nameInput.control.errors !== null">
+                <span
+                  class="error"
+                  *ngIf="item_nameInput.control.errors!.required"
+                  >Це поле є необхідним</span
+                >
+                <span
+                  class="error"
+                  *ngIf="item_nameInput.control.errors!.minlength"
+                >
+                  Мінімальна длина логіну
+                  {{ item_nameInput.control.errors!.minlength.requiredLength }}.
+                  Ви вели
+                  {{ item_nameInput.control.errors!.minlength.actualLength }}
+                </span>
+                <span
+                  class="error"
+                  *ngIf="item_nameInput.control.errors!.maxlength"
+                >
+                  Максимальна длина логіну
+                  {{ item_nameInput.control.errors!.maxlength.requiredLength }}.
+                  Ви вели
+                  {{ item_nameInput.control.errors!.maxlength.actualLength }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="title col-6">
+            <span style="color: gray">Дата надходження</span>
+          </div>
+          <div class="col-6">
+            <input
+              ngModel
+              #item_incomeDate="ngModel"
+              id="item_incomeDate"
+              name="item_incomeDate"
+              type="datetime-local"
+              (change)="newItem.income_date = item_incomeDate.control.value"
+            />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="title col-6">
+            <span>Кількість</span>
+          </div>
+          <div class="col-6">
+            <input
+              ngModel
+              #item_quantity="ngModel"
+              id="item_quantity"
+              name="item_quantity"
+              type="number"
+              (change)="newItem.quantity = item_quantity.control.value"
+              required
+              min="1"
+              max="99999"
+              appNgNumber
+            />
+            <div
+              class="errors light"
+              *ngIf="
+                item_quantity.control.touched && !item_quantity.control.valid
+              "
+            >
+              <div *ngIf="item_quantity.control.errors !== null">
+                <span
+                  class="error"
+                  *ngIf="item_quantity.control.errors!.required"
+                  >Це поле є необхідним</span
+                >
+                <span class="error" *ngIf="item_quantity.control.errors!.min">
+                  Мінімум:
+                  {{ item_quantity.control.errors!.min.min }}. Ви вели
+                  {{ item_quantity.control.errors!.min.actual }}
+                </span>
+                <span class="error" *ngIf="item_quantity.control.errors!.max">
+                  Максимум:
+                  {{ item_quantity.control.errors!.max.max }}. Ви вели
+                  {{ item_quantity.control.errors!.max.actual }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="title col-6">
+            <span>Виробник</span>
+          </div>
+          <div class="col-6">
+            <select
+              ngModel
+              #item_producer="ngModel"
+              id="item_producer"
+              name="item_producer"
+              type="text"
+              (change)="newItem.producer_id = item_producer.control.value"
+              required
+            >
+              <option selected disabled value=""></option>
+              <option *ngFor="let prod of producers" [value]="prod.id">
+                {{ prod.producer_name }}
+              </option>
+            </select>
+            <div
+              class="errors light"
+              *ngIf="
+                item_producer.control.touched && !item_producer.control.valid
+              "
+            >
+              <div *ngIf="item_producer.control.errors !== null">
+                <span
+                  class="error"
+                  *ngIf="item_producer.control.errors!.required"
+                  >Це поле є необхідним</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="title col-6">
+            <span>Фото</span>
+          </div>
+          <div class="col-6">
+            <input
+              ngModel
+              #item_photo="ngModel"
+              type="file"
+              name="item_photo"
+              id="item_photo"
+              class="inputfile"
+              (change)="newItem.photo_src = item_photo.control.value"
+              required
+            />
+            <label for="item_photo"
+              ><i class="bx bxs-file-image"></i><span>Оберіть файл</span></label
+            >
+            <div
+              class="errors light"
+              *ngIf="item_photo.control.touched && !item_photo.control.valid"
+            >
+              <div *ngIf="item_photo.control.errors !== null">
+                <span class="error" *ngIf="item_photo.control.errors!.required"
+                  >Це поле є необхідним</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="title col-6">
+            <span>Опис</span>
+          </div>
+          <div class="col-6">
+            <textarea
+              ngModel
+              #item_description="ngModel"
+              id="item_description"
+              name="item_description"
+              (change)="newItem.description = item_description.control.value"
+              rows="8"
+              cols="30"
+              type="text"
+              style="resize: none"
+              required
+              minlength="2"
+              maxlength="10000"
+            ></textarea>
+            <div
+              class="errors light"
+              *ngIf="
+                item_description.control.touched &&
+                !item_description.control.valid
+              "
+            >
+              <div *ngIf="item_description.control.errors !== null">
+                <span
+                  class="error"
+                  *ngIf="item_description.control.errors!.required"
+                  >Це поле є необхідним</span
+                >
+                <span
+                  class="error"
+                  *ngIf="item_description.control.errors!.minlength"
+                >
+                  Мінімальна длина:
+                  {{
+                    item_description.control.errors!.minlength.requiredLength
+                  }}. Ви вели
+                  {{ item_description.control.errors!.minlength.actualLength }}
+                </span>
+                <span
+                  class="error"
+                  *ngIf="item_description.control.errors!.maxlength"
+                >
+                  Максимальна длина:
+                  {{
+                    item_description.control.errors!.maxlength.requiredLength
+                  }}. Ви вели
+                  {{ item_description.control.errors!.maxlength.actualLength }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-bottom">
+      <button type="submit" id="save-btn" (click)="addNewItem()">
+        Зберегти
+      </button>
+      <button id="cancel-btn" (click)="closeAddItemModal()">Назад</button>
+    </div>
+  </div>
+</div>
+
+<div [hidden]="!isUserModalActive" class="modal-wrapper">
+  <div class="modal-content user">
+    <div class="modal-title">
+      Створити нового користувача
+      <span class="modal-close" (click)="closeAddUserModal()">
+        <i class="bx bx-x" id="default"></i>
+        <i class="bx bx-x-circle" id="with-circle"></i>
+      </span>
+    </div>
+    <div class="modal-body user">
+      <form id="test">
+        <div class="row">
+          <div class="title col-6">
+            <span>Ім'я</span>
+          </div>
+          <div class="col-6">
+            <input
+              ngModel
+              #user_firstname="ngModel"
+              id="user_firstname"
+              name="user_firstname"
+              type="text"
+              (change)="newUser.first_name = user_firstname.control.value"
+              required
+              minlength="2"
+              maxlength="42"
+            />
+            <div
+              class="errors light"
+              *ngIf="
+                user_firstname.control.touched && !user_firstname.control.valid
+              "
+            >
+              <div *ngIf="user_firstname.control.errors !== null">
+                <span
+                  class="error"
+                  *ngIf="user_firstname.control.errors!.required"
+                  >Це поле є необхідним</span
+                >
+                <span
+                  class="error"
+                  *ngIf="user_firstname.control.errors!.minlength"
+                >
+                  Мінімальна длина ім'я
+                  {{ user_firstname.control.errors!.minlength.requiredLength }}.
+                  Ви вели
+                  {{ user_firstname.control.errors!.minlength.actualLength }}
+                </span>
+                <span
+                  class="error"
+                  *ngIf="user_firstname.control.errors!.maxlength"
+                >
+                  Максимальна длина ім'я
+                  {{ user_firstname.control.errors!.maxlength.requiredLength }}.
+                  Ви вели
+                  {{ user_firstname.control.errors!.maxlength.actualLength }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="title col-6">
+            <span>По Батькові</span>
+          </div>
+          <div class="col-6">
+            <input
+              ngModel
+              #user_middlename="ngModel"
+              id="user_middlename"
+              name="user_middlename"
+              type="text"
+              (change)="newUser.middle_name = user_middlename.control.value"
+              required
+              minlength="2"
+              maxlength="42"
+            />
+            <div
+              class="errors light"
+              *ngIf="
+                user_middlename.control.touched &&
+                !user_middlename.control.valid
+              "
+            >
+              <div *ngIf="user_middlename.control.errors !== null">
+                <span
+                  class="error"
+                  *ngIf="user_middlename.control.errors!.required"
+                  >Це поле є необхідним</span
+                >
+                <span
+                  class="error"
+                  *ngIf="user_middlename.control.errors!.minlength"
+                >
+                  Мінімальна длина
+                  {{
+                    user_middlename.control.errors!.minlength.requiredLength
+                  }}. Ви вели
+                  {{ user_middlename.control.errors!.minlength.actualLength }}
+                </span>
+                <span
+                  class="error"
+                  *ngIf="user_middlename.control.errors!.maxlength"
+                >
+                  Максимальна длина
+                  {{
+                    user_middlename.control.errors!.maxlength.requiredLength
+                  }}. Ви вели
+                  {{ user_middlename.control.errors!.maxlength.actualLength }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="title col-6">
+            <span>Фамілія</span>
+          </div>
+          <div class="col-6">
+            <input
+              ngModel
+              #user_lastname="ngModel"
+              id="user_lastname"
+              name="user_lastname"
+              type="text"
+              (change)="newUser.last_name = user_lastname.control.value"
+              required
+              minlength="2"
+              maxlength="42"
+            />
+            <div
+              class="errors light"
+              *ngIf="
+                user_lastname.control.touched && !user_lastname.control.valid
+              "
+            >
+              <div *ngIf="user_lastname.control.errors !== null">
+                <span
+                  class="error"
+                  *ngIf="user_lastname.control.errors!.required"
+                  >Це поле є необхідним</span
+                >
+                <span
+                  class="error"
+                  *ngIf="user_lastname.control.errors!.minlength"
+                >
+                  Мінімальна длина
+                  {{ user_lastname.control.errors!.minlength.requiredLength }}.
+                  Ви вели
+                  {{ user_lastname.control.errors!.minlength.actualLength }}
+                </span>
+                <span
+                  class="error"
+                  *ngIf="user_lastname.control.errors!.maxlength"
+                >
+                  Максимальна длина
+                  {{ user_lastname.control.errors!.maxlength.requiredLength }}.
+                  Ви вели
+                  {{ user_lastname.control.errors!.maxlength.actualLength }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="title col-6">
+            <span>Посада</span>
+          </div>
+          <div class="col-6">
+            <input
+              ngModel
+              #user_position="ngModel"
+              id="user_position"
+              name="user_position"
+              type="text"
+              (change)="newUser.user_position = user_position.control.value"
+              required
+              minlength="2"
+              maxlength="32"
+            />
+            <div
+              class="errors light"
+              *ngIf="
+                user_position.control.touched && !user_position.control.valid
+              "
+            >
+              <div *ngIf="user_position.control.errors !== null">
+                <span
+                  class="error"
+                  *ngIf="user_position.control.errors!.required"
+                  >Це поле є необхідним</span
+                >
+                <span
+                  class="error"
+                  *ngIf="user_position.control.errors!.minlength"
+                >
+                  Мінімальна длина
+                  {{ user_position.control.errors!.minlength.requiredLength }}.
+                  Ви вели
+                  {{ user_position.control.errors!.minlength.actualLength }}
+                </span>
+                <span
+                  class="error"
+                  *ngIf="user_position.control.errors!.maxlength"
+                >
+                  Максимальна длина
+                  {{ user_position.control.errors!.maxlength.requiredLength }}.
+                  Ви вели
+                  {{ user_position.control.errors!.maxlength.actualLength }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="title col-6">
+            <span>Телефон 1</span>
+          </div>
+          <div class="col-6">
+            <input
+              ngModel
+              #user_phone1="ngModel"
+              id="user_phone1"
+              name="user_phone1"
+              type="text"
+              (change)="newUser.phone1 = user_phone1.control.value"
+              required
+              minlength="2"
+              maxlength="18"
+            />
+            <div
+              class="errors light"
+              *ngIf="user_phone1.control.touched && !user_phone1.control.valid"
+            >
+              <div *ngIf="user_phone1.control.errors !== null">
+                <span class="error" *ngIf="user_phone1.control.errors!.required"
+                  >Це поле є необхідним</span
+                >
+                <span
+                  class="error"
+                  *ngIf="user_phone1.control.errors!.minlength"
+                >
+                  Мінімальна длина
+                  {{ user_phone1.control.errors!.minlength.requiredLength }}. Ви
+                  вели {{ user_phone1.control.errors!.minlength.actualLength }}
+                </span>
+                <span
+                  class="error"
+                  *ngIf="user_phone1.control.errors!.maxlength"
+                >
+                  Максимальна длина
+                  {{ user_phone1.control.errors!.maxlength.requiredLength }}. Ви
+                  вели {{ user_phone1.control.errors!.maxlength.actualLength }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="title col-6">
+            <span>Телефон 2</span>
+          </div>
+          <div class="col-6">
+            <input
+              ngModel
+              #user_phone2="ngModel"
+              id="user_phone2"
+              name="user_phone2"
+              type="text"
+              (change)="newUser.phone2 = user_phone2.control.value"
+              required
+              minlength="2"
+              maxlength="18"
+            />
+            <div
+              class="errors light"
+              *ngIf="user_phone2.control.touched && !user_phone2.control.valid"
+            >
+              <div *ngIf="user_phone2.control.errors !== null">
+                <span class="error" *ngIf="user_phone2.control.errors!.required"
+                  >Це поле є необхідним</span
+                >
+                <span
+                  class="error"
+                  *ngIf="user_phone2.control.errors!.minlength"
+                >
+                  Мінімальна длина
+                  {{ user_phone2.control.errors!.minlength.requiredLength }}. Ви
+                  вели {{ user_phone2.control.errors!.minlength.actualLength }}
+                </span>
+                <span
+                  class="error"
+                  *ngIf="user_phone2.control.errors!.maxlength"
+                >
+                  Максимальна длина
+                  {{ user_phone2.control.errors!.maxlength.requiredLength }}. Ви
+                  вели {{ user_phone2.control.errors!.maxlength.actualLength }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="title col-6">
+            <span>Логін</span>
+          </div>
+          <div class="col-6">
+            <input
+              ngModel
+              #user_login="ngModel"
+              id="user_login"
+              name="user_login"
+              type="text"
+              (change)="newUser.user_login = user_login.control.value"
+              required
+              minlength="7"
+              maxlength="72"
+            />
+            <div
+              class="errors light"
+              *ngIf="user_login.control.touched && !user_login.control.valid"
+            >
+              <div *ngIf="user_login.control.errors !== null">
+                <span class="error" *ngIf="user_login.control.errors!.required"
+                  >Це поле є необхідним</span
+                >
+                <span
+                  class="error"
+                  *ngIf="user_login.control.errors!.minlength"
+                >
+                  Мінімальна длина логіну
+                  {{ user_login.control.errors!.minlength.requiredLength }}. Ви
+                  вели {{ user_login.control.errors!.minlength.actualLength }}
+                </span>
+                <span
+                  class="error"
+                  *ngIf="user_login.control.errors!.maxlength"
+                >
+                  Максимальна длина логіну
+                  {{ user_login.control.errors!.maxlength.requiredLength }}. Ви
+                  вели {{ user_login.control.errors!.maxlength.actualLength }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="title col-6">
+            <span>Пароль 1</span>
+          </div>
+          <div class="col-6">
+            <input
+              ngModel
+              #user_pass1="ngModel"
+              id="user_pass1"
+              name="user_pass1"
+              type="text"
+              (change)="userPassword.first = user_pass1.control.value"
+              required
+              minlength="7"
+              maxlength="72"
+            />
+            <div
+              class="errors light"
+              *ngIf="user_pass1.control.touched && !user_pass1.control.valid"
+            >
+              <div *ngIf="user_pass1.control.errors !== null">
+                <span class="error" *ngIf="user_pass1.control.errors!.required"
+                  >Це поле є необхідним</span
+                >
+                <span
+                  class="error"
+                  *ngIf="user_pass1.control.errors!.minlength"
+                >
+                  Мінімальна длина паролю
+                  {{ user_pass1.control.errors!.minlength.requiredLength }}. Ви
+                  вели {{ user_pass1.control.errors!.minlength.actualLength }}
+                </span>
+                <span
+                  class="error"
+                  *ngIf="user_pass1.control.errors!.maxlength"
+                >
+                  Максимальна длина паролю
+                  {{ user_pass1.control.errors!.maxlength.requiredLength }}. Ви
+                  вели {{ user_pass1.control.errors!.maxlength.actualLength }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="title col-6">
+            <span>Пароль 2</span>
+          </div>
+          <div class="col-6">
+            <input
+              ngModel
+              #user_pass2="ngModel"
+              id="user_pass2"
+              name="user_pass2"
+              type="text"
+              (change)="userPassword.second = user_pass2.control.value"
+              required
+              minlength="7"
+              maxlength="72"
+            />
+            <div
+              class="errors light"
+              *ngIf="user_pass2.control.touched && !user_pass2.control.valid"
+            >
+              <div *ngIf="user_pass2.control.errors !== null">
+                <span class="error" *ngIf="user_pass2.control.errors!.required"
+                  >Це поле є необхідним</span
+                >
+                <span
+                  class="error"
+                  *ngIf="user_pass2.control.errors!.minlength"
+                >
+                  Мінімальна длина паролю
+                  {{ user_pass2.control.errors!.minlength.requiredLength }}. Ви
+                  вели {{ user_pass2.control.errors!.minlength.actualLength }}
+                </span>
+                <span
+                  class="error"
+                  *ngIf="user_pass2.control.errors!.maxlength"
+                >
+                  Максимальна длина паролю
+                  {{ user_pass2.control.errors!.maxlength.requiredLength }}. Ви
+                  вели {{ user_pass2.control.errors!.maxlength.actualLength }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="title col-6">
+            <span>Роль</span>
+          </div>
+          <div class="col-6">
+            <select
+              ngModel
+              #user_role="ngModel"
+              id="user_role"
+              name="user_role"
+              type="text"
+              (change)="newUser.user_role = user_role.control.value"
+              required
+            >
+              <option selected disabled value=""></option>
+              <option value="worker">Робітник</option>
+              <option value="admin">Адміністратор</option>
+            </select>
+            <div
+              class="errors light"
+              *ngIf="user_role.control.touched && !user_role.control.valid"
+            >
+              <div *ngIf="user_role.control.errors !== null">
+                <span class="error" *ngIf="user_role.control.errors!.required"
+                  >Це поле є необхідним</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="title col-6">
+            <span>Фото</span>
+          </div>
+          <div class="col-6">
+            <input
+              ngModel
+              #user_photo="ngModel"
+              type="file"
+              name="user_photo"
+              id="user_photo"
+              class="inputfile"
+              (change)="newUser.photo_src = user_photo.control.value"
+              required
+            />
+            <label for="user_photo"
+              ><i class="bx bxs-file-image"></i><span>Оберіть файл</span></label
+            >
+            <div
+              class="errors light"
+              *ngIf="user_photo.control.touched && !user_photo.control.valid"
+            >
+              <div *ngIf="user_photo.control.errors !== null">
+                <span class="error" *ngIf="user_photo.control.errors!.required"
+                  >Це поле є необхідним</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-bottom">
+      <button type="submit" id="save-btn" (click)="addNewUser()">
+        Зберегти
+      </button>
+      <button id="cancel-btn" (click)="closeAddUserModal()">Назад</button>
+    </div>
+  </div>
+</div>
+
+<div [hidden]="!isProdModalActive" class="modal-wrapper">
+  <div class="modal-content prod">
+    <div class="modal-title">
+      Створити нового виробника
+      <span class="modal-close" (click)="closeAddProdModal()">
+        <i class="bx bx-x" id="default"></i>
+        <i class="bx bx-x-circle" id="with-circle"></i>
+      </span>
+    </div>
+    <div class="modal-body prod">
+      <form id="test">
+        <div class="row">
+          <div class="title col-6">
+            <span>Назва</span>
+          </div>
+          <div class="col-6">
+            <input
+              ngModel
+              #prod_name="ngModel"
+              id="prod_name"
+              name="prod_name"
+              type="text"
+              (change)="newProd.producer_name = prod_name.control.value"
+              required
+              minlength="2"
+              maxlength="42"
+            />
+            <div
+              class="errors light"
+              *ngIf="prod_name.control.touched && !prod_name.control.valid"
+            >
+              <div *ngIf="prod_name.control.errors !== null">
+                <span class="error" *ngIf="prod_name.control.errors!.required"
+                  >Це поле є необхідним</span
+                >
+                <span class="error" *ngIf="prod_name.control.errors!.minlength">
+                  Мінімальна длина назви
+                  {{ prod_name.control.errors!.minlength.requiredLength }}. Ви
+                  вели
+                  {{ prod_name.control.errors!.minlength.actualLength }}
+                </span>
+                <span class="error" *ngIf="prod_name.control.errors!.maxlength">
+                  Максимальна длина назви
+                  {{ prod_name.control.errors!.maxlength.requiredLength }}. Ви
+                  вели
+                  {{ prod_name.control.errors!.maxlength.actualLength }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="title col-6">
+            <span>Телефон 1</span>
+          </div>
+          <div class="col-6">
+            <input
+              ngModel
+              #prod_phone1="ngModel"
+              id="prod_phone1"
+              name="prod_phone1"
+              type="text"
+              (change)="newProd.phone1 = prod_phone1.control.value"
+              required
+              minlength="10"
+              maxlength="18"
+            />
+            <div
+              class="errors light"
+              *ngIf="prod_phone1.control.touched && !prod_phone1.control.valid"
+            >
+              <div *ngIf="prod_phone1.control.errors !== null">
+                <span class="error" *ngIf="prod_phone1.control.errors!.required"
+                  >Це поле є необхідним</span
+                >
+                <span
+                  class="error"
+                  *ngIf="prod_phone1.control.errors!.minlength"
+                >
+                  Мінімальна длина
+                  {{ prod_phone1.control.errors!.minlength.requiredLength }}. Ви
+                  вели {{ prod_phone1.control.errors!.minlength.actualLength }}
+                </span>
+                <span
+                  class="error"
+                  *ngIf="prod_phone1.control.errors!.maxlength"
+                >
+                  Максимальна длина
+                  {{ prod_phone1.control.errors!.maxlength.requiredLength }}. Ви
+                  вели {{ prod_phone1.control.errors!.maxlength.actualLength }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="title col-6">
+            <span>Телефон 2</span>
+          </div>
+          <div class="col-6">
+            <input
+              ngModel
+              #prod_phone2="ngModel"
+              id="prod_phone2"
+              name="prod_phone2"
+              type="text"
+              (change)="newProd.phone2 = prod_phone2.control.value"
+              required
+              minlength="10"
+              maxlength="18"
+            />
+            <div
+              class="errors light"
+              *ngIf="prod_phone2.control.touched && !prod_phone2.control.valid"
+            >
+              <div *ngIf="prod_phone2.control.errors !== null">
+                <span class="error" *ngIf="prod_phone2.control.errors!.required"
+                  >Це поле є необхідним</span
+                >
+                <span
+                  class="error"
+                  *ngIf="prod_phone2.control.errors!.minlength"
+                >
+                  Мінімальна длина
+                  {{ prod_phone2.control.errors!.minlength.requiredLength }}. Ви
+                  вели {{ prod_phone2.control.errors!.minlength.actualLength }}
+                </span>
+                <span
+                  class="error"
+                  *ngIf="prod_phone2.control.errors!.maxlength"
+                >
+                  Максимальна длина
+                  {{ prod_phone2.control.errors!.maxlength.requiredLength }}. Ви
+                  вели {{ prod_phone2.control.errors!.maxlength.actualLength }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="title col-6">
+            <span>Фото</span>
+          </div>
+          <div class="col-6">
+            <input
+              ngModel
+              #prod_photo="ngModel"
+              type="file"
+              name="prod_photo"
+              id="prod_photo"
+              class="inputfile"
+              (change)="newProd.photo_src = prod_photo.control.value"
+              required
+            />
+            <label for="prod_photo"
+              ><i class="bx bxs-file-image"></i><span>Оберіть файл</span></label
+            >
+            <div
+              class="errors light"
+              *ngIf="prod_photo.control.touched && !prod_photo.control.valid"
+            >
+              <div *ngIf="prod_photo.control.errors !== null">
+                <span class="error" *ngIf="prod_photo.control.errors!.required"
+                  >Це поле є необхідним</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="title col-6">
+            <span>Опис</span>
+          </div>
+          <div class="col-6">
+            <textarea
+              ngModel
+              #prod_description="ngModel"
+              id="prod_description"
+              name="prod_description"
+              (change)="newProd.description = prod_description.control.value"
+              rows="8"
+              cols="30"
+              type="text"
+              style="resize: none"
+              required
+              minlength="2"
+              maxlength="10000"
+            ></textarea>
+            <div
+              class="errors light"
+              *ngIf="
+                prod_description.control.touched &&
+                !prod_description.control.valid
+              "
+            >
+              <div *ngIf="prod_description.control.errors !== null">
+                <span
+                  class="error"
+                  *ngIf="prod_description.control.errors!.required"
+                  >Це поле є необхідним</span
+                >
+                <span
+                  class="error"
+                  *ngIf="prod_description.control.errors!.minlength"
+                >
+                  Мінімальна длина:
+                  {{
+                    prod_description.control.errors!.minlength.requiredLength
+                  }}. Ви вели
+                  {{ prod_description.control.errors!.minlength.actualLength }}
+                </span>
+                <span
+                  class="error"
+                  *ngIf="prod_description.control.errors!.maxlength"
+                >
+                  Максимальна длина:
+                  {{
+                    prod_description.control.errors!.maxlength.requiredLength
+                  }}. Ви вели
+                  {{ prod_description.control.errors!.maxlength.actualLength }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-bottom">
+      <button type="submit" id="save-btn" (click)="addNewProd()">
+        Зберегти
+      </button>
+      <button id="cancel-btn" (click)="closeAddProdModal()">Назад</button>
     </div>
   </div>
 </div>

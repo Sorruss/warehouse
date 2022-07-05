@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         unique: true,
         validate: {
-          len: [1, 72],
+          len: [2, 72],
         },
       },
       income_date: {

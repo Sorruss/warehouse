@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 
 import { AuthService } from 'src/app/services/auth/auth.service';
 
@@ -11,14 +11,19 @@ export class AppComponent implements OnInit {
   title = 'warehouse';
   public isAuthenticated: boolean = false;
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {}
   ngOnInit() {
     if (this.authService.getUserDetails() != null) {
       this.isAuthenticated = true;
     }
 
     this.authService.isAuthenticatedObs.subscribe((value: boolean) => {
+      console.log('test123312: ', value);
       this.isAuthenticated = value;
+      this.changeDetectorRef.detectChanges();
     });
   }
 }

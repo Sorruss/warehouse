@@ -113,8 +113,13 @@ exports.updateItem = async (req, res) => {
 
 // Delete an Item with the specified id.
 exports.delete = async (req, res) => {
-  const id = req.params.id;
+  if (req.user.user_role !== "admin") {
+    res
+      .status(403)
+      .send({ message: "The user does not have enough privileges" });
+  }
 
+  const id = req.params.id;
   await Item.destroy({ where: { id } })
     .then((num) => {
       if (num === 1) {

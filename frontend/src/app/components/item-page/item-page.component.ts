@@ -15,6 +15,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 })
 export class ItemPageComponent implements OnInit {
   public item: any;
+  public user_role!: string;
 
   private id!: number;
   private user_id!: number;
@@ -34,7 +35,9 @@ export class ItemPageComponent implements OnInit {
     this.retrieveItem();
     this.filterService.hideSearchBar();
 
-    this.user_id = this.authService.getUserDetails().id;
+    const user = this.authService.getUserDetails();
+    this.user_id = user.id;
+    this.user_role = user.user_role;
   }
 
   retrieveItem(): void {
@@ -106,6 +109,10 @@ export class ItemPageComponent implements OnInit {
     return !(exportQuantity > quantity);
   }
   removeItem(): void {
+    if (this.user_role !== 'admin') {
+      return;
+    }
+
     this.itemsService.delete(this.id).subscribe(
       (response) => {
         console.log('response: ', response);

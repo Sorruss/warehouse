@@ -57,14 +57,14 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          len: [10, 42],
+          len: [10, 18],
         },
       },
       phone2: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          len: [10, 42],
+          len: [10, 18],
         },
       },
       photo_src: {
@@ -84,6 +84,14 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           len: [7, 42],
+        },
+      },
+      user_role: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue: "worker",
+        validate: {
+          isIn: [["worker", "admin"]],
         },
       },
 

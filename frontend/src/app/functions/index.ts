@@ -5,8 +5,14 @@ export function loadFile(url: string, callback: Function): any {
   PizZipUtils.getBinaryContent(url, callback);
 }
 
-export function getCurrentDateTime() {
-  const today = new Date();
+export function date2Ukrainian(initialValue: string = ''): any {
+  let date;
+  if (initialValue) {
+    date = new Date(initialValue);
+  } else {
+    date = new Date();
+  }
+
   const custom_months = [
     'Січень',
     'Лютий',
@@ -30,28 +36,24 @@ export function getCurrentDateTime() {
     "П'ятниця",
     'Субота',
   ];
+
+  const month = custom_months[date.getMonth()];
+  const day = custom_days[date.getDay()];
+  const weekDayNumber = date.getDate();
+  const hours = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours();
+  const minutes =
+    date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
+
+  return { month, day, weekDayNumber, hours, minutes };
+}
+
+export function getCurrentDateTime(): any {
+  const { month, day, weekDayNumber, hours, minutes } = date2Ukrainian();
+
   const dateFile =
-    custom_months[today.getMonth()] +
-    '_' +
-    custom_days[today.getDay()] +
-    '(' +
-    today.getDate() +
-    ')' +
-    '_' +
-    today.getHours() +
-    '_' +
-    (today.getMinutes() < 10 ? `0${today.getMinutes()}` : today.getMinutes());
+    month + '_' + day + '(' + weekDayNumber + ')' + '_' + hours + '_' + minutes;
   const dateDocument =
-    custom_months[today.getMonth()] +
-    ' ' +
-    custom_days[today.getDay()] +
-    '(' +
-    today.getDate() +
-    ')' +
-    ' ' +
-    today.getHours() +
-    ':' +
-    (today.getMinutes() < 10 ? `0${today.getMinutes()}` : today.getMinutes());
+    month + ' ' + day + '(' + weekDayNumber + ')' + ' ' + hours + ':' + minutes;
 
   return { dateFile, dateDocument };
 }

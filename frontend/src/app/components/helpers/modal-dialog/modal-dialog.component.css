@@ -65,13 +65,17 @@
   border: none;
   border-top-left-radius: 20px;
   border-bottom-right-radius: 20px;
-  transition: all 0.5s ease;
+  transition: all 3s ease;
   background: #11101d;
   padding-left: 10px;
   margin-left: 20px;
 }
+.modal-body input:focus {
+  outline: 1px dotted #000;
+  outline: -webkit-focus-ring-color auto 5px;
+}
 .modal-bottom {
-  height: 20%;
+  height: 40px;
   display: flex;
 }
 .modal-bottom button {

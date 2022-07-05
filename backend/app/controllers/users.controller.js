@@ -1,4 +1,5 @@
 const { User } = require("../models");
+const md5 = require("md5");
 
 // Create and save new User.
 exports.create = async (req, res) => {
@@ -28,8 +29,10 @@ exports.create = async (req, res) => {
     phone1: req.body.phone1,
     phone2: req.body.phone2,
     photo_src: req.body.photo_src,
-    user_password: req.body.user_password,
+    user_password: md5(req.body.user_password),
     company_id: req.body.company_id,
+    user_role: req.body.user_role,
+    user_login: req.body.user_login,
   };
 
   await User.create(user)
