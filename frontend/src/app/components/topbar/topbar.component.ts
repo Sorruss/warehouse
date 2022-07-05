@@ -39,30 +39,9 @@ export class TopbarComponent implements OnInit {
   public newProd: any = {};
   public producers: any = [];
 
-  @ViewChild('item_nameInput') item_nameInput: any;
-  @ViewChild('item_incomeDate') item_incomeDate: any;
-  @ViewChild('item_quantity') item_quantity: any;
-  @ViewChild('item_producer') item_producer: any;
-  @ViewChild('item_photo') item_photo: any;
-  @ViewChild('item_description') item_description: any;
-
-  @ViewChild('user_firstname') user_firstname: any;
-  @ViewChild('user_middlename') user_middlename: any;
-  @ViewChild('user_lastname') user_lastname: any;
-  @ViewChild('user_position') user_position: any;
-  @ViewChild('user_phone1') user_phone1: any;
-  @ViewChild('user_phone2') user_phone2: any;
-  @ViewChild('user_login') user_login: any;
-  @ViewChild('user_pass1') user_pass1: any;
-  @ViewChild('user_pass2') user_pass2: any;
-  @ViewChild('user_role') user_role: any;
-  @ViewChild('user_photo') user_photo: any;
-
-  @ViewChild('prod_name') prod_name: any;
-  @ViewChild('prod_phone1') prod_phone1: any;
-  @ViewChild('prod_phone2') prod_phone2: any;
-  @ViewChild('prod_photo') prod_photo: any;
-  @ViewChild('prod_description') prod_description: any;
+  @ViewChild('itemForm') itemForm: any;
+  @ViewChild('userForm') userForm: any;
+  @ViewChild('prodForm') prodForm: any;
 
   constructor(
     private router: Router,
@@ -141,11 +120,11 @@ export class TopbarComponent implements OnInit {
   addNewItem(): void {
     // Validate the form.
     if (
-      !this.item_nameInput.control.value ||
-      !this.item_quantity.control.value ||
-      !this.item_producer.control.value ||
-      !this.item_photo.control.value ||
-      !this.item_description.control.value
+      !this.itemForm.form.controls.item_name.value ||
+      !this.itemForm.form.controls.item_quantity.value ||
+      !this.itemForm.form.controls.item_producer.value ||
+      !this.itemForm.form.controls.item_photo.value ||
+      !this.itemForm.form.controls.item_description.value
     ) {
       this.notificationService.createInvalidCredentialsNotification(true);
       return;
@@ -204,8 +183,11 @@ export class TopbarComponent implements OnInit {
           label.querySelector('span').innerHTML = 'Оберіть файл';
         }
       });
-    document.querySelector('textarea')!.value = '';
-    document.querySelector('select')!.selectedIndex = 0;
+
+    // @ts-ignore
+    document.querySelector('.modal-body.item textarea')!.value = '';
+    // @ts-ignore
+    document.querySelector('.modal-body.item select')!.selectedIndex = 0;
   }
   retrieveProducers(): void {
     this.producers = this.producersService.getAll().subscribe({
@@ -235,26 +217,46 @@ export class TopbarComponent implements OnInit {
   closeAddItemModal(): void {
     this.isItemModalActive = false;
     this.observablesService.isModal.next(false);
-    this.clearErrors();
+    this.clearItemErrors();
   }
   closeAddUserModal(): void {
     this.isUserModalActive = false;
     this.observablesService.isModal.next(false);
-    // this.clearErrors();
+    this.clearUserErrors();
   }
   closeAddProdModal(): void {
     this.isProdModalActive = false;
     this.observablesService.isModal.next(false);
-    // this.clearErrors();
+    this.clearProdErrors();
   }
 
-  clearErrors(): void {
-    this.item_nameInput.control.touched = false;
-    this.item_incomeDate.control.touched = false;
-    this.item_quantity.control.touched = false;
-    this.item_producer.control.touched = false;
-    this.item_photo.control.touched = false;
-    this.item_description.control.touched = false;
+  clearItemErrors(): void {
+    this.itemForm.form.controls.item_name.touched = false;
+    this.itemForm.form.controls.item_incomeDate.touched = false;
+    this.itemForm.form.controls.item_quantity.touched = false;
+    this.itemForm.form.controls.item_producer.touched = false;
+    this.itemForm.form.controls.item_photo.touched = false;
+    this.itemForm.form.controls.item_description.touched = false;
+  }
+  clearUserErrors(): void {
+    this.userForm.form.controls.user_firstname.touched = false;
+    this.userForm.form.controls.user_middlename.touched = false;
+    this.userForm.form.controls.user_lastname.touched = false;
+    this.userForm.form.controls.user_position.touched = false;
+    this.userForm.form.controls.user_phone1.touched = false;
+    this.userForm.form.controls.user_phone2.touched = false;
+    this.userForm.form.controls.user_login.touched = false;
+    this.userForm.form.controls.user_pass1.touched = false;
+    this.userForm.form.controls.user_pass2.touched = false;
+    this.userForm.form.controls.user_role.touched = false;
+    this.userForm.form.controls.user_photo.touched = false;
+  }
+  clearProdErrors(): void {
+    this.prodForm.form.controls.prod_name.touched = false;
+    this.prodForm.form.controls.prod_phone1.touched = false;
+    this.prodForm.form.controls.prod_phone2.touched = false;
+    this.prodForm.form.controls.prod_photo.touched = false;
+    this.prodForm.form.controls.prod_description.touched = false;
   }
 
   downloadPhoto(): void {
@@ -271,17 +273,17 @@ export class TopbarComponent implements OnInit {
   addNewUser(): void {
     // Validate the form.
     if (
-      !this.user_firstname.control.value ||
-      !this.user_middlename.control.value ||
-      !this.user_lastname.control.value ||
-      !this.user_position.control.value ||
-      !this.user_phone1.control.value ||
-      !this.user_phone2.control.value ||
-      !this.user_login.control.value ||
-      !this.user_pass1.control.value ||
-      !this.user_pass2.control.value ||
-      !this.user_role.control.value ||
-      !this.user_photo.control.value
+      !this.userForm.form.controls.user_firstname.value ||
+      !this.userForm.form.controls.user_middlename.value ||
+      !this.userForm.form.controls.user_lastname.value ||
+      !this.userForm.form.controls.user_position.value ||
+      !this.userForm.form.controls.user_phone1.value ||
+      !this.userForm.form.controls.user_phone2.value ||
+      !this.userForm.form.controls.user_login.value ||
+      !this.userForm.form.controls.user_pass1.value ||
+      !this.userForm.form.controls.user_pass2.value ||
+      !this.userForm.form.controls.user_role.value ||
+      !this.userForm.form.controls.user_photo.value
     ) {
       this.notificationService.createInvalidCredentialsNotification(true);
       return;
@@ -319,8 +321,11 @@ export class TopbarComponent implements OnInit {
           label.querySelector('span').innerHTML = 'Оберіть файл';
         }
       });
-    document.querySelector('textarea')!.value = '';
-    document.querySelector('select')!.selectedIndex = 0;
+
+    // @ts-ignore
+    document.querySelector('.modal-body.user textarea')!.value = '';
+    // @ts-ignore
+    document.querySelector('.modal-body.user select')!.selectedIndex = 0;
   }
   changeAnUserBeforeCreation(): void {
     if (this.userPassword.first === this.userPassword.second) {
@@ -333,11 +338,11 @@ export class TopbarComponent implements OnInit {
   addNewProd(): void {
     // Validate the form.
     if (
-      !this.prod_name.control.value ||
-      !this.prod_phone1.control.value ||
-      !this.prod_phone2.control.value ||
-      !this.prod_photo.control.value ||
-      !this.prod_description.control.value
+      !this.prodForm.form.controls.prod_name.value ||
+      !this.prodForm.form.controls.prod_phone1.value ||
+      !this.prodForm.form.controls.prod_phone2.value ||
+      !this.prodForm.form.controls.prod_photo.value ||
+      !this.prodForm.form.controls.prod_description.value
     ) {
       this.notificationService.createInvalidCredentialsNotification(true);
       return;
@@ -378,7 +383,10 @@ export class TopbarComponent implements OnInit {
           label.querySelector('span').innerHTML = 'Оберіть файл';
         }
       });
-    document.querySelector('textarea')!.value = '';
-    document.querySelector('select')!.selectedIndex = 0;
+
+    // @ts-ignore
+    document.querySelector('.modal-body.prod textarea')!.value = '';
+    // @ts-ignore
+    document.querySelector('.modal-body.prod select')!.selectedIndex = 0;
   }
 }

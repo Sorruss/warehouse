@@ -53,7 +53,12 @@
       </span>
     </div>
     <div class="modal-body item">
-      <form id="test">
+      <form
+        #itemForm="ngForm"
+        name="itemForm"
+        id="itemForm"
+        enctype="multipart/form-data"
+      >
         <div class="row">
           <div class="title col-6">
             <span>Назва</span>
@@ -61,44 +66,34 @@
           <div class="col-6">
             <input
               ngModel
-              #item_nameInput="ngModel"
-              id="item_nameInput"
-              name="item_nameInput"
+              #item_name="ngModel"
+              id="item_name"
+              name="item_name"
               type="text"
-              (change)="newItem.item_name = item_nameInput.control.value"
+              (change)="newItem.item_name = item_name.control.value"
               required
               minlength="2"
               maxlength="72"
             />
             <div
               class="errors light"
-              *ngIf="
-                item_nameInput.control.touched && !item_nameInput.control.valid
-              "
+              *ngIf="item_name.control.touched && !item_name.control.valid"
             >
-              <div *ngIf="item_nameInput.control.errors !== null">
-                <span
-                  class="error"
-                  *ngIf="item_nameInput.control.errors!.required"
+              <div *ngIf="item_name.control.errors !== null">
+                <span class="error" *ngIf="item_name.control.errors!.required"
                   >Це поле є необхідним</span
                 >
-                <span
-                  class="error"
-                  *ngIf="item_nameInput.control.errors!.minlength"
-                >
+                <span class="error" *ngIf="item_name.control.errors!.minlength">
                   Мінімальна длина логіну
-                  {{ item_nameInput.control.errors!.minlength.requiredLength }}.
-                  Ви вели
-                  {{ item_nameInput.control.errors!.minlength.actualLength }}
+                  {{ item_name.control.errors!.minlength.requiredLength }}. Ви
+                  вели
+                  {{ item_name.control.errors!.minlength.actualLength }}
                 </span>
-                <span
-                  class="error"
-                  *ngIf="item_nameInput.control.errors!.maxlength"
-                >
+                <span class="error" *ngIf="item_name.control.errors!.maxlength">
                   Максимальна длина логіну
-                  {{ item_nameInput.control.errors!.maxlength.requiredLength }}.
-                  Ви вели
-                  {{ item_nameInput.control.errors!.maxlength.actualLength }}
+                  {{ item_name.control.errors!.maxlength.requiredLength }}. Ви
+                  вели
+                  {{ item_name.control.errors!.maxlength.actualLength }}
                 </span>
               </div>
             </div>
@@ -248,7 +243,7 @@
               type="text"
               style="resize: none"
               required
-              minlength="2"
+              minlength="10"
               maxlength="10000"
             ></textarea>
             <div
@@ -309,7 +304,12 @@
       </span>
     </div>
     <div class="modal-body user">
-      <form id="test">
+      <form
+        #userForm="ngForm"
+        name="userForm"
+        id="userForm"
+        enctype="multipart/form-data"
+      >
         <div class="row">
           <div class="title col-6">
             <span>Ім'я</span>
@@ -530,7 +530,7 @@
               type="text"
               (change)="newUser.phone1 = user_phone1.control.value"
               required
-              minlength="2"
+              minlength="10"
               maxlength="18"
             />
             <div
@@ -575,7 +575,7 @@
               type="text"
               (change)="newUser.phone2 = user_phone2.control.value"
               required
-              minlength="2"
+              minlength="10"
               maxlength="18"
             />
             <div
@@ -824,7 +824,12 @@
       </span>
     </div>
     <div class="modal-body prod">
-      <form id="test">
+      <form
+        #prodForm="ngForm"
+        name="prodForm"
+        id="prodForm"
+        enctype="multipart/form-data"
+      >
         <div class="row">
           <div class="title col-6">
             <span>Назва</span>
