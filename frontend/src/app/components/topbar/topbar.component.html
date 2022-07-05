@@ -210,6 +210,7 @@
               class="inputfile"
               (change)="newItem.photo_src = item_photo.control.value"
               required
+              accept=".jpg,.png,.jpeg"
             />
             <label for="item_photo"
               ><i class="bx bxs-file-image"></i><span>Оберіть файл</span></label
@@ -787,6 +788,7 @@
               class="inputfile"
               (change)="newUser.photo_src = user_photo.control.value"
               required
+              accept=".jpg,.png,.jpeg"
             />
             <label for="user_photo"
               ><i class="bx bxs-file-image"></i><span>Оберіть файл</span></label
@@ -973,8 +975,9 @@
               name="prod_photo"
               id="prod_photo"
               class="inputfile"
-              (change)="newProd.photo_src = prod_photo.control.value"
+              (change)="changeProdPhoto($event)"
               required
+              accept=".jpg,.png,.jpeg"
             />
             <label for="prod_photo"
               ><i class="bx bxs-file-image"></i><span>Оберіть файл</span></label
