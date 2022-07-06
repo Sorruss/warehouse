@@ -76,6 +76,22 @@
     </li>
 
     <li>
+      <a routerLink="users" [state]="{ pageName: 'користувачі компанії' }">
+        <i class="bx bx-group"></i>
+        <span class="links_name">Користувачі компанії</span>
+      </a>
+      <span class="hint">Користувачі компанії</span>
+    </li>
+
+    <li>
+      <a routerLink="producers" [state]="{ pageName: 'перелік виробників' }">
+        <i class="bx bx-buildings"></i>
+        <span class="links_name">Перелік виробників</span>
+      </a>
+      <span class="hint">Перелік виробників</span>
+    </li>
+
+    <li>
       <a
         routerLink="site-settings"
         [state]="{ pageName: 'налаштування сайту' }"
@@ -90,8 +106,9 @@
       <div class="profile-details">
         <img
           [src]="
-            '../../../static/images/workers/' +
-            (user.photo_src !== 'default' ? user.photo_src : 'default1.png')
+            user.photo_src === 'default'
+              ? '../../../static/images/users/default1.png'
+              : srcToPhotos + user.id
           "
           alt="profile image"
           (click)="toUserPage()"

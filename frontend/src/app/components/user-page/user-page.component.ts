@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 })
 export class UserPageComponent implements OnInit {
   public user: any;
+  public srcToPhotos: string = 'http://localhost:8080/api/users/photo/';
 
   constructor(
     private filterService: FilterService,

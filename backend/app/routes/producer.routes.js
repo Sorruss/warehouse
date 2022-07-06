@@ -11,6 +11,12 @@ module.exports = (backend) => {
   // Create and save new producer.
   router.post("/", auth.verifyToken, producer.create);
 
+  // Attach a photo to the producer.
+  router.post("/photo", auth.verifyToken, producer.attachPhoto);
+
+  // Get a photo of the producer.
+  router.get("/photo/:id", producer.getPhoto);
+
   // Retrieve a single producer with specified id.
   router.get("/:id", auth.verifyToken, producer.getItemById);
 

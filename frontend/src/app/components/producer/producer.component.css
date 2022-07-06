@@ -1,0 +1,101 @@
+.producer-items {
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+}
+
+.producer {
+  margin-right: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 55%;
+}
+.producer img {
+  height: 400px;
+  width: 550px;
+  max-width: 100%;
+  margin-bottom: 10px;
+  object-fit: cover;
+}
+.producer .description {
+  line-height: 22px;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+.items .item {
+  cursor: pointer;
+  border: 1px solid #11101d;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+}
+.items .item:hover {
+  transform: scale(1.02);
+}
+.items .item:last-child {
+  margin-bottom: 0px;
+}
+.items .item-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 5px;
+  background: #1d1b31;
+}
+.items .item .button {
+  position: relative;
+}
+.items .item .button button {
+  border: none;
+  outline: none;
+  background: #11101d;
+  color: white;
+  border-radius: 4px;
+  padding: 4px 5px 4px 5px;
+  transition: all 0.4s ease;
+  font-size: 18px;
+}
+.items .item .button .button-link {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  opacity: 0.9;
+}
+.items .item .button .button-link:hover button {
+  background: #1d1b31;
+  transform: scale(1.1);
+  opacity: 1;
+}
+.items .item .button .hint {
+  position: absolute;
+  top: -30px;
+  margin: -3px auto 20px;
+  z-index: 3;
+  background: #1d1b31;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: 400;
+  opacity: 0;
+  white-space: nowrap;
+  pointer-events: none;
+  transition: 0s;
+  text-align: center;
+}
+.hint.details {
+  top: 0px;
+  right: 20px;
+}
+.items .item .button:hover .hint {
+  opacity: 1;
+  pointer-events: auto;
+  transition: all 0.4s ease;
+  top: -20px;
+  transform: translateY(-50%);
+}

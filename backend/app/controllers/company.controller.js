@@ -1,4 +1,16 @@
 const { Company } = require("../models");
+const multer = require("multer");
+const path = require("path");
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "./images/companies/");
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+const upload = multer({ storage }).single("file");
 
 // Create and save new Company.
 exports.create = async (req, res) => {
@@ -146,4 +158,27 @@ exports.deleteAll = async (req, res) => {
           err.message || "Some error occurred while removing all Company.",
       });
     });
+};
+
+exports.attachPhoto = async (req, res) => {
+  upload(req, res, function (err) {
+    if (err instanceof multer.MulterError) {
+      // A Multer error occurred when uploading.
+      throw new Error("A Multer error occurred when uploading.");
+    } else if (err) {
+      // An unknown error occurred when uploading.
+      throw new Error("An unknown error occurred when uploading.");
+    }
+
+    res.send({ message: "File was successfully uploaded." });
+  });
+};
+
+exports.getPhoto = async (req, res) => {
+  const id = req.params.id;
+  let filename;
+  await Company.findByPk(id).then((data) => {
+    filename = data.photo_src;
+  });
+  res.sendFile(path.resolve(__dirname, `../../images/companies/${filename}`));
 };

@@ -31,6 +31,12 @@ import { EntryComponent } from './components/entry/entry.component';
 import { RegistrateImportOrderComponent } from './components/registrate-import-order/registrate-import-order.component';
 import { RegistrateExportOrderComponent } from './components/registrate-export-order/registrate-export-order.component';
 import { ModalDialogComponent } from './components/helpers/modal-dialog/modal-dialog.component';
+import { AdminFeaturesComponent } from './components/helpers/admin-features/admin-features.component';
+import { ProducersComponent } from './components/producers/producers.component';
+import { ProducerComponent } from './components/producer/producer.component';
+import { UsersComponent } from './components/users/users.component';
+import { UserComponent } from './components/user/user.component';
+import { ShortenPipe } from './pipes/shorten/shorten.pipe';
 
 @NgModule({
   declarations: [
@@ -53,6 +59,12 @@ import { ModalDialogComponent } from './components/helpers/modal-dialog/modal-di
     ModalDialogComponent,
     NgNumberDirective,
     EntryComponent,
+    AdminFeaturesComponent,
+    ProducersComponent,
+    ProducerComponent,
+    UsersComponent,
+    UserComponent,
+    ShortenPipe,
   ],
   imports: [
     BrowserModule,

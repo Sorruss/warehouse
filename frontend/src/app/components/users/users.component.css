@@ -1,0 +1,43 @@
+.users {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+.users .user {
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+}
+.users .user:hover {
+  transform: scale(1.009);
+}
+.users .user:last-child {
+  margin-bottom: 0px;
+}
+.user-content {
+  padding: 20px 10px;
+  background: #1d1b31;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.user-content img {
+  width: 100px;
+  height: 100px;
+  margin-right: 20px;
+  cursor: pointer;
+}
+.user-content .information .main {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+.user-content .information .online {
+  margin-bottom: 5px;
+}
+.information .main .fullname {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.information .main .fullname:hover {
+  color: lightgray;
+}

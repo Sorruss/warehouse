@@ -1,0 +1,35 @@
+.producers {
+  position: relative;
+  padding-bottom: 20px;
+}
+.producer {
+  width: 70%;
+  margin: 0 auto;
+  margin-top: 20px;
+  overflow: hidden;
+}
+.producer:first-child {
+  margin-top: 20px;
+}
+.producer img {
+  height: 500px;
+  width: 100%;
+  cursor: pointer;
+  object-fit: cover;
+  transition: all 0.3s ease;
+}
+.producer img:hover {
+  transform: scale(1.01);
+}
+.producer .name {
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.producer .name:hover {
+  color: lightgray;
+}
+.producer .description {
+  line-height: 22px;
+}

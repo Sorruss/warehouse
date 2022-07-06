@@ -13,6 +13,10 @@ import { SiteSettingsComponent } from './components/site-settings/site-settings.
 import { RegistrateImportOrderComponent } from './components/registrate-import-order/registrate-import-order.component';
 import { RegistrateExportOrderComponent } from './components/registrate-export-order/registrate-export-order.component';
 import { EntryComponent } from './components/entry/entry.component';
+import { ProducersComponent } from './components/producers/producers.component';
+import { ProducerComponent } from './components/producer/producer.component';
+import { UsersComponent } from './components/users/users.component';
+import { UserComponent } from './components/user/user.component';
 
 import { AuthGuardService } from './services/auth-guard/auth-guard.service';
 
@@ -65,6 +69,10 @@ const routes: Routes = [
     component: RegistrateExportOrderComponent,
   },
   { path: 'entry', component: EntryComponent },
+  { path: 'producers', component: ProducersComponent },
+  { path: 'producer/:id', component: ProducerComponent },
+  { path: 'users', component: UsersComponent },
+  { path: 'user/:id', component: UserComponent },
 ];
 
 @NgModule({

@@ -1,4 +1,16 @@
-const { Producer } = require("../models");
+const { Producer, Item } = require("../models");
+const multer = require("multer");
+const path = require("path");
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "./images/producers/");
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+const upload = multer({ storage }).single("file");
 
 // Create and save new Producer.
 exports.create = async (req, res) => {
@@ -38,7 +50,9 @@ exports.create = async (req, res) => {
 
 // Retrieve all Producer.
 exports.getItems = async (req, res) => {
-  await Producer.findAll()
+  await Producer.findAll({
+    order: [["id", "desc"]],
+  })
     .then((data) => {
       res.send(data);
     })
@@ -54,7 +68,9 @@ exports.getItems = async (req, res) => {
 exports.getItemById = async (req, res) => {
   const id = req.params.id;
 
-  await Producer.findByPk(id)
+  await Producer.findByPk(id, {
+    include: Item,
+  })
     .then((data) => {
       res.send(data);
     })
@@ -143,4 +159,27 @@ exports.deleteAll = async (req, res) => {
           err.message || "Some error occurred while removing all Producer.",
       });
     });
+};
+
+exports.attachPhoto = async (req, res) => {
+  upload(req, res, function (err) {
+    if (err instanceof multer.MulterError) {
+      // A Multer error occurred when uploading.
+      throw new Error("A Multer error occurred when uploading.");
+    } else if (err) {
+      // An unknown error occurred when uploading.
+      throw new Error("An unknown error occurred when uploading.");
+    }
+
+    res.send({ message: "File was successfully uploaded." });
+  });
+};
+
+exports.getPhoto = async (req, res) => {
+  const id = req.params.id;
+  let filename;
+  await Producer.findByPk(id).then((data) => {
+    filename = data.photo_src;
+  });
+  res.sendFile(path.resolve(__dirname, `../../images/producers/${filename}`));
 };

@@ -1,5 +1,17 @@
 const { User } = require("../models");
 const md5 = require("md5");
+const multer = require("multer");
+const path = require("path");
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "./images/users/");
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+const upload = multer({ storage }).single("file");
 
 // Create and save new User.
 exports.create = async (req, res) => {
@@ -95,4 +107,27 @@ exports.delete = async (req, res) => {
         message: err.message || `Error deleting User with id=${id}`,
       });
     });
+};
+
+exports.attachPhoto = async (req, res) => {
+  upload(req, res, function (err) {
+    if (err instanceof multer.MulterError) {
+      // A Multer error occurred when uploading.
+      throw new Error("A Multer error occurred when uploading.");
+    } else if (err) {
+      // An unknown error occurred when uploading.
+      throw new Error("An unknown error occurred when uploading.");
+    }
+
+    res.send({ message: "File was successfully uploaded." });
+  });
+};
+
+exports.getPhoto = async (req, res) => {
+  const id = req.params.id;
+  let filename;
+  await User.findByPk(id).then((data) => {
+    filename = data.photo_src;
+  });
+  res.sendFile(path.resolve(__dirname, `../../images/users/${filename}`));
 };

@@ -11,6 +11,12 @@ module.exports = (backend) => {
   // Retrieve all Users.
   router.get("/", auth.verifyToken, users.getItems);
 
+  // Attach a photo to the user.
+  router.post("/photo", auth.verifyToken, users.attachPhoto);
+
+  // Get a photo of the user.
+  router.get("/photo/:id", users.getPhoto);
+
   // Retrieve a single user with specified id.
   router.get("/:id", auth.verifyToken, users.getItemById);
 

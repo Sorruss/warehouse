@@ -11,6 +11,12 @@ module.exports = (backend) => {
   // Create and save new company.
   router.post("/", auth.verifyToken, company.create);
 
+  // Attach a photo to the item.
+  router.post("/photo", auth.verifyToken, company.attachPhoto);
+
+  // Get a photo of the item.
+  router.get("/photo/:id", company.getPhoto);
+
   // Retrieve a single company with specified id.
   router.get("/:id", auth.verifyToken, company.getItemById);
 

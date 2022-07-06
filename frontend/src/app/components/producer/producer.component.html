@@ -1,0 +1,38 @@
+<div *ngIf="prod" class="producer-items">
+  <div class="producer">
+    <img
+      [src]="
+        prod.photo_src === 'default'
+          ? '../../../static/images/producers/default1.png'
+          : srcToPhotos + prod.id
+      "
+      alt="Фото компанії виробника"
+    />
+    <div class="description">
+      {{ prod.description }}
+    </div>
+  </div>
+  <div class="items">
+    <div
+      *ngFor="let item of prod.Items"
+      class="item"
+      (click)="toItemDetails(item.id, item.item_name)"
+    >
+      <div class="item-content">
+        <div class="name">{{ item.item_name }}</div>
+        <div class="button">
+          <a
+            class="button-link"
+            routerLink="/item/{{ item.id }}"
+            [state]="{ pageName: item.item_name }"
+          >
+            <button>
+              <i class="bx bx-link-external"></i>
+            </button>
+          </a>
+          <span class="hint details">переглянути деталі</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

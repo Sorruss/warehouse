@@ -21,7 +21,6 @@ export class AppComponent implements OnInit {
     }
 
     this.authService.isAuthenticatedObs.subscribe((value: boolean) => {
-      console.log('test123312: ', value);
       this.isAuthenticated = value;
       this.changeDetectorRef.detectChanges();
     });

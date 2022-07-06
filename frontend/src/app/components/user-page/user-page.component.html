@@ -3,10 +3,11 @@
     <div class="user-photo">
       <img
         [src]="
-          '../../../static/images/workers/' +
-          (user.photo_src !== 'default' ? user.photo_src : 'default1.png')
+          user.photo_src === 'default'
+            ? '../../../static/images/users/default1.png'
+            : srcToPhotos + user.id
         "
-        alt="user's photo"
+        alt="Фото користувача"
       />
     </div>
     <div class="user-info">

@@ -20,6 +20,11 @@ export class UsersService {
       .get<any>(`${backUrl}/${id}`)
       .pipe(catchError(this.handleError));
   }
+  attach(formData: FormData): Observable<any> {
+    return this.httpClient
+      .post<any>(`${backUrl}/photo`, formData)
+      .pipe(catchError(this.handleError));
+  }
   create(data: any): Observable<any> {
     return this.httpClient
       .post<any>(backUrl, data, {

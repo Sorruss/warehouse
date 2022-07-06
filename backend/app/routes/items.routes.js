@@ -11,6 +11,12 @@ module.exports = (backend) => {
   // Create and save new item.
   router.post("/", auth.verifyToken, items.create);
 
+  // Attach a photo to the item.
+  router.post("/photo", auth.verifyToken, items.attachPhoto);
+
+  // Get a photo of the item.
+  router.get("/photo/:id", items.getPhoto);
+
   // Retrieve a single item with specified id.
   router.get("/:id", auth.verifyToken, items.getItemById);
 

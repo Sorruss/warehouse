@@ -1,0 +1,26 @@
+.user-page {
+  display: flex;
+  padding: 10px 0px 0px 0px;
+}
+.user-page .page-content {
+  margin: 0 auto;
+}
+
+.user-photo img {
+  height: 300px;
+  width: 300px;
+  border: 1px solid black;
+}
+.user-info {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0px 0px 0px;
+}
+.user-info ul li {
+  line-height: 32px;
+  font-size: 18px;
+}
+
+.user-info #user-info-keys li {
+  font-weight: bold;
+}

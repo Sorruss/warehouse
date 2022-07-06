@@ -10,6 +10,8 @@ import { ObservablesService } from 'src/app/services/observables/observables.ser
   styleUrls: ['./right-sidebar.component.css'],
 })
 export class RightSidebarComponent implements OnInit {
+  public srcToPhotos: string = 'http://localhost:8080/api/users/photo/';
+
   private sidebar: any;
   private searchBar: any;
   private content: any;

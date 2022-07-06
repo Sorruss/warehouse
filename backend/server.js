@@ -5,13 +5,26 @@ const path = require("path");
 const basename = path.basename(__filename);
 const backend = express();
 
+const multer = require("multer");
+const getRandomNumber = (min, max) =>
+  Math.floor(Math.random() * (max - min) + min);
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "./images/");
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${getRandomNumber(10001, 99999)}_${file.originalname}`);
+  },
+});
+const upload = multer({ storage });
+
 const corsOptions = {
   origin: "http://localhost:4200",
   credentials: true,
 };
 
 backend.use(cors(corsOptions));
-backend.use(express.json());
+backend.use(express.json({ limit: "50mb" }));
 backend.use(express.urlencoded({ extended: true }));
 
 const db = require("./app/models");

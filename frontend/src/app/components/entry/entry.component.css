@@ -6,7 +6,7 @@
   align-items: center;
   min-height: 100vh;
   /* background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e); */
-  background-image: url("https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Fapi.raben-group.com%2Ffileadmin%2F_processed_%2F5%2F1%2Fcsm_Raben_warehouse_inside-min_99cfa9be45.jpg&sp=1657034652Tf38785ad48b1f4987fa3fd0683d503296abc974842867a171ccdb7bc037b4ef0");
+  background-image: url("../../../static/images/entry/3.jpg");
   background-size: cover;
 }
 .entry {

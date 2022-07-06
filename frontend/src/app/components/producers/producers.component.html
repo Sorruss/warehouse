@@ -1,0 +1,32 @@
+<div *ngIf="producers" class="producers">
+  <div
+    *ngFor="let prod of producers | filterByName: nameToFilter"
+    class="producer"
+    @fadeIn
+    @fadeOut
+  >
+    <div class="card text-white bg-dark">
+      <img
+        [src]="
+          prod.photo_src === 'default'
+            ? '../../../static/images/producers/default1.png'
+            : srcToPhotos + prod.id
+        "
+        class="card-img-top"
+        alt="Фото компанії"
+        (click)="toProducer(prod.id, prod.producer_name)"
+      />
+      <div class="card-body">
+        <h5
+          class="card-title name"
+          (click)="toProducer(prod.id, prod.producer_name)"
+        >
+          {{ prod.producer_name }}
+        </h5>
+        <p class="card-text description">
+          {{ prod.description | shorten: 400 }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

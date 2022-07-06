@@ -14,6 +14,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
   styleUrls: ['./item-page.component.css'],
 })
 export class ItemPageComponent implements OnInit {
+  public srcToPhotos: string = 'http://localhost:8080/api/items/photo/';
   public item: any;
   public user_role!: string;
 

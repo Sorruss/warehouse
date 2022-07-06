@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { catchError, throwError } from 'rxjs';
 
@@ -18,6 +18,11 @@ export class ProducersService {
   get(id: number): Observable<any> {
     return this.httpClient
       .get<any>(`${backUrl}/${id}`)
+      .pipe(catchError(this.handleError));
+  }
+  attach(formData: FormData): Observable<any> {
+    return this.httpClient
+      .post<any>(`${backUrl}/photo`, formData)
       .pipe(catchError(this.handleError));
   }
   create(data: any): Observable<any> {

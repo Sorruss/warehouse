@@ -5,8 +5,9 @@
       <div class="photo-description">
         <img
           [src]="
-            '../../../static/images/items/' +
-            (item.photo_src !== 'default' ? item.photo_src : 'default1.png')
+            item.photo_src === 'default'
+              ? '../../../static/images/items/default1.png'
+              : srcToPhotos + item.id
           "
           alt="фото товару '{{ item.item_name }}'"
         />
@@ -23,7 +24,11 @@
           </li>
           <li>
             <span class="param">Виробник</span>:
-            {{ item.Producer.producer_name }}
+            <a
+              [routerLink]="['/producer/', item.Producer.id]"
+              [state]="{ pageName: item.Producer.producer_name }"
+              >{{ item.Producer.producer_name }}</a
+            >
           </li>
         </ul>
       </div>

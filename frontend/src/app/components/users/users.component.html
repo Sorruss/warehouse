@@ -1,0 +1,37 @@
+<div class="users">
+  <div
+    *ngFor="let user of users | filterByName: nameToFilter"
+    class="user"
+    @fadeIn
+    @fadeOut
+  >
+    <div class="user-content">
+      <img
+        [src]="
+          user.photo_src === 'default'
+            ? '../../../static/images/users/default1.png'
+            : srcToPhotos + user.id
+        "
+        alt="Фото користувача '{{ user.last_name }} {{ user.first_name }}'"
+        (click)="toUserDetails(user.id, user.last_name + ' ' + user.first_name)"
+      />
+      <div class="information">
+        <div class="main">
+          <span
+            class="fullname"
+            (click)="
+              toUserDetails(user.id, user.last_name + ' ' + user.first_name)
+            "
+            >{{ user.last_name }} {{ user.first_name }}</span
+          >
+          -
+          <span class="position">{{ user.user_position }}</span>
+        </div>
+        <div class="online">Останній раз онлайн: ніколи</div>
+        <div class="role">
+          {{ user.user_role === "worker" ? "Працівник" : "Адміністратор" }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+<div *ngIf="user" class="user-page">
+  <div class="page-content">
+    <div class="user-photo">
+      <img
+        [src]="
+          user.photo_src === 'default'
+            ? '../../../static/images/users/default1.png'
+            : srcToPhotos + id
+        "
+        alt="Фото користувача"
+      />
+    </div>
+    <div class="user-info">
+      <ul id="user-info-keys">
+        <li>Ім'я:</li>
+        <li>Фамілія:</li>
+        <li>По Батькові:</li>
+        <li>Посада:</li>
+        <li>Телефон 1:</li>
+        <li>Телефон 2:</li>
+        <li>Роль:</li>
+      </ul>
+      <ul id="user-info-values">
+        <li>{{ user.first_name }}</li>
+        <li>{{ user.last_name }}</li>
+        <li>{{ user.middle_name }}</li>
+        <li>{{ user.user_position }}</li>
+        <li>{{ user.phone1 }}</li>
+        <li>{{ user.phone2 }}</li>
+        <li>
+          {{ user.user_role === "worker" ? "Працівник" : "Адміністратор" }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
