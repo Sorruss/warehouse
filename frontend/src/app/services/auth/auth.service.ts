@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 
 import { Observable, catchError, throwError, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 const backUrl = 'http://localhost:8080/auth';
 

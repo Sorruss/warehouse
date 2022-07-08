@@ -149,7 +149,7 @@ export class NotificationService {
     this.addItem({
       title: 'Невірні дані. Перевірте та спробуйте знову',
       message: '',
-      color: 'red',
+      color: 'totalred',
       compressed,
     });
   }
