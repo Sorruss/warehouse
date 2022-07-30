@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 import { ExportService } from '../../services/export/export.service';
-import { Item, IExportItem } from 'src/app/interfaces';
 
 import { FilterService } from 'src/app/services/filter/filter.service';
 import { ExportRegistrationService } from 'src/app/services/export-registration/export-registration.service';

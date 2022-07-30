@@ -1,4 +1,4 @@
-<div *ngIf="item">
+<div *ngIf="item && !editingProcess">
   <div class="item">
     <div class="item-content">
       <!-- <h6 class="item-name">{{ item.item_name }}</h6> -->
@@ -17,6 +17,7 @@
       <div class="info">
         <ul>
           <li><span class="param">ID</span>: {{ item.id }}</li>
+          <li><span class="param">Назва</span>: {{ item.item_name }}</li>
           <li><span class="param">Кількість</span>: {{ item.quantity }}</li>
           <li>
             <span class="param">Дата останнього надходження</span>:
@@ -64,12 +65,241 @@
       />
     </div>
 
+    <button *ngIf="user_role === 'admin'" id="btn-edit" (click)="editItem()">
+      <i class="bx bxs-edit"></i>
+    </button>
+
     <button
       *ngIf="user_role === 'admin'"
       id="btn-remove"
       (click)="removeItem()"
     >
       <i class="bx bx-trash"></i>
+    </button>
+  </div>
+</div>
+
+<div *ngIf="item && editingProcess">
+  <div class="item">
+    <div class="item-content">
+      <div class="photo-description">
+        <img
+          *ngIf="item.photo_src === editedItem.photo_src"
+          [src]="
+            item.photo_src === 'default'
+              ? '../../../static/images/items/default1.png'
+              : srcToPhotos + item.id
+          "
+          alt="фото товару '{{ item.item_name }}'"
+        />
+        <img
+          *ngIf="item.photo_src !== editedItem.photo_src"
+          [src]="
+            editedItem.photo_src === 'default'
+              ? '../../../static/images/items/default1.png'
+              : srcToPhotos2 + editedItem.photo_src
+          "
+          alt="фото товару '{{ editedItem.item_name }}'"
+        />
+
+        <input
+          id="choose_photo"
+          type="file"
+          ngModel
+          #choose_photo="ngModel"
+          name="choose_photo"
+          class="inputfile"
+          (change)="choosePhoto($event)"
+          accept=".jpg,.png,.jpeg"
+        />
+
+        <div *ngIf="fileIsLoading" class="loader-content">
+          <span class="loader"></span>
+        </div>
+
+        <textarea
+          style="width: 100%; resize: none"
+          class="description"
+          [ngModel]="editedItem.description"
+          #item_description="ngModel"
+          id="item_description"
+          name="item_description"
+          (change)="
+            editedItem.description = item_description.control.value.trim()
+          "
+          type="text"
+          required
+          minlength="10"
+          maxlength="10000"
+          placeholder="Це поле є необхідним"
+        ></textarea>
+      </div>
+
+      <div class="info">
+        <ul>
+          <li><span class="param">ID</span>: {{ item.id }}</li>
+          <li>
+            <span class="param">Назва</span>:
+            <input
+              [ngModel]="editedItem.item_name"
+              #item_name="ngModel"
+              id="item_name"
+              name="item_name"
+              (change)="editedItem.item_name = item_name.control.value.trim()"
+              type="text"
+              required
+              minlength="10"
+              maxlength="100"
+            />
+            <div
+              class="errors light"
+              *ngIf="item_name.control.touched && !item_name.control.valid"
+            >
+              <div *ngIf="item_name.control.errors !== null">
+                <span class="error" *ngIf="item_name.control.errors!.required"
+                  >Це поле є необхідним</span
+                >
+                <span class="error" *ngIf="item_name.control.errors!.minlength">
+                  Мінімальна длина логіну
+                  {{ item_name.control.errors!.minlength.requiredLength }}. Ви
+                  вели
+                  {{ item_name.control.errors!.minlength.actualLength }}
+                </span>
+                <span class="error" *ngIf="item_name.control.errors!.maxlength">
+                  Максимальна длина логіну
+                  {{ item_name.control.errors!.maxlength.requiredLength }}. Ви
+                  вели
+                  {{ item_name.control.errors!.maxlength.actualLength }}
+                </span>
+              </div>
+            </div>
+          </li>
+          <li>
+            <span class="param">Кількість</span>:
+            <input
+              type="number"
+              [ngModel]="editedItem.quantity"
+              #item_quantity="ngModel"
+              id="item_quantity"
+              name="item_quantity"
+              (change)="editedItem.quantity = item_quantity.control.value"
+              required
+              min="1"
+              max="99999"
+              appNgNumber
+            />
+            <div
+              class="errors"
+              *ngIf="
+                item_quantity.control.touched && !item_quantity.control.valid
+              "
+            >
+              <div *ngIf="item_quantity.control.errors !== null">
+                <span
+                  class="error"
+                  *ngIf="item_quantity.control.errors!.required"
+                  >Це поле є необхідним</span
+                >
+                <span class="error" *ngIf="item_quantity.control.errors!.min">
+                  Мінімум:
+                  {{ item_quantity.control.errors!.min.min }}. Ви ввели
+                  {{ item_quantity.control.errors!.min.actual }}
+                </span>
+                <span class="error" *ngIf="item_quantity.control.errors!.max">
+                  Максимум:
+                  {{ item_quantity.control.errors!.max.max }}. Ви ввели
+                  {{ item_quantity.control.errors!.max.actual }}
+                </span>
+              </div>
+            </div>
+          </li>
+          <li>
+            <span class="param">Дата останнього надходження</span>:
+            <input
+              type="text"
+              [ngModel]="editedItem.income_date"
+              #item_date="ngModel"
+              id="item_date"
+              name="item_date"
+              (change)="editedItem.income_date = item_date.control.value.trim()"
+              type="text"
+              required
+              appDateFormat
+              minlength="12"
+              maxlength="38"
+            />
+            <div
+              class="errors"
+              *ngIf="item_date.control.touched && !item_date.control.valid"
+            >
+              <div *ngIf="item_date.control.errors !== null">
+                <span class="error" *ngIf="item_date.control.errors!.required"
+                  >Це поле є необхідним
+                  {{ item_date.control.errors!.test }}</span
+                >
+                <span
+                  class="error"
+                  *ngIf="item_date.control.errors!.incorrectDate"
+                  >Дана дата є неможливою</span
+                >
+                <span class="error" *ngIf="item_date.control.errors!.minlength">
+                  Мінімальна длина ім'я
+                  {{ item_date.control.errors!.minlength.requiredLength }}. Ви
+                  вели
+                  {{ item_date.control.errors!.minlength.actualLength }}
+                </span>
+                <span class="error" *ngIf="item_date.control.errors!.maxlength">
+                  Максимальна длина ім'я
+                  {{ item_date.control.errors!.maxlength.requiredLength }}. Ви
+                  вели
+                  {{ item_date.control.errors!.maxlength.actualLength }}
+                </span>
+              </div>
+            </div>
+          </li>
+          <li>
+            <span class="param">Виробник</span>:
+            <select
+              [ngModel]="editedItem.producer_id"
+              #item_producer="ngModel"
+              id="item_producer"
+              name="item_producer"
+              type="text"
+              (change)="editedItem.producer_id = item_producer.control.value"
+              required
+            >
+              <option selected disabled value=""></option>
+              <option *ngFor="let prod of producers" [value]="prod.id">
+                {{ prod.producer_name }}
+              </option>
+            </select>
+            <div
+              class="errors"
+              *ngIf="
+                item_producer.control.touched && !item_producer.control.valid
+              "
+            >
+              <div *ngIf="item_producer.control.errors !== null">
+                <span
+                  class="error"
+                  *ngIf="item_producer.control.errors!.required"
+                  >Це поле є необхідним</span
+                >
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="buttons" [class.admin-page]="user_role === 'admin'">
+    <button id="save" (click)="saveFormatting()">
+      <span class="text">Зберегти</span>
+    </button>
+
+    <button id="cancel" (click)="cancelFormatting()">
+      <span class="text">Назад</span>
     </button>
   </div>
 </div>

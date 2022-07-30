@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 import { CartService } from '../../services/cart/cart.service';
-import { Item, ICartItem } from 'src/app/interfaces';
 
 import { FilterService } from 'src/app/services/filter/filter.service';
 import { ImportRegistrationService } from 'src/app/services/import-registration/import-registration.service';

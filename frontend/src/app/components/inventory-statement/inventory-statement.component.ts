@@ -11,13 +11,15 @@ import { saveAs } from 'file-saver';
 
 import { getCurrentDateTime, loadFile } from 'src/app/functions';
 
+import { Item } from 'src/app/interfaces';
+
 @Component({
   selector: 'app-inventory-statement',
   templateUrl: './inventory-statement.component.html',
   styleUrls: ['./inventory-statement.component.css'],
 })
 export class InventoryStatementComponent implements OnInit {
-  public items: any[] = [];
+  public items: Item[] = [];
 
   constructor(
     private itemsService: ItemsService,

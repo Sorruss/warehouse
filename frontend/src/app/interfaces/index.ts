@@ -1,39 +1,83 @@
 export interface Item {
   id: number;
-  name: string;
-  date: string;
+  item_name: string;
+  income_date: string;
   quantity: number;
-  producer: string;
+  producer: Producer;
   description: string;
-  photoSrc: string;
+  photo_src: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export interface IImportRegistrationElem {
-  [id: number]: IImportRegistrationCont;
-}
-
-export interface IImportRegistrationCont {
+export interface CartItem {
   id: number;
-  name: string;
-  date: string;
-  items: (Item & { orderedQuantity?: number })[];
+  ordered_quantity: string;
+  Item: Item;
+  createdAt: Date;
+  updatedAt: Date;
 }
-
-export interface IExportRegistrationElem {
-  [id: number]: IExportRegistrationCont;
-}
-
-export interface IExportRegistrationCont {
+export interface ExportItem {
   id: number;
-  name: string;
-  date: string;
-  items: (Item & { orderedQuantity?: number })[];
+  ordered_quantity: string;
+  Item: Item;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export interface IExportItem {
-  [id: number]: Item & { orderedQuantity: number };
+export interface ImportOrder {
+  id: number;
+  special_id: number;
+  order_name: string;
+  income_date: string;
+  RegistrationModels: RegistrationModel[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+export interface ExportOrder {
+  id: number;
+  special_id: number;
+  order_name: string;
+  income_date: string;
+  RegistrationModels: RegistrationModel[];
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export interface ICartItem {
-  [id: number]: Item & { orderedQuantity: number };
+export interface Producer {
+  id: number;
+  producer_name: string;
+  phone1: string;
+  phone2: string;
+  description: string;
+  photo_src: string;
+  Items: Item[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface RegistrationModel {
+  id: number;
+  ritem_name: string;
+  ordered_quantity: number;
+  ritem_quantity: number;
+  ritem_id: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface User {
+  id: number;
+  first_name: string;
+  middle_name: string;
+  last_name: string;
+  user_position: string;
+  phone1: string;
+  phone2: string;
+  photo_src: string;
+  user_login: string;
+  user_password: string;
+  user_role: string;
+  createdAt: Date;
+  updatedAt: Date;
 }

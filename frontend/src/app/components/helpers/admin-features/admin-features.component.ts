@@ -71,7 +71,6 @@ export class AdminFeaturesComponent implements OnInit {
       !this.itemForm.form.controls.item_name.value ||
       !this.itemForm.form.controls.item_quantity.value ||
       !this.itemForm.form.controls.item_producer.value ||
-      !this.itemForm.form.controls.item_photo.value ||
       !this.itemForm.form.controls.item_description.value
     ) {
       this.notificationService.createInvalidCredentialsNotification(true);
@@ -143,7 +142,7 @@ export class AdminFeaturesComponent implements OnInit {
     document.querySelector('.modal-body.item select')!.selectedIndex = 0;
   }
   retrieveProducers(): void {
-    this.producers = this.producersService.getAll().subscribe({
+    this.producersService.getAll().subscribe({
       next: (data) => {
         this.producers = data;
         console.log('data: ', data);

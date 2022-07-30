@@ -11,6 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 
 import { FilterByNamePipe } from './pipes/filter-by-name/filter-by-name.pipe';
+import { ShortenPipe } from './pipes/shorten/shorten.pipe';
 
 import { NgNumberDirective } from './directives/ng-number/ng-number.directive';
 
@@ -36,7 +37,7 @@ import { ProducersComponent } from './components/producers/producers.component';
 import { ProducerComponent } from './components/producer/producer.component';
 import { UsersComponent } from './components/users/users.component';
 import { UserComponent } from './components/user/user.component';
-import { ShortenPipe } from './pipes/shorten/shorten.pipe';
+import { DateFormatDirective } from './directives/dateFormat/date-format.directive';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { ShortenPipe } from './pipes/shorten/shorten.pipe';
     UsersComponent,
     UserComponent,
     ShortenPipe,
+    DateFormatDirective,
   ],
   imports: [
     BrowserModule,

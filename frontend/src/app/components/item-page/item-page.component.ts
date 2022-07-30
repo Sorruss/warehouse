@@ -7,6 +7,9 @@ import { CartService } from 'src/app/services/cart/cart.service';
 import { ExportService } from 'src/app/services/export/export.service';
 import { FilterService } from 'src/app/services/filter/filter.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { ProducersService } from 'src/app/services/producers/producers.service';
+
+import { getRandomNumber } from 'src/app/functions';
 
 @Component({
   selector: 'app-item-page',
@@ -15,11 +18,17 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 })
 export class ItemPageComponent implements OnInit {
   public srcToPhotos: string = 'http://localhost:8080/api/items/photo/';
+  public srcToPhotos2: string = 'http://localhost:8080/api/items/item_photo/';
   public item: any;
   public user_role!: string;
 
   private id!: number;
   private user_id!: number;
+
+  public editingProcess: boolean = false;
+  public editedItem: any = {};
+  public producers: any = [];
+  public fileIsLoading: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -29,7 +38,8 @@ export class ItemPageComponent implements OnInit {
     private exportService: ExportService,
     private filterService: FilterService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private producersService: ProducersService
   ) {}
   ngOnInit(): void {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
@@ -127,5 +137,89 @@ export class ItemPageComponent implements OnInit {
         console.log('error: ', error);
       }
     );
+  }
+
+  editItem(): void {
+    this.editedItem = { ...this.item };
+
+    this.editingProcess = true;
+    this.retrieveProducers();
+  }
+  retrieveProducers(): void {
+    this.producersService.getAll().subscribe({
+      next: (data) => {
+        this.producers = data;
+        console.log('data: ', data);
+      },
+      error: (error) => {
+        console.log('error: ', error);
+      },
+    });
+  }
+  cancelFormatting(): void {
+    this.editingProcess = false;
+    this.deletePrevPhoto();
+  }
+  saveFormatting(): void {
+    if (
+      this.editedItem.photo_src !== this.item.photo_src &&
+      this.item.photo_src !== 'default'
+    ) {
+      this.itemsService.deletePhotoById(this.item.id).subscribe({
+        next: (data) => {
+          console.log('response: ', data);
+        },
+        error: (error) => {
+          console.log('error: ', error);
+        },
+      });
+
+      if (!this.editedItem.photo_src) {
+        this.editedItem.photo_src = 'default';
+      }
+    }
+
+    this.itemsService.patch(this.item.id, this.editedItem).subscribe({
+      next: (data) => {
+        console.log('!response: ', data);
+        this.retrieveItem();
+        this.editingProcess = false;
+      },
+      error: (error) => {
+        console.log('error: ', error);
+      },
+    });
+  }
+  choosePhoto(event: any): void {
+    this.fileIsLoading = true;
+
+    const file: File = <File>event.target.files[0];
+    const formData = new FormData();
+    const filename = `${getRandomNumber(10001, 99999)}_${file.name}`;
+    formData.append('file', file, filename);
+
+    this.deletePrevPhoto();
+    this.itemsService.attach(formData).subscribe(
+      (response) => {
+        this.editedItem.photo_src = filename;
+        this.fileIsLoading = false;
+        console.log('response: ', response);
+      },
+      (error) => {
+        console.log('error: ', error);
+      }
+    );
+  }
+  deletePrevPhoto() {
+    if (this.editedItem.photo_src !== this.item.photo_src) {
+      this.itemsService.deletePhotoByName(this.editedItem.photo_src).subscribe(
+        (response) => {
+          console.log('response: ', response);
+        },
+        (error) => {
+          console.log('error: ', error);
+        }
+      );
+    }
   }
 }

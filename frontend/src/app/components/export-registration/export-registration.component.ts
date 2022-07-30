@@ -4,11 +4,6 @@ import { FilterService } from 'src/app/services/filter/filter.service';
 
 import { fadeIn, slide2right } from 'src/app/animations/animations';
 
-import {
-  IExportRegistrationCont,
-  IExportRegistrationElem,
-} from 'src/app/interfaces';
-
 import { ExportRegistrationService } from './../../services/export-registration/export-registration.service';
 
 @Component({

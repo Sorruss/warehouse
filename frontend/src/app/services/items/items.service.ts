@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 
 import { catchError, throwError } from 'rxjs';
 
+import { Item } from 'src/app/interfaces';
+
 const backUrl = 'http://localhost:8080/api/items';
 
 @Injectable({
@@ -12,16 +14,16 @@ const backUrl = 'http://localhost:8080/api/items';
 export class ItemsService {
   constructor(private httpClient: HttpClient) {}
 
-  getAll(): Observable<any> {
+  getAll(): Observable<Item[]> {
     return this.httpClient
-      .get<any>(backUrl, {
+      .get<Item[]>(backUrl, {
         withCredentials: true,
       })
       .pipe(catchError(this.handleError));
   }
-  get(id: number): Observable<any> {
+  get(id: number): Observable<Item> {
     return this.httpClient
-      .get<any>(`${backUrl}/${id}`)
+      .get<Item>(`${backUrl}/${id}`)
       .pipe(catchError(this.handleError));
   }
   attach(formData: FormData): Observable<any> {
@@ -29,19 +31,39 @@ export class ItemsService {
       .post<any>(`${backUrl}/photo`, formData)
       .pipe(catchError(this.handleError));
   }
-  create(data: any): Observable<any> {
+  deletePhotoById(id: number): Observable<any> {
     return this.httpClient
-      .post<any>(backUrl, data)
+      .delete<any>(`${backUrl}/photo/${id}`)
       .pipe(catchError(this.handleError));
   }
-  update(id: number, data: any): Observable<any> {
+  deletePhotoByName(name: string): Observable<any> {
     return this.httpClient
-      .put<any>(`${backUrl}/${id}`, data)
+      .delete<any>(`${backUrl}/item_photo/${name}`)
       .pipe(catchError(this.handleError));
   }
-  patch(id: number, data: any): Observable<any> {
+  getPhotoByName(name: string): Observable<any> {
     return this.httpClient
-      .patch<any>(`${backUrl}/${id}`, data)
+      .get<any>(`${backUrl}/item_photo/${name}`)
+      .pipe(catchError(this.handleError));
+  }
+  getPhotoById(id: number): Observable<any> {
+    return this.httpClient
+      .get<any>(`${backUrl}/photo/${id}`)
+      .pipe(catchError(this.handleError));
+  }
+  create(data: any): Observable<Item> {
+    return this.httpClient
+      .post<Item>(backUrl, data)
+      .pipe(catchError(this.handleError));
+  }
+  update(id: number, data: any): Observable<Item> {
+    return this.httpClient
+      .put<Item>(`${backUrl}/${id}`, data)
+      .pipe(catchError(this.handleError));
+  }
+  patch(id: number, data: any): Observable<Item> {
+    return this.httpClient
+      .patch<Item>(`${backUrl}/${id}`, data)
       .pipe(catchError(this.handleError));
   }
   delete(id: number): Observable<any> {

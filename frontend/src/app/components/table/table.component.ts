@@ -10,6 +10,8 @@ import { ObservablesService } from 'src/app/services/observables/observables.ser
 
 import { fadeIn, fadeOut, slide2right } from 'src/app/animations/animations';
 
+import { Item } from 'src/app/interfaces';
+
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
@@ -19,7 +21,7 @@ import { fadeIn, fadeOut, slide2right } from 'src/app/animations/animations';
 export class TableComponent implements OnInit {
   public itemsLoaded: Promise<boolean> = Promise.resolve(false);
 
-  public items: any;
+  public items: Item[] = [];
   public nameToFilter: string = '';
 
   private user_id!: number;

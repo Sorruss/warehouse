@@ -1,6 +1,7 @@
 const { Item, Producer } = require("../models");
 const multer = require("multer");
 const path = require("path");
+const fs = require("fs");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -179,11 +180,55 @@ exports.attachPhoto = async (req, res) => {
   });
 };
 
-exports.getPhoto = async (req, res) => {
+exports.getPhotoByItemId = async (req, res) => {
   const id = req.params.id;
   let filename;
   await Item.findByPk(id).then((data) => {
     filename = data.photo_src;
   });
-  res.sendFile(path.resolve(__dirname, `../../images/items/${filename}`));
+
+  const photoPath = path.resolve(__dirname, `../../images/items/${filename}`);
+  if (fs.existsSync(photoPath)) {
+    res.sendFile(photoPath);
+  } else {
+    res.sendFile(path.resolve(__dirname, `../../images/items/default1.png`));
+  }
+};
+
+exports.getPhotoByPhotoName = async (req, res) => {
+  const name = req.params.name;
+  res.sendFile(path.resolve(__dirname, `../../images/items/${name}`));
+};
+
+exports.deletePhotoByItemId = async (req, res) => {
+  const id = req.params.id;
+  let filename;
+  await Item.findByPk(id).then((data) => {
+    filename = data.photo_src;
+  });
+
+  const photoPath = path.resolve(__dirname, `../../images/items/${filename}`);
+  if (fs.existsSync(photoPath)) {
+    try {
+      fs.unlinkSync(photoPath);
+      res.send({ message: "Photo of an item was successfully deleted." });
+    } catch (err) {
+      res.send({ error: "Error occurred deleting photo of an item." });
+    }
+  } else {
+    res.send({
+      message: "Error occurred deleting photo of an item. Photo is not exist.",
+    });
+  }
+};
+
+exports.deletePhotoByPhotoName = async (req, res) => {
+  const name = req.params.name;
+  try {
+    fs.unlinkSync(path.resolve(__dirname, `../../images/items/${name}`));
+  } catch (err) {
+    res.send({ error: "Error occurred deleting an item photo" });
+  }
+
+  res.send({ error: "Item photo deleted successfully" });
 };

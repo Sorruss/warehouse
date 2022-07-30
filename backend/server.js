@@ -5,18 +5,16 @@ const path = require("path");
 const basename = path.basename(__filename);
 const backend = express();
 
-const multer = require("multer");
-const getRandomNumber = (min, max) =>
-  Math.floor(Math.random() * (max - min) + min);
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "./images/");
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${getRandomNumber(10001, 99999)}_${file.originalname}`);
-  },
-});
-const upload = multer({ storage });
+// const multer = require("multer");
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, "./images/temp/");
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, file.originalname);
+//   },
+// });
+// const upload = multer({ storage }).single("file");
 
 const corsOptions = {
   origin: "http://localhost:4200",
@@ -31,7 +29,7 @@ const db = require("./app/models");
 db.sequelize.sync();
 
 // db.sequelize.sync({ force: true }).then(() => {
-//   console.log("Drop and re-sync DB");
+// console.log("Drop and re-sync DB");
 // });
 
 backend.get("/", (req, res) => {

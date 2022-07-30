@@ -4,12 +4,6 @@ import { HttpClient } from '@angular/common/http';
 
 import { catchError, throwError } from 'rxjs';
 
-import {
-  Item,
-  IImportRegistrationCont,
-  IImportRegistrationElem,
-} from 'src/app/interfaces';
-
 const backUrl = 'http://localhost:8080/api/import-registration';
 
 @Injectable({

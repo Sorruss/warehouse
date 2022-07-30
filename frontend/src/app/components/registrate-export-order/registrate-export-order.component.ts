@@ -7,8 +7,6 @@ import { NotificationService } from 'src/app/services/notification/notification.
 
 import { fadeIn, slide2right } from 'src/app/animations/animations';
 
-import { IExportRegistrationCont } from 'src/app/interfaces';
-
 import { ExportRegistrationService } from 'src/app/services/export-registration/export-registration.service';
 
 // @ts-ignore

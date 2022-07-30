@@ -4,8 +4,6 @@ import { HttpClient } from '@angular/common/http';
 
 import { catchError, throwError } from 'rxjs';
 
-import { IExportItem, Item } from 'src/app/interfaces';
-
 const backUrl = 'http://localhost:8080/api/export';
 
 @Injectable({
