@@ -69,6 +69,7 @@
   font-size: 22px;
   text-align: center;
   transition: all 1s ease;
+  color: white !important;
 }
 
 .page-name::first-letter {

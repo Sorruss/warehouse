@@ -202,4 +202,16 @@ export class NotificationService {
       compressed,
     });
   }
+  createSmthWasChangedNotification(
+    name1: string,
+    name2: string,
+    compressed: boolean = true
+  ): void {
+    this.addItem({
+      title: `${name1} було успішно змінено на '${name2}'`,
+      message: '',
+      color: 'green',
+      compressed,
+    });
+  }
 }

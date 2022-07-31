@@ -17,6 +17,7 @@
   flex-direction: row;
   align-items: center;
   transition: all 0.3s ease;
+  color: white;
 }
 .user-content:hover {
   background: rgba(29, 27, 49, 1);

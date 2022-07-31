@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { ThemeService } from './services/theme/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -13,12 +14,15 @@ export class AppComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private themeService: ThemeService
   ) {}
   ngOnInit() {
     if (this.authService.getUserDetails() != null) {
       this.isAuthenticated = true;
     }
+
+    this.themeService.setThemeFromCookie();
 
     this.authService.isAuthenticatedObs.subscribe((value: boolean) => {
       this.isAuthenticated = value;

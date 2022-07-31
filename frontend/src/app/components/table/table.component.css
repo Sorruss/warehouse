@@ -8,7 +8,7 @@
 }
 
 .table-content {
-  color: white;
+  color: var(--text-color);
 }
 .row {
   --bs-gutter-x: 0px;
@@ -20,14 +20,14 @@
 }
 
 .item {
-  border-top: 1px #11101d solid;
+  border-top: 1px var(--foreground-3) solid;
   padding: 5px 0px;
 }
 
 .button button {
   border: none;
   outline: none;
-  background: #11101d;
+  background: var(--foreground-3);
   color: white;
   border-radius: 4px;
   padding: 4px 5px 4px 5px;
@@ -36,7 +36,7 @@
 }
 .col.input-button .button .disabled button {
   cursor: default;
-  background: #2d2c32;
+  background: var(--foreground-1);
 }
 
 .button-link {
@@ -82,7 +82,7 @@
   top: -30px;
   margin: -3px auto 20px;
   z-index: 3;
-  background: #1d1b31;
+  background: var(--foreground-2);
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
   padding: 6px 12px;
   border-radius: 4px;
@@ -99,7 +99,7 @@
   right: 20px;
 }
 .col.input-button .button .disabled .hint {
-  background: #2d2c32;
+  background: var(--foreground-1);
 }
 
 .col.button:hover .hint,

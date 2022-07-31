@@ -84,6 +84,7 @@
   white-space: nowrap;
   pointer-events: none;
   transition: 0s;
+  color: white;
 }
 .sidebar li:hover .hint {
   opacity: 1;

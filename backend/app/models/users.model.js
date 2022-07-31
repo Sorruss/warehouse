@@ -6,22 +6,27 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(Cart, {
         onDelete: "cascade",
         foreignKey: "owner_id",
+        onDelete: "cascade",
       });
       this.hasMany(Export, {
         onDelete: "cascade",
         foreignKey: "owner_id",
+        onDelete: "cascade",
       });
       this.hasMany(ImportOrder, {
         onDelete: "cascade",
         foreignKey: "owner_id",
+        onDelete: "cascade",
       });
       this.hasMany(ExportOrder, {
         onDelete: "cascade",
         foreignKey: "owner_id",
+        onDelete: "cascade",
       });
 
       this.belongsTo(Company, {
         foreignKey: "company_id",
+        onDelete: "cascade",
       });
     }
   }

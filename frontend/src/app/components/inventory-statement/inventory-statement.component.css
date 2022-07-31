@@ -1,5 +1,5 @@
 .table-content {
-  color: white;
+  color: var(--text-color);
   min-height: calc(100vh - 70px - 60px);
 }
 .row {
@@ -12,7 +12,7 @@
 }
 
 .item {
-  border-top: 1px #11101d solid;
+  border-top: 1px var(--foreground-3) solid;
   padding: 5px 0px;
 }
 
@@ -37,8 +37,9 @@
 }
 .buttons button {
   border: none;
+  border-radius: 0;
   outline: none;
-  background: #11101d;
+  background: var(--foreground-3);
   color: white;
   padding: 4px 5px 4px 5px;
   transition: all 0.4s ease;
@@ -54,7 +55,7 @@
 button {
   border: none;
   outline: none;
-  background: #11101d;
+  background: var(--foreground-3);
   color: white;
   border-radius: 4px;
   padding: 4px 5px 4px 5px;
@@ -81,7 +82,7 @@ button {
   top: -30px;
   margin: -3px auto 20px;
   z-index: 3;
-  background: #1d1b31;
+  background: var(--foreground-2);
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
   padding: 6px 12px;
   border-radius: 4px;

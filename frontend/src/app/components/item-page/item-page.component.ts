@@ -140,8 +140,11 @@ export class ItemPageComponent implements OnInit {
   }
 
   editItem(): void {
-    this.editedItem = { ...this.item };
+    if (this.user_role !== 'admin') {
+      return;
+    }
 
+    this.editedItem = { ...this.item };
     this.editingProcess = true;
     this.retrieveProducers();
   }

@@ -87,7 +87,7 @@
 .buttons button {
   border: none;
   outline: none;
-  background: #11101d;
+  background: var(--foreground-3);
   color: white;
   padding: 4px 5px 4px 5px;
   transition: all 0.4s ease;
@@ -114,7 +114,7 @@
   width: 100px;
   border: none;
   border-radius: 12px;
-  background: #11101d;
+  background: var(--foreground-3);
   padding-left: 10px;
   text-align: center;
   transition: all 0.3s ease;
@@ -144,7 +144,7 @@ input {
   border: none;
   border-radius: 20px;
   transition: all 3s ease;
-  background: #11101d;
+  background: var(--foreground-3);
   padding-left: 10px;
 }
 textarea {
@@ -153,7 +153,7 @@ textarea {
   font-weight: 400;
   outline: none;
   border: none;
-  background: #11101d;
+  background: var(--foreground-3);
   padding: 3px;
 }
 select {
@@ -165,7 +165,7 @@ select {
   border-radius: 20px;
   width: 100px;
   transition: all 3s ease;
-  background: #11101d;
+  background: var(--foreground-3);
   padding-left: 10px;
 }
 #choose_photo,

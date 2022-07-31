@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { CookieService } from 'ngx-cookie-service';
 import { FilterService } from 'src/app/services/filter/filter.service';
+import { ThemeService } from 'src/app/services/theme/theme.service';
+import { NotificationService } from 'src/app/services/notification/notification.service';
 
 @Component({
   selector: 'app-site-settings',
@@ -15,7 +17,9 @@ export class SiteSettingsComponent implements OnInit {
 
   constructor(
     private filterService: FilterService,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private themeService: ThemeService,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -35,11 +39,33 @@ export class SiteSettingsComponent implements OnInit {
 
   selectNotificationTime(value: string): void {
     this.cookieService.set('notificationTime', value);
+    value = document.querySelector(`option[value='${value}']`)!.innerHTML;
+    this.notificationService.createSmthWasChangedNotification(
+      'Час зникнення повідомлень',
+      value
+    );
   }
   selectTheme(value: string): void {
+    if (value === 'light') {
+      this.themeService.setLightTheme();
+    } else if (value === 'dark') {
+      this.themeService.setDarkTheme();
+    }
     this.cookieService.set('theme', value);
+
+    value = document.querySelector(`option[value='${value}']`)!.innerHTML;
+    this.notificationService.createSmthWasChangedNotification(
+      "Параметр 'Тема сайту'",
+      value
+    );
   }
   selectLanguage(value: string): void {
     this.cookieService.set('language', value);
+
+    value = document.querySelector(`option[value='${value}']`)!.innerHTML;
+    this.notificationService.createSmthWasChangedNotification(
+      "Параметр 'Мова сайту'",
+      value
+    );
   }
 }

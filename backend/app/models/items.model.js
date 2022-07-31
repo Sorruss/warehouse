@@ -5,9 +5,11 @@ module.exports = (sequelize, DataTypes) => {
     static associate({ Company, Producer }) {
       this.belongsTo(Company, {
         foreignKey: "company_id",
+        onDelete: "cascade",
       });
       this.belongsTo(Producer, {
         foreignKey: "producer_id",
+        onDelete: "cascade",
       });
     }
   }
