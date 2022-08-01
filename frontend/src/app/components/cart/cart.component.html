@@ -2,16 +2,16 @@
   <div class="table-content">
     <div class="row">
       <div class="col caption">
-        <h6>Товар</h6>
+        <h6>{{ "Title" | translate }}</h6>
       </div>
       <div class="col caption">
-        <h6>Кількість</h6>
+        <h6>{{ "Quantity" | translate }}</h6>
       </div>
       <div class="col caption">
-        <h6>Надходження</h6>
+        <h6>{{ "Income" | translate }}</h6>
       </div>
       <div class="col caption">
-        <h6>Деталі</h6>
+        <h6>{{ "Details" | translate }}</h6>
       </div>
       <div class="col caption">
         <input
@@ -57,7 +57,7 @@
             <i class="bx bx-link-external"></i>
           </button>
         </a>
-        <span class="hint">переглянути деталі</span>
+        <span class="hint">{{ "ViewDetails" | translate }}</span>
       </div>
       <div class="col">
         <label class="lbl-checkbox">
@@ -75,7 +75,7 @@
 
   <div class="buttons">
     <button id="btn-import" (click)="changeModalDialogState()">
-      Замовити обрані товари
+      {{ "OrderSelectedItems" | translate }}
       <span id="counter">({{ selectedItemsId.length }})</span>
     </button>
 
@@ -87,9 +87,9 @@
 
 <app-modal-dialog
   *ngIf="goingToOrder"
-  [modalTitle]="'Налаштування замовлення'"
+  [modalTitle]="'OrderSettings' | translate"
   (onSaveEvent)="makeAnOrder($event)"
   (onCloseEvent)="changeModalDialogState()"
 ></app-modal-dialog>
 
-<div *ngIf="!items.length" class="cart-is-empty">Пусто</div>
+<div *ngIf="!items.length" class="cart-is-empty">{{ "Empty" | translate }}</div>

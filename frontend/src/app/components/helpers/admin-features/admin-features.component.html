@@ -1,7 +1,7 @@
 <div [hidden]="!isItemModalActive" class="modal-wrapper">
   <div class="modal-content">
     <div class="modal-title">
-      Створити нову модель товару
+      {{ "CreateNewItem" | translate }}
       <span class="modal-close" (click)="closeAddItemModal()">
         <i class="bx bx-x" id="default"></i>
         <i class="bx bx-x-circle" id="with-circle"></i>
@@ -16,7 +16,7 @@
       >
         <div class="row">
           <div class="title col-6">
-            <span>Назва</span>
+            <span>{{ "Title" | translate }}</span>
           </div>
           <div class="col-6">
             <input
@@ -35,19 +35,21 @@
               *ngIf="item_name.control.touched && !item_name.control.valid"
             >
               <div *ngIf="item_name.control.errors !== null">
-                <span class="error" *ngIf="item_name.control.errors!.required"
-                  >Це поле є необхідним</span
+                <span
+                  class="error"
+                  *ngIf="item_name.control.errors!.required"
+                  >{{ "FieldIsRequired" | translate }}</span
                 >
                 <span class="error" *ngIf="item_name.control.errors!.minlength">
-                  Мінімальна длина логіну
-                  {{ item_name.control.errors!.minlength.requiredLength }}. Ви
-                  вели
+                  {{ "MinLength" | translate }}
+                  {{ item_name.control.errors!.minlength.requiredLength }}.
+                  {{ "YouEntered" | translate }}
                   {{ item_name.control.errors!.minlength.actualLength }}
                 </span>
                 <span class="error" *ngIf="item_name.control.errors!.maxlength">
-                  Максимальна длина логіну
-                  {{ item_name.control.errors!.maxlength.requiredLength }}. Ви
-                  вели
+                  {{ "MaxLength" | translate }}
+                  {{ item_name.control.errors!.maxlength.requiredLength }}.
+                  {{ "YouEntered" | translate }}
                   {{ item_name.control.errors!.maxlength.actualLength }}
                 </span>
               </div>
@@ -57,7 +59,7 @@
 
         <div class="row">
           <div class="title col-6">
-            <span style="color: gray">Дата надходження</span>
+            <span style="color: gray">{{ "IncomeDate" | translate }}</span>
           </div>
           <div class="col-6">
             <input
@@ -73,7 +75,7 @@
 
         <div class="row">
           <div class="title col-6">
-            <span>Кількість</span>
+            <span>{{ "Quantity" | translate }}</span>
           </div>
           <div class="col-6">
             <input
@@ -98,16 +100,18 @@
                 <span
                   class="error"
                   *ngIf="item_quantity.control.errors!.required"
-                  >Це поле є необхідним</span
-                >
+                  >{{ "FieldIsRequired" | translate }}
+                </span>
                 <span class="error" *ngIf="item_quantity.control.errors!.min">
-                  Мінімум:
-                  {{ item_quantity.control.errors!.min.min }}. Ви вели
+                  {{ "Min" | translate }}:
+                  {{ item_quantity.control.errors!.min.min }}.
+                  {{ "YouEntered" | translate }}
                   {{ item_quantity.control.errors!.min.actual }}
                 </span>
                 <span class="error" *ngIf="item_quantity.control.errors!.max">
-                  Максимум:
-                  {{ item_quantity.control.errors!.max.max }}. Ви вели
+                  {{ "Max" | translate }}:
+                  {{ item_quantity.control.errors!.max.max }}.
+                  {{ "YouEntered" | translate }}
                   {{ item_quantity.control.errors!.max.actual }}
                 </span>
               </div>
@@ -117,7 +121,7 @@
 
         <div class="row">
           <div class="title col-6">
-            <span>Виробник</span>
+            <span>{{ "Producer" | translate }}</span>
           </div>
           <div class="col-6">
             <select
@@ -144,8 +148,8 @@
                 <span
                   class="error"
                   *ngIf="item_producer.control.errors!.required"
-                  >Це поле є необхідним</span
-                >
+                  >{{ "FieldIsRequired" | translate }}
+                </span>
               </div>
             </div>
           </div>
@@ -153,7 +157,7 @@
 
         <div class="row">
           <div class="title col-6">
-            <span style="color: gray">Фото</span>
+            <span style="color: gray">{{ "Photo" | translate }}</span>
           </div>
           <div class="col-6">
             <input
@@ -167,14 +171,15 @@
               accept=".jpg,.png,.jpeg"
             />
             <label for="item_photo"
-              ><i class="bx bxs-file-image"></i><span>Оберіть файл</span></label
+              ><i class="bx bxs-file-image"></i
+              ><span>{{ "ChooseFile" | translate }}</span></label
             >
           </div>
         </div>
 
         <div class="row">
           <div class="title col-6">
-            <span>Опис</span>
+            <span>{{ "Description" | translate }}</span>
           </div>
           <div class="col-6">
             <textarea
@@ -202,26 +207,26 @@
                 <span
                   class="error"
                   *ngIf="item_description.control.errors!.required"
-                  >Це поле є необхідним</span
-                >
+                  >{{ "FieldIsRequired" | translate }}
+                </span>
                 <span
                   class="error"
                   *ngIf="item_description.control.errors!.minlength"
                 >
-                  Мінімальна длина:
+                  {{ "MinLength" | translate }} :
                   {{
                     item_description.control.errors!.minlength.requiredLength
-                  }}. Ви вели
+                  }}. {{ "YouEntered" | translate }}
                   {{ item_description.control.errors!.minlength.actualLength }}
                 </span>
                 <span
                   class="error"
                   *ngIf="item_description.control.errors!.maxlength"
                 >
-                  Максимальна длина:
+                  {{ "MaxLength" | translate }} :
                   {{
                     item_description.control.errors!.maxlength.requiredLength
-                  }}. Ви вели
+                  }}. {{ "YouEntered" | translate }}
                   {{ item_description.control.errors!.maxlength.actualLength }}
                 </span>
               </div>
@@ -232,9 +237,11 @@
     </div>
     <div class="modal-bottom">
       <button type="submit" id="save-btn" (click)="addNewItem()">
-        Зберегти
+        {{ "Save" | translate }}
       </button>
-      <button id="cancel-btn" (click)="closeAddItemModal()">Назад</button>
+      <button id="cancel-btn" (click)="closeAddItemModal()">
+        {{ "Cancel" | translate }}
+      </button>
     </div>
   </div>
 </div>
@@ -242,7 +249,7 @@
 <div [hidden]="!isUserModalActive" class="modal-wrapper">
   <div class="modal-content user">
     <div class="modal-title">
-      Створити нового користувача
+      {{ "CreateNewUser" | translate }}
       <span class="modal-close" (click)="closeAddUserModal()">
         <i class="bx bx-x" id="default"></i>
         <i class="bx bx-x-circle" id="with-circle"></i>
@@ -257,7 +264,7 @@
       >
         <div class="row">
           <div class="title col-6">
-            <span>Ім'я</span>
+            <span>{{ "Name" | translate }}</span>
           </div>
           <div class="col-6">
             <input
@@ -281,24 +288,24 @@
                 <span
                   class="error"
                   *ngIf="user_firstname.control.errors!.required"
-                  >Це поле є необхідним</span
-                >
+                  >{{ "FieldIsRequired" | translate }}
+                </span>
                 <span
                   class="error"
                   *ngIf="user_firstname.control.errors!.minlength"
                 >
-                  Мінімальна длина ім'я
+                  {{ "MinLength" | translate }}
                   {{ user_firstname.control.errors!.minlength.requiredLength }}.
-                  Ви вели
+                  {{ "YouEntered" | translate }}
                   {{ user_firstname.control.errors!.minlength.actualLength }}
                 </span>
                 <span
                   class="error"
                   *ngIf="user_firstname.control.errors!.maxlength"
                 >
-                  Максимальна длина ім'я
+                  {{ "MaxLength" | translate }}
                   {{ user_firstname.control.errors!.maxlength.requiredLength }}.
-                  Ви вели
+                  {{ "YouEntered" | translate }}
                   {{ user_firstname.control.errors!.maxlength.actualLength }}
                 </span>
               </div>
@@ -308,7 +315,7 @@
 
         <div class="row">
           <div class="title col-6">
-            <span>По Батькові</span>
+            <span>{{ "ByFather" | translate }}</span>
           </div>
           <div class="col-6">
             <input
@@ -333,26 +340,26 @@
                 <span
                   class="error"
                   *ngIf="user_middlename.control.errors!.required"
-                  >Це поле є необхідним</span
-                >
+                  >{{ "FieldIsRequired" | translate }}
+                </span>
                 <span
                   class="error"
                   *ngIf="user_middlename.control.errors!.minlength"
                 >
-                  Мінімальна длина
+                  {{ "MinLength" | translate }}
                   {{
                     user_middlename.control.errors!.minlength.requiredLength
-                  }}. Ви вели
+                  }}. {{ "YouEntered" | translate }}
                   {{ user_middlename.control.errors!.minlength.actualLength }}
                 </span>
                 <span
                   class="error"
                   *ngIf="user_middlename.control.errors!.maxlength"
                 >
-                  Максимальна длина
+                  {{ "MaxLength" | translate }}
                   {{
                     user_middlename.control.errors!.maxlength.requiredLength
-                  }}. Ви вели
+                  }}. {{ "YouEntered" | translate }}
                   {{ user_middlename.control.errors!.maxlength.actualLength }}
                 </span>
               </div>
@@ -362,7 +369,7 @@
 
         <div class="row">
           <div class="title col-6">
-            <span>Фамілія</span>
+            <span>{{ "Surname" | translate }}</span>
           </div>
           <div class="col-6">
             <input
@@ -386,24 +393,24 @@
                 <span
                   class="error"
                   *ngIf="user_lastname.control.errors!.required"
-                  >Це поле є необхідним</span
-                >
+                  >{{ "FieldIsRequired" | translate }}
+                </span>
                 <span
                   class="error"
                   *ngIf="user_lastname.control.errors!.minlength"
                 >
-                  Мінімальна длина
+                  {{ "MinLength" | translate }}
                   {{ user_lastname.control.errors!.minlength.requiredLength }}.
-                  Ви вели
+                  {{ "YouEntered" | translate }}
                   {{ user_lastname.control.errors!.minlength.actualLength }}
                 </span>
                 <span
                   class="error"
                   *ngIf="user_lastname.control.errors!.maxlength"
                 >
-                  Максимальна длина
+                  {{ "MaxLength" | translate }}
                   {{ user_lastname.control.errors!.maxlength.requiredLength }}.
-                  Ви вели
+                  {{ "YouEntered" | translate }}
                   {{ user_lastname.control.errors!.maxlength.actualLength }}
                 </span>
               </div>
@@ -413,7 +420,7 @@
 
         <div class="row">
           <div class="title col-6">
-            <span>Посада</span>
+            <span>{{ "Position" | translate }}</span>
           </div>
           <div class="col-6">
             <input
@@ -437,24 +444,24 @@
                 <span
                   class="error"
                   *ngIf="user_position.control.errors!.required"
-                  >Це поле є необхідним</span
-                >
+                  >{{ "FieldIsRequired" | translate }}
+                </span>
                 <span
                   class="error"
                   *ngIf="user_position.control.errors!.minlength"
                 >
-                  Мінімальна длина
+                  {{ "MinLength" | translate }}
                   {{ user_position.control.errors!.minlength.requiredLength }}.
-                  Ви вели
+                  {{ "YouEntered" | translate }}
                   {{ user_position.control.errors!.minlength.actualLength }}
                 </span>
                 <span
                   class="error"
                   *ngIf="user_position.control.errors!.maxlength"
                 >
-                  Максимальна длина
+                  {{ "MaxLength" | translate }}
                   {{ user_position.control.errors!.maxlength.requiredLength }}.
-                  Ви вели
+                  {{ "YouEntered" | translate }}
                   {{ user_position.control.errors!.maxlength.actualLength }}
                 </span>
               </div>
@@ -464,7 +471,7 @@
 
         <div class="row">
           <div class="title col-6">
-            <span>Телефон 1</span>
+            <span>{{ "Phone1" | translate }}</span>
           </div>
           <div class="col-6">
             <input
@@ -484,23 +491,25 @@
             >
               <div *ngIf="user_phone1.control.errors !== null">
                 <span class="error" *ngIf="user_phone1.control.errors!.required"
-                  >Це поле є необхідним</span
-                >
+                  >{{ "FieldIsRequired" | translate }}
+                </span>
                 <span
                   class="error"
                   *ngIf="user_phone1.control.errors!.minlength"
                 >
-                  Мінімальна длина
-                  {{ user_phone1.control.errors!.minlength.requiredLength }}. Ви
-                  вели {{ user_phone1.control.errors!.minlength.actualLength }}
+                  {{ "MinLength" | translate }}
+                  {{ user_phone1.control.errors!.minlength.requiredLength }}.
+                  {{ "YouEntered" | translate }}
+                  {{ user_phone1.control.errors!.minlength.actualLength }}
                 </span>
                 <span
                   class="error"
                   *ngIf="user_phone1.control.errors!.maxlength"
                 >
-                  Максимальна длина
-                  {{ user_phone1.control.errors!.maxlength.requiredLength }}. Ви
-                  вели {{ user_phone1.control.errors!.maxlength.actualLength }}
+                  {{ "MaxLength" | translate }}
+                  {{ user_phone1.control.errors!.maxlength.requiredLength }}.
+                  {{ "YouEntered" | translate }}
+                  {{ user_phone1.control.errors!.maxlength.actualLength }}
                 </span>
               </div>
             </div>
@@ -509,7 +518,7 @@
 
         <div class="row">
           <div class="title col-6">
-            <span>Телефон 2</span>
+            <span>{{ "Phone2" | translate }}</span>
           </div>
           <div class="col-6">
             <input
@@ -529,23 +538,25 @@
             >
               <div *ngIf="user_phone2.control.errors !== null">
                 <span class="error" *ngIf="user_phone2.control.errors!.required"
-                  >Це поле є необхідним</span
-                >
+                  >{{ "FieldIsRequired" | translate }}
+                </span>
                 <span
                   class="error"
                   *ngIf="user_phone2.control.errors!.minlength"
                 >
-                  Мінімальна длина
-                  {{ user_phone2.control.errors!.minlength.requiredLength }}. Ви
-                  вели {{ user_phone2.control.errors!.minlength.actualLength }}
+                  {{ "MinLength" | translate }}
+                  {{ user_phone2.control.errors!.minlength.requiredLength }}.
+                  {{ "YouEntered" | translate }}
+                  {{ user_phone2.control.errors!.minlength.actualLength }}
                 </span>
                 <span
                   class="error"
                   *ngIf="user_phone2.control.errors!.maxlength"
                 >
-                  Максимальна длина
-                  {{ user_phone2.control.errors!.maxlength.requiredLength }}. Ви
-                  вели {{ user_phone2.control.errors!.maxlength.actualLength }}
+                  {{ "MaxLength" | translate }}
+                  {{ user_phone2.control.errors!.maxlength.requiredLength }}.
+                  {{ "YouEntered" | translate }}
+                  {{ user_phone2.control.errors!.maxlength.actualLength }}
                 </span>
               </div>
             </div>
@@ -554,7 +565,7 @@
 
         <div class="row">
           <div class="title col-6">
-            <span>Логін</span>
+            <span>{{ "Login" | translate }}</span>
           </div>
           <div class="col-6">
             <input
@@ -574,23 +585,25 @@
             >
               <div *ngIf="user_login.control.errors !== null">
                 <span class="error" *ngIf="user_login.control.errors!.required"
-                  >Це поле є необхідним</span
-                >
+                  >{{ "FieldIsRequired" | translate }}
+                </span>
                 <span
                   class="error"
                   *ngIf="user_login.control.errors!.minlength"
                 >
-                  Мінімальна длина логіну
-                  {{ user_login.control.errors!.minlength.requiredLength }}. Ви
-                  вели {{ user_login.control.errors!.minlength.actualLength }}
+                  {{ "MinLength" | translate }}
+                  {{ user_login.control.errors!.minlength.requiredLength }}.
+                  {{ "YouEntered" | translate }}
+                  {{ user_login.control.errors!.minlength.actualLength }}
                 </span>
                 <span
                   class="error"
                   *ngIf="user_login.control.errors!.maxlength"
                 >
-                  Максимальна длина логіну
-                  {{ user_login.control.errors!.maxlength.requiredLength }}. Ви
-                  вели {{ user_login.control.errors!.maxlength.actualLength }}
+                  {{ "MaxLength" | translate }}
+                  {{ user_login.control.errors!.maxlength.requiredLength }}.
+                  {{ "YouEntered" | translate }}
+                  {{ user_login.control.errors!.maxlength.actualLength }}
                 </span>
               </div>
             </div>
@@ -599,7 +612,7 @@
 
         <div class="row">
           <div class="title col-6">
-            <span>Пароль 1</span>
+            <span>{{ "Password" | translate }}</span>
           </div>
           <div class="col-6">
             <input
@@ -619,23 +632,25 @@
             >
               <div *ngIf="user_pass1.control.errors !== null">
                 <span class="error" *ngIf="user_pass1.control.errors!.required"
-                  >Це поле є необхідним</span
-                >
+                  >{{ "FieldIsRequired" | translate }}
+                </span>
                 <span
                   class="error"
                   *ngIf="user_pass1.control.errors!.minlength"
                 >
-                  Мінімальна длина паролю
-                  {{ user_pass1.control.errors!.minlength.requiredLength }}. Ви
-                  вели {{ user_pass1.control.errors!.minlength.actualLength }}
+                  {{ "MinLength" | translate }}
+                  {{ user_pass1.control.errors!.minlength.requiredLength }}.
+                  {{ "YouEntered" | translate }}
+                  {{ user_pass1.control.errors!.minlength.actualLength }}
                 </span>
                 <span
                   class="error"
                   *ngIf="user_pass1.control.errors!.maxlength"
                 >
-                  Максимальна длина паролю
-                  {{ user_pass1.control.errors!.maxlength.requiredLength }}. Ви
-                  вели {{ user_pass1.control.errors!.maxlength.actualLength }}
+                  {{ "MaxLength" | translate }}
+                  {{ user_pass1.control.errors!.maxlength.requiredLength }}.
+                  {{ "YouEntered" | translate }}
+                  {{ user_pass1.control.errors!.maxlength.actualLength }}
                 </span>
               </div>
             </div>
@@ -644,7 +659,7 @@
 
         <div class="row">
           <div class="title col-6">
-            <span>Пароль 2</span>
+            <span>{{ "PasswordRepeat" | translate }}</span>
           </div>
           <div class="col-6">
             <input
@@ -664,23 +679,25 @@
             >
               <div *ngIf="user_pass2.control.errors !== null">
                 <span class="error" *ngIf="user_pass2.control.errors!.required"
-                  >Це поле є необхідним</span
-                >
+                  >{{ "FieldIsRequired" | translate }}
+                </span>
                 <span
                   class="error"
                   *ngIf="user_pass2.control.errors!.minlength"
                 >
-                  Мінімальна длина паролю
-                  {{ user_pass2.control.errors!.minlength.requiredLength }}. Ви
-                  вели {{ user_pass2.control.errors!.minlength.actualLength }}
+                  {{ "MinLength" | translate }}
+                  {{ user_pass2.control.errors!.minlength.requiredLength }}.
+                  {{ "YouEntered" | translate }}
+                  {{ user_pass2.control.errors!.minlength.actualLength }}
                 </span>
                 <span
                   class="error"
                   *ngIf="user_pass2.control.errors!.maxlength"
                 >
-                  Максимальна длина паролю
-                  {{ user_pass2.control.errors!.maxlength.requiredLength }}. Ви
-                  вели {{ user_pass2.control.errors!.maxlength.actualLength }}
+                  {{ "MaxLength" | translate }}
+                  {{ user_pass2.control.errors!.maxlength.requiredLength }}.
+                  {{ "YouEntered" | translate }}
+                  {{ user_pass2.control.errors!.maxlength.actualLength }}
                 </span>
               </div>
             </div>
@@ -689,7 +706,7 @@
 
         <div class="row">
           <div class="title col-6">
-            <span>Роль</span>
+            <span>{{ "Role" | translate }}</span>
           </div>
           <div class="col-6">
             <select
@@ -711,8 +728,8 @@
             >
               <div *ngIf="user_role.control.errors !== null">
                 <span class="error" *ngIf="user_role.control.errors!.required"
-                  >Це поле є необхідним</span
-                >
+                  >{{ "FieldIsRequired" | translate }}
+                </span>
               </div>
             </div>
           </div>
@@ -720,7 +737,7 @@
 
         <div class="row">
           <div class="title col-6">
-            <span style="color: gray">Фото</span>
+            <span style="color: gray">{{ "Photo" | translate }}</span>
           </div>
           <div class="col-6">
             <input
@@ -734,7 +751,8 @@
               accept=".jpg,.png,.jpeg"
             />
             <label for="user_photo"
-              ><i class="bx bxs-file-image"></i><span>Оберіть файл</span></label
+              ><i class="bx bxs-file-image"></i
+              ><span>{{ "ChooseFile" | translate }}</span></label
             >
           </div>
         </div>
@@ -742,9 +760,11 @@
     </div>
     <div class="modal-bottom">
       <button type="submit" id="save-btn" (click)="addNewUser()">
-        Зберегти
+        {{ "Save" | translate }}
       </button>
-      <button id="cancel-btn" (click)="closeAddUserModal()">Назад</button>
+      <button id="cancel-btn" (click)="closeAddUserModal()">
+        {{ "Cancel" | translate }}
+      </button>
     </div>
   </div>
 </div>
@@ -752,7 +772,7 @@
 <div [hidden]="!isProdModalActive" class="modal-wrapper">
   <div class="modal-content prod">
     <div class="modal-title">
-      Створити нового виробника
+      {{ "CreateNewManufacturer" | translate }}
       <span class="modal-close" (click)="closeAddProdModal()">
         <i class="bx bx-x" id="default"></i>
         <i class="bx bx-x-circle" id="with-circle"></i>
@@ -767,7 +787,7 @@
       >
         <div class="row">
           <div class="title col-6">
-            <span>Назва</span>
+            <span>{{ "Title" | translate }}</span>
           </div>
           <div class="col-6">
             <input
@@ -787,18 +807,18 @@
             >
               <div *ngIf="prod_name.control.errors !== null">
                 <span class="error" *ngIf="prod_name.control.errors!.required"
-                  >Це поле є необхідним</span
-                >
+                  >{{ "FieldIsRequired" | translate }}
+                </span>
                 <span class="error" *ngIf="prod_name.control.errors!.minlength">
-                  Мінімальна длина назви
-                  {{ prod_name.control.errors!.minlength.requiredLength }}. Ви
-                  вели
+                  {{ "MinLength" | translate }}
+                  {{ prod_name.control.errors!.minlength.requiredLength }}.
+                  {{ "YouEntered" | translate }}
                   {{ prod_name.control.errors!.minlength.actualLength }}
                 </span>
                 <span class="error" *ngIf="prod_name.control.errors!.maxlength">
-                  Максимальна длина назви
-                  {{ prod_name.control.errors!.maxlength.requiredLength }}. Ви
-                  вели
+                  {{ "MaxLength" | translate }}
+                  {{ prod_name.control.errors!.maxlength.requiredLength }}.
+                  {{ "YouEntered" | translate }}
                   {{ prod_name.control.errors!.maxlength.actualLength }}
                 </span>
               </div>
@@ -808,7 +828,7 @@
 
         <div class="row">
           <div class="title col-6">
-            <span>Телефон 1</span>
+            <span>{{ "Phone1" | translate }}</span>
           </div>
           <div class="col-6">
             <input
@@ -828,23 +848,25 @@
             >
               <div *ngIf="prod_phone1.control.errors !== null">
                 <span class="error" *ngIf="prod_phone1.control.errors!.required"
-                  >Це поле є необхідним</span
-                >
+                  >{{ "FieldIsRequired" | translate }}
+                </span>
                 <span
                   class="error"
                   *ngIf="prod_phone1.control.errors!.minlength"
                 >
-                  Мінімальна длина
-                  {{ prod_phone1.control.errors!.minlength.requiredLength }}. Ви
-                  вели {{ prod_phone1.control.errors!.minlength.actualLength }}
+                  {{ "MinLength" | translate }}
+                  {{ prod_phone1.control.errors!.minlength.requiredLength }}.
+                  {{ "YouEntered" | translate }}
+                  {{ prod_phone1.control.errors!.minlength.actualLength }}
                 </span>
                 <span
                   class="error"
                   *ngIf="prod_phone1.control.errors!.maxlength"
                 >
-                  Максимальна длина
-                  {{ prod_phone1.control.errors!.maxlength.requiredLength }}. Ви
-                  вели {{ prod_phone1.control.errors!.maxlength.actualLength }}
+                  {{ "MaxLength" | translate }}
+                  {{ prod_phone1.control.errors!.maxlength.requiredLength }}.
+                  {{ "YouEntered" | translate }}
+                  {{ prod_phone1.control.errors!.maxlength.actualLength }}
                 </span>
               </div>
             </div>
@@ -853,7 +875,7 @@
 
         <div class="row">
           <div class="title col-6">
-            <span>Телефон 2</span>
+            <span>{{ "Phone2" | translate }}</span>
           </div>
           <div class="col-6">
             <input
@@ -873,23 +895,25 @@
             >
               <div *ngIf="prod_phone2.control.errors !== null">
                 <span class="error" *ngIf="prod_phone2.control.errors!.required"
-                  >Це поле є необхідним</span
-                >
+                  >{{ "FieldIsRequired" | translate }}
+                </span>
                 <span
                   class="error"
                   *ngIf="prod_phone2.control.errors!.minlength"
                 >
-                  Мінімальна длина
-                  {{ prod_phone2.control.errors!.minlength.requiredLength }}. Ви
-                  вели {{ prod_phone2.control.errors!.minlength.actualLength }}
+                  {{ "MinLength" | translate }}
+                  {{ prod_phone2.control.errors!.minlength.requiredLength }}.
+                  {{ "YouEntered" | translate }}
+                  {{ prod_phone2.control.errors!.minlength.actualLength }}
                 </span>
                 <span
                   class="error"
                   *ngIf="prod_phone2.control.errors!.maxlength"
                 >
-                  Максимальна длина
-                  {{ prod_phone2.control.errors!.maxlength.requiredLength }}. Ви
-                  вели {{ prod_phone2.control.errors!.maxlength.actualLength }}
+                  {{ "MaxLength" | translate }}
+                  {{ prod_phone2.control.errors!.maxlength.requiredLength }}.
+                  {{ "YouEntered" | translate }}
+                  {{ prod_phone2.control.errors!.maxlength.actualLength }}
                 </span>
               </div>
             </div>
@@ -898,7 +922,7 @@
 
         <div class="row">
           <div class="title col-6">
-            <span style="color: gray">Фото</span>
+            <span style="color: gray">{{ "Phone" | translate }}</span>
           </div>
           <div class="col-6">
             <input
@@ -912,14 +936,15 @@
               accept=".jpg,.png,.jpeg"
             />
             <label for="prod_photo"
-              ><i class="bx bxs-file-image"></i><span>Оберіть файл</span></label
+              ><i class="bx bxs-file-image"></i
+              ><span>{{ "ChooseFile" | translate }}</span></label
             >
           </div>
         </div>
 
         <div class="row">
           <div class="title col-6">
-            <span>Опис</span>
+            <span>{{ "Description" | translate }}</span>
           </div>
           <div class="col-6">
             <textarea
@@ -947,26 +972,26 @@
                 <span
                   class="error"
                   *ngIf="prod_description.control.errors!.required"
-                  >Це поле є необхідним</span
-                >
+                  >{{ "FieldIsRequired" | translate }}
+                </span>
                 <span
                   class="error"
                   *ngIf="prod_description.control.errors!.minlength"
                 >
-                  Мінімальна длина:
+                  {{ "MinLength" | translate }} :
                   {{
                     prod_description.control.errors!.minlength.requiredLength
-                  }}. Ви вели
+                  }}. {{ "YouEntered" | translate }}
                   {{ prod_description.control.errors!.minlength.actualLength }}
                 </span>
                 <span
                   class="error"
                   *ngIf="prod_description.control.errors!.maxlength"
                 >
-                  Максимальна длина:
+                  {{ "MaxLength" | translate }} :
                   {{
                     prod_description.control.errors!.maxlength.requiredLength
-                  }}. Ви вели
+                  }}. {{ "YouEntered" | translate }}
                   {{ prod_description.control.errors!.maxlength.actualLength }}
                 </span>
               </div>
@@ -977,9 +1002,11 @@
     </div>
     <div class="modal-bottom">
       <button type="submit" id="save-btn" (click)="addNewProd()">
-        Зберегти
+        {{ "Save" | translate }}
       </button>
-      <button id="cancel-btn" (click)="closeAddProdModal()">Назад</button>
+      <button id="cancel-btn" (click)="closeAddProdModal()">
+        {{ "Cancel" | translate }}
+      </button>
     </div>
   </div>
 </div>

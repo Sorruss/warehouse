@@ -2,13 +2,13 @@
   <div class="table-content">
     <div class="row">
       <div class="col caption">
-        <h6>Назва</h6>
+        <h6>{{ "Title" | translate }}</h6>
       </div>
       <div class="col caption">
-        <h6>Надходження</h6>
+        <h6>{{ "Income" | translate }}</h6>
       </div>
       <div class="col caption">
-        <h6>Деталі</h6>
+        <h6>{{ "Details" | translate }}</h6>
       </div>
     </div>
 
@@ -18,7 +18,10 @@
       @fadeIn
       @slide2right
     >
-      <div class="col name">
+      <div *ngIf="item.order_name == item.special_id" class="col name">
+        {{ "Ordering" | translate }} №{{ item.order_name }}
+      </div>
+      <div *ngIf="item.order_name != item.special_id" class="col name">
         {{ item.order_name }}
       </div>
       <div class="col date">
@@ -28,16 +31,23 @@
         <a
           class="button-link"
           routerLink="/registrate-import-order/{{ item.id }}"
-          [state]="{ pageName: item.order_name }"
+          [state]="{
+            pageName:
+              item.order_name == item.special_id
+                ? ('Ordering' | translate) + ' №' + item.order_name
+                : item.order_name
+          }"
         >
           <button>
             <i class="bx bx-link-external"></i>
           </button>
         </a>
-        <span class="hint">переглянути деталі</span>
+        <span class="hint">{{ "ViewDetails" | translate }}</span>
       </div>
     </div>
   </div>
 </div>
 
-<div *ngIf="!items.length" class="import-registration-is-empty">Пусто</div>
+<div *ngIf="!items.length" class="import-registration-is-empty">
+  {{ "Empty" | translate }}
+</div>

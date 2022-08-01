@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { ItemsService } from '../../services/items/items.service';
 import { FilterService } from 'src/app/services/filter/filter.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { TranslateService } from '@ngx-translate/core';
 
 // @ts-ignore
 import PizZip from 'pizzip';
@@ -13,10 +15,13 @@ import { getCurrentDateTime, loadFile } from 'src/app/functions';
 
 import { Item } from 'src/app/interfaces';
 
+import { fadeIn } from 'src/app/animations/animations';
+
 @Component({
   selector: 'app-inventory-statement',
   templateUrl: './inventory-statement.component.html',
   styleUrls: ['./inventory-statement.component.css'],
+  animations: [fadeIn],
 })
 export class InventoryStatementComponent implements OnInit {
   public items: Item[] = [];
@@ -24,7 +29,9 @@ export class InventoryStatementComponent implements OnInit {
   constructor(
     private itemsService: ItemsService,
     private filterService: FilterService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private authService: AuthService,
+    private translateService: TranslateService
   ) {}
   ngOnInit(): void {
     this.retrieveItems();
@@ -45,7 +52,7 @@ export class InventoryStatementComponent implements OnInit {
 
   downloadDOCX() {
     loadFile(
-      '../../../static/other/inventory_statement_template.docx',
+      '../../../static/other/templates/ua/inventory_statement_template.docx',
       (error: any, content: any) => {
         if (error) {
           throw error;
@@ -58,9 +65,12 @@ export class InventoryStatementComponent implements OnInit {
 
         const { dateFile, dateDocument } = getCurrentDateTime();
 
+        const user = this.authService.getUserDetails();
+        const userFullname = user.first_name + ' ' + user.last_name;
         doc.render({
           items: this.items,
           dateDocument,
+          userFullname,
         });
 
         const out = doc.getZip().generate({
@@ -69,8 +79,16 @@ export class InventoryStatementComponent implements OnInit {
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         });
 
+        let filename: string = '';
+        const lang = this.translateService.currentLang;
+        if (lang === 'ua') {
+          filename = `інвентарна_відомість_${dateFile}.docx`;
+        } else if (lang === 'en') {
+          filename = `inventory_statement_${dateFile}.docx`;
+        }
+
         this.notificationService.createDOCXFileCreatedNotification(true);
-        saveAs(out, `інвентарна_відомість_${dateFile}.docx`);
+        saveAs(out, filename);
       }
     );
   }

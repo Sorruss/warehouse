@@ -167,7 +167,11 @@ export class CartComponent implements OnInit {
   }
 
   changeModalDialogState(): void {
-    this.goingToOrder = !this.goingToOrder;
+    if (this.selectedItemsId.length) {
+      this.goingToOrder = !this.goingToOrder;
+    } else {
+      this.notificationService.createNoChooseNotification(true);
+    }
   }
 
   checkOnWrongQuantity(): boolean {
@@ -211,8 +215,8 @@ export class CartComponent implements OnInit {
       .subscribe(
         (response) => {
           console.log('response: ', response);
-          this.removeFromCart(true, response.id);
           this.changeModalDialogState();
+          this.removeFromCart(true, response.id);
           this.notificationService.createOrderNotification(order_name, true);
         },
         (error) => {

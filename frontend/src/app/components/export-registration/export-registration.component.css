@@ -1,5 +1,5 @@
 .table-content {
-  color: white;
+  color: var(--text-color);
   min-height: calc(100vh - 70px);
 }
 .row {

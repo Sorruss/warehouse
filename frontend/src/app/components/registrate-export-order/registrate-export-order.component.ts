@@ -4,8 +4,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FilterService } from 'src/app/services/filter/filter.service';
 import { ItemsService } from 'src/app/services/items/items.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { TranslateService } from '@ngx-translate/core';
 
-import { fadeIn, slide2right } from 'src/app/animations/animations';
+import { fadeIn } from 'src/app/animations/animations';
 
 import { ExportRegistrationService } from 'src/app/services/export-registration/export-registration.service';
 
@@ -20,7 +22,7 @@ import { getCurrentDateTime, loadFile } from 'src/app/functions';
   selector: 'app-registrate-export-order',
   templateUrl: './registrate-export-order.component.html',
   styleUrls: ['./registrate-export-order.component.css'],
-  animations: [fadeIn, slide2right],
+  animations: [fadeIn],
 })
 export class RegistrateExportOrderComponent implements OnInit {
   public order!: any;
@@ -34,7 +36,9 @@ export class RegistrateExportOrderComponent implements OnInit {
     private filterService: FilterService,
     private itemsService: ItemsService,
     private router: Router,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private authService: AuthService,
+    private translateService: TranslateService
   ) {}
   ngOnInit(): void {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
@@ -92,7 +96,7 @@ export class RegistrateExportOrderComponent implements OnInit {
 
   downloadDOCX(): void {
     loadFile(
-      '../../../static/other/registrate_import_order_template.docx',
+      '../../../static/other/templates/ua/registrate_import_order_template.docx',
       (error: any, content: any) => {
         if (error) {
           throw error;
@@ -105,10 +109,13 @@ export class RegistrateExportOrderComponent implements OnInit {
 
         const { dateFile, dateDocument } = getCurrentDateTime();
 
+        const user = this.authService.getUserDetails();
+        const userFullname = user.first_name + ' ' + user.last_name;
         doc.render({
           order_name: this.order.order_name,
           items: this.order.RegistrationModels,
           dateDocument,
+          userFullname,
         });
 
         const out = doc.getZip().generate({
@@ -117,13 +124,16 @@ export class RegistrateExportOrderComponent implements OnInit {
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         });
 
+        let filename = this.order.order_name.split(' ').join('_');
+        const lang = this.translateService.currentLang;
+        if (lang === 'ua') {
+          filename += `(експорт)_${dateFile}.docx`;
+        } else if (lang === 'en') {
+          filename += `(export)_${dateFile}.docx`;
+        }
+
         this.notificationService.createDOCXFileCreatedNotification(true);
-        saveAs(
-          out,
-          `${this.order.order_name
-            .split(' ')
-            .join('_')}(експорт)_${dateFile}.docx`
-        );
+        saveAs(out, filename);
       }
     );
   }

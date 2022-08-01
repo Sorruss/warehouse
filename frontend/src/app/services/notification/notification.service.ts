@@ -17,10 +17,11 @@ export interface Notification {
 })
 export class NotificationService {
   public items: Notification[] = [];
-  itemsChanged: Subject<Notification[]> = new Subject<Notification[]>();
+  public itemsChanged: Subject<Notification[]> = new Subject<Notification[]>();
 
   private notficationsLimit: number = 8;
   private msecondsToDisappear: number = 3000;
+  private currLang: string = '';
 
   constructor(
     private authService: AuthService,
@@ -40,6 +41,7 @@ export class NotificationService {
     this.items.push(item);
     this.changed();
 
+    // IF NOTIFICATION TIME WAS CHANGED BY THE USER.
     if (this.cookieService.check('notificationTime')) {
       let time: any = this.cookieService.get('notificationTime');
       if (time !== 'never') {
@@ -50,6 +52,14 @@ export class NotificationService {
       this.autoDelete(item.id, this.msecondsToDisappear);
     }
   }
+
+  checkOnLanguageChange(): void {
+    // IF SITE LANGUAGE WAS CHANGED BY THE USER.
+    if (this.cookieService.check('language')) {
+      this.currLang = this.cookieService.get('language');
+    }
+  }
+
   getItem(id: number): Notification {
     return this.items.find((item) => item.id === id)!;
   }
@@ -78,11 +88,25 @@ export class NotificationService {
     exportQuantity: string,
     compressed: boolean = false
   ): void {
-    this.addItem({
-      title: 'Додано до замовлення на імпорт',
-      message: `Товар "${name.toLocaleUpperCase()}" у кількості ${
+    let message: string = '';
+    let title: string = '';
+
+    this.checkOnLanguageChange();
+    if (this.currLang === 'ua' || !this.currLang) {
+      title = 'Додано до замовлення на імпорт';
+      message = `Товар "${name.toLocaleUpperCase()}" у кількості ${
         exportQuantity || '0'
-      } був доданий до загального імпорту`,
+      } був доданий до загального імпорту`;
+    } else if (this.currLang === 'en') {
+      title = 'Added to the total import';
+      message = `Product "${name.toLocaleUpperCase()}" in quantity ${
+        exportQuantity || '0'
+      } has been added to the total import`;
+    }
+
+    this.addItem({
+      title,
+      message,
       color: 'dark',
       compressed,
     });
@@ -92,11 +116,25 @@ export class NotificationService {
     exportQuantity: string,
     compressed: boolean = false
   ): void {
-    this.addItem({
-      title: 'Додано до замовлення на експорт',
-      message: `Товар "${name.toLocaleUpperCase()}" у кількості ${
+    let message: string = '';
+    let title: string = '';
+
+    this.checkOnLanguageChange();
+    if (this.currLang === 'ua' || !this.currLang) {
+      title = 'Додано до замовлення на експорт';
+      message = `Товар "${name.toLocaleUpperCase()}" у кількості ${
         exportQuantity || 0
-      } був доданий до загального експорту`,
+      } був доданий до загального експорту`;
+    } else if (this.currLang === 'en') {
+      title = 'Added to the total export';
+      message = `Product "${name.toLocaleUpperCase()}" in quantity ${
+        exportQuantity || '0'
+      } has been added to the total export`;
+    }
+
+    this.addItem({
+      title,
+      message,
       color: 'dark',
       compressed,
     });
@@ -106,18 +144,40 @@ export class NotificationService {
     exportQuantity: string,
     compressed: boolean = false
   ): void {
-    this.addItem({
-      title: 'Занадто багато',
-      message: `Товар "${name.toLocaleUpperCase()}" у кількості ${
+    let message: string = '';
+    let title: string = '';
+
+    this.checkOnLanguageChange();
+    if (this.currLang === 'ua' || !this.currLang) {
+      title = 'Занадто багато';
+      message = `Товар "${name.toLocaleUpperCase()}" у кількості ${
         exportQuantity || 0
-      } не може бути вивезений. Такої кількості немає`,
+      } не може бути вивезений. Такої кількості немає`;
+    } else if (this.currLang === 'en') {
+      title = 'Too much';
+      message = `Product "${name.toLocaleUpperCase()}" in quantity ${
+        exportQuantity || '0'
+      } cannot be exported. There is no such quantity`;
+    }
+
+    this.addItem({
+      title,
+      message,
       color: 'red',
       compressed,
     });
   }
   createOrderNotification(name: string, compressed: boolean = false): void {
+    let title: string = '';
+    this.checkOnLanguageChange();
+    if (this.currLang === 'ua' || !this.currLang) {
+      title = 'Order' + (name ? ` '${name}' ` : ' ') + 'has been created';
+    } else if (this.currLang === 'en') {
+      title = 'Added to the total import';
+    }
+
     this.addItem({
-      title: 'Замовлення' + (name ? ` '${name}' ` : ' ') + 'створене',
+      title,
       message: '',
       color: 'green',
       compressed,
@@ -128,26 +188,56 @@ export class NotificationService {
     quantity: string,
     compressed: boolean = false
   ): void {
-    this.addItem({
-      title: 'Не корректна кількість товару',
-      message: `Товар "${name.toLocaleUpperCase()}" у кількості ${
+    let message: string = '';
+    let title: string = '';
+
+    this.checkOnLanguageChange();
+    if (this.currLang === 'ua' || !this.currLang) {
+      title = 'Некорректна кількість товару';
+      message = `Товар "${name.toLocaleUpperCase()}" у кількості ${
         quantity || 0
-      } не може бути доданий до замовлення.`,
+      } не може бути доданий до замовлення.`;
+    } else if (this.currLang === 'en') {
+      title = 'Added to the total import';
+      message = `Product "${name.toLocaleUpperCase()}" in quantity ${
+        quantity || '0'
+      } cannot be added to the order.`;
+    }
+
+    this.addItem({
+      title,
+      message,
       color: 'red',
       compressed,
     });
   }
   createNoSelectedNotification(compressed: boolean = false): void {
+    let title: string = '';
+    this.checkOnLanguageChange();
+    if (this.currLang === 'ua' || !this.currLang) {
+      title = 'Неможливість створення пустого замовлення';
+    } else if (this.currLang === 'en') {
+      title = 'It is impossible to create an empty order';
+    }
+
     this.addItem({
-      title: 'Неможливість створення пустого замовлення',
+      title,
       message: '',
       color: 'red',
       compressed,
     });
   }
   createInvalidCredentialsNotification(compressed: boolean = false): void {
+    let title: string = '';
+    this.checkOnLanguageChange();
+    if (this.currLang === 'ua' || !this.currLang) {
+      title = 'Невірні дані. Перевірте та спробуйте знову';
+    } else if (this.currLang === 'en') {
+      title = 'Incorrect data. Check and try again';
+    }
+
     this.addItem({
-      title: 'Невірні дані. Перевірте та спробуйте знову',
+      title,
       message: '',
       color: 'totalred',
       compressed,
@@ -157,8 +247,16 @@ export class NotificationService {
     name: string,
     compressed: boolean = false
   ): void {
+    let title: string = '';
+    this.checkOnLanguageChange();
+    if (this.currLang === 'ua' || !this.currLang) {
+      title = `Запис '${name.toUpperCase()}' був успішно видалений`;
+    } else if (this.currLang === 'en') {
+      title = `Record '${name.toUpperCase()}' was successfully deleted`;
+    }
+
     this.addItem({
-      title: `Запис '${name.toUpperCase()}' був успішно видалений.`,
+      title,
       message: '',
       color: 'green',
       compressed,
@@ -166,25 +264,50 @@ export class NotificationService {
   }
   createSuccessLogInNotification(compressed: boolean = false): void {
     const user = this.authService.getUserDetails();
-    const name = user.first_name + ' ' + user.last_name;
+    const fullname = user.first_name + ' ' + user.last_name;
+
+    let title: string = '';
+    this.checkOnLanguageChange();
+    if (this.currLang === 'ua' || !this.currLang) {
+      title = `Ви увійшли в систему як ${fullname}`;
+    } else if (this.currLang === 'en') {
+      title = `You are logged in as ${fullname}`;
+    }
+
     this.addItem({
-      title: `Ви увійшли в систему як ${name}`,
+      title,
       message: '',
       color: 'green',
       compressed,
     });
   }
   createDOCXFileCreatedNotification(compressed: boolean = false): void {
+    let title: string = '';
+    this.checkOnLanguageChange();
+    if (this.currLang === 'ua' || !this.currLang) {
+      title = 'Звіт був успішно сформований';
+    } else if (this.currLang === 'en') {
+      title = 'The report was generated successfully';
+    }
+
     this.addItem({
-      title: `Звіт був успішно сформований`,
+      title,
       message: '',
       color: 'totalgreen',
       compressed,
     });
   }
   createNoChooseNotification(compressed: boolean = false): void {
+    let title: string = '';
+    this.checkOnLanguageChange();
+    if (this.currLang === 'ua' || !this.currLang) {
+      title = 'Ви нічого не обрали';
+    } else if (this.currLang === 'en') {
+      title = 'You have not selected anything';
+    }
+
     this.addItem({
-      title: `Ви нічого не обрали`,
+      title,
       message: '',
       color: 'totalred',
       compressed,
@@ -195,9 +318,21 @@ export class NotificationService {
     name2: string,
     compressed: boolean = false
   ): void {
+    let message: string = '';
+    let title: string = '';
+
+    this.checkOnLanguageChange();
+    if (this.currLang === 'ua' || !this.currLang) {
+      title = 'Успіх';
+      message = `${name1} '${name2}' був успішно створений`;
+    } else if (this.currLang === 'en') {
+      title = 'Success';
+      message = `${name1} '${name2}' was successfully created`;
+    }
+
     this.addItem({
-      title: `Успіх`,
-      message: `${name1} '${name2}' був успішно створений`,
+      title,
+      message,
       color: 'green',
       compressed,
     });
@@ -207,8 +342,32 @@ export class NotificationService {
     name2: string,
     compressed: boolean = true
   ): void {
+    let title: string = '';
+    this.checkOnLanguageChange();
+    if (this.currLang === 'ua' || !this.currLang) {
+      title = `${name1} було успішно змінено на '${name2}'`;
+    } else if (this.currLang === 'en') {
+      title = `${name1} was successfully changed to '${name2}'`;
+    }
+
     this.addItem({
-      title: `${name1} було успішно змінено на '${name2}'`,
+      title,
+      message: '',
+      color: 'green',
+      compressed,
+    });
+  }
+  createSuccessNotification(compressed: boolean = true): void {
+    let title: string = '';
+    this.checkOnLanguageChange();
+    if (this.currLang === 'ua' || !this.currLang) {
+      title = 'Успіх';
+    } else if (this.currLang === 'en') {
+      title = 'Success';
+    }
+
+    this.addItem({
+      title,
       message: '',
       color: 'green',
       compressed,

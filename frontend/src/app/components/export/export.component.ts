@@ -166,7 +166,11 @@ export class ExportComponent implements OnInit {
   }
 
   changeModalDialogState(): void {
-    this.goingToOrder = !this.goingToOrder;
+    if (this.selectedItemsId.length) {
+      this.goingToOrder = !this.goingToOrder;
+    } else {
+      this.notificationService.createNoChooseNotification(true);
+    }
   }
 
   checkOnWrongQuantity(): boolean {
@@ -210,8 +214,8 @@ export class ExportComponent implements OnInit {
       .subscribe(
         (response) => {
           console.log('response', response);
-          this.removeFromExport(true, response.id);
           this.changeModalDialogState();
+          this.removeFromExport(true, response.id);
           this.notificationService.createOrderNotification(order_name, true);
         },
         (error) => {

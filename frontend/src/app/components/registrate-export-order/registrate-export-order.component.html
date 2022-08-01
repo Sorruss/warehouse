@@ -2,13 +2,13 @@
   <div class="table-content">
     <div class="row">
       <div class="col caption">
-        <h6>Товар</h6>
+        <h6>{{ "Title" | translate }}</h6>
       </div>
       <div class="col caption">
-        <h6>Кількість</h6>
+        <h6>{{ "Quantity" | translate }}</h6>
       </div>
       <div class="col caption">
-        <h6>Деталі</h6>
+        <h6>{{ "Details" | translate }}</h6>
       </div>
     </div>
 
@@ -19,7 +19,6 @@
         "
         class="row item"
         @fadeIn
-        @slide2right
       >
         <div class="col name">
           {{ item.ritem_name }}
@@ -37,14 +36,18 @@
               <i class="bx bx-link-external"></i>
             </button>
           </a>
-          <span class="hint">переглянути деталі</span>
+          <span class="hint">{{ "ViewDetails" | translate }}</span>
         </div>
       </div>
     </div>
   </div>
 
   <div class="buttons">
-    <button (click)="downloadDOCX()">Завантажити .docx файл</button>
-    <button (click)="registerExport()">Зареєструвати вивіз</button>
+    <button (click)="downloadDOCX()">
+      {{ "DownloadDOCXFile" | translate }}
+    </button>
+    <button (click)="registerExport()">
+      {{ "RegisterImport" | translate }}
+    </button>
   </div>
 </div>

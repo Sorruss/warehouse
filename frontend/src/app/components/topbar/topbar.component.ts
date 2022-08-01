@@ -15,7 +15,7 @@ import { AdminFeaturesComponent } from '../helpers/admin-features/admin-features
 export class TopbarComponent implements OnInit {
   private mainSearchBar: any;
 
-  public pageName: string = 'склад';
+  public pageName: string = '';
   public isSearchBarActivated: boolean = false;
 
   public goBackCond: boolean = false;
@@ -53,7 +53,7 @@ export class TopbarComponent implements OnInit {
         this.goHomeCond = false;
       }
       if (path instanceof NavigationEnd) {
-        this.pageName = window.history.state?.pageName || 'склад';
+        this.pageName = window.history.state?.pageName || '';
       }
     });
   }

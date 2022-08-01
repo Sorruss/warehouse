@@ -1,21 +1,21 @@
 <div *ngIf="items.length" class="table">
   <div class="table-content">
     <div class="row">
-      <div class="col caption">
-        <h6>Товар</h6>
+      <div class="col col-3 caption">
+        <h6>{{ "Title" | translate }}</h6>
       </div>
       <div class="col caption">
-        <h6>Кількість</h6>
+        <h6>{{ "Quantity" | translate }}</h6>
       </div>
       <div class="col caption">
-        <h6>Надходження</h6>
+        <h6>{{ "Income" | translate }}</h6>
       </div>
       <div class="col caption">
-        <h6>Деталі</h6>
+        <h6>{{ "Details" | translate }}</h6>
       </div>
     </div>
 
-    <div *ngFor="let item of items" class="row item">
+    <div *ngFor="let item of items" class="row item" @fadeIn>
       <div class="col name">
         {{ item.item_name }}
       </div>
@@ -35,14 +35,18 @@
             <i class="bx bx-link-external"></i>
           </button>
         </a>
-        <span class="hint">переглянути деталі</span>
+        <span class="hint">{{ "ViewDetails" | translate }}</span>
       </div>
     </div>
   </div>
 
   <div class="buttons">
-    <button (click)="downloadDOCX()">Завантажити .docx файл</button>
+    <button (click)="downloadDOCX()">
+      {{ "DownloadDOCXFile" | translate }}
+    </button>
   </div>
 </div>
 
-<div *ngIf="!items.length" class="inventory-is-empty">Пусто</div>
+<div *ngIf="!items.length" class="inventory-is-empty">
+  {{ "Empty" | translate }}
+</div>

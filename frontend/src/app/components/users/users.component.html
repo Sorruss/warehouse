@@ -27,9 +27,13 @@
           -
           <span class="position">{{ user.user_position }}</span>
         </div>
-        <div class="online">Останній раз онлайн: ніколи</div>
+        <div class="online">{{ "LastTimeOnline" | translate }}: never</div>
         <div class="role">
-          {{ user.user_role === "worker" ? "Працівник" : "Адміністратор" }}
+          {{
+            user.user_role === "worker"
+              ? ("Worker" | translate)
+              : ("Administrator" | translate)
+          }}
         </div>
       </div>
     </div>

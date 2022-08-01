@@ -1,4 +1,5 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { InterceptorService } from './services/interceptor/interceptor.service';
 import { CookieService } from 'ngx-cookie-service';
@@ -8,12 +9,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 
 import { FilterByNamePipe } from './pipes/filter-by-name/filter-by-name.pipe';
 import { ShortenPipe } from './pipes/shorten/shorten.pipe';
 
 import { NgNumberDirective } from './directives/ng-number/ng-number.directive';
+import { DateFormatDirective } from './directives/dateFormat/date-format.directive';
 
 import { AppComponent } from './app.component';
 import { RightSidebarComponent } from './components/right-sidebar/right-sidebar.component';
@@ -37,7 +40,6 @@ import { ProducersComponent } from './components/producers/producers.component';
 import { ProducerComponent } from './components/producer/producer.component';
 import { UsersComponent } from './components/users/users.component';
 import { UserComponent } from './components/user/user.component';
-import { DateFormatDirective } from './directives/dateFormat/date-format.directive';
 
 @NgModule({
   declarations: [
@@ -74,6 +76,13 @@ import { DateFormatDirective } from './directives/dateFormat/date-format.directi
     FormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: httpTranslateLoader,
+        deps: [HttpClient],
+      },
+    }),
   ],
   providers: [
     CookieService,
@@ -86,3 +95,7 @@ import { DateFormatDirective } from './directives/dateFormat/date-format.directi
   bootstrap: [AppComponent],
 })
 export class AppModule {}
+
+export function httpTranslateLoader(httpClient: HttpClient) {
+  return new TranslateHttpLoader(httpClient);
+}

@@ -25,7 +25,7 @@ exports.create = async (req, res) => {
     item.special_id = Math.floor(Math.random() * (max - min) + min);
   }
   if (!item.order_name) {
-    item.order_name = `Замовлення №${item.special_id}`;
+    item.order_name = item.special_id;
   }
 
   await ImportOrder.create(item)

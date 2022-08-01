@@ -6,6 +6,7 @@ import { ProducersService } from 'src/app/services/producers/producers.service';
 import { ItemsService } from 'src/app/services/items/items.service';
 import { UsersService } from 'src/app/services/users/users.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
+import { CookieService } from 'ngx-cookie-service';
 
 import { date2Ukrainian, getRandomNumber } from 'src/app/functions';
 
@@ -38,7 +39,8 @@ export class AdminFeaturesComponent implements OnInit {
     private producersService: ProducersService,
     private itemsService: ItemsService,
     private notificationService: NotificationService,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private cookieService: CookieService
   ) {}
   ngOnInit(): void {
     const user = this.authService.getUserDetails();
@@ -77,17 +79,28 @@ export class AdminFeaturesComponent implements OnInit {
       return;
     }
 
+    // Check photo field, set default value if needed.
     if (this.photos.item_photo) {
       this.saveItemPhoto();
     } else {
       this.newItem.photo_src = 'default';
     }
 
+    // Trying to get translate of word for the correct notification.
+    let trans: string = '';
+    const lang = this.cookieService.get('language');
+    if (lang === 'ua' || !lang) {
+      trans = 'Товар';
+    } else if (lang === 'en') {
+      trans = 'Product';
+    }
+
+    // Other stuff.
     this.changeAnItemBeforeCreation();
     this.createAnItem();
     this.closeAddItemModal();
     this.notificationService.createSomethingWasCreatedNotification(
-      'Товар',
+      trans,
       this.newItem.item_name
     );
     this.clearItemAfterAdding();
@@ -236,11 +249,20 @@ export class AdminFeaturesComponent implements OnInit {
       this.newUser.photo_src = 'default';
     }
 
+    // Trying to get translate of word for the correct notification.
+    let trans: string = '';
+    const lang = this.cookieService.get('language');
+    if (lang === 'ua' || !lang) {
+      trans = 'Користувач';
+    } else if (lang === 'en') {
+      trans = 'User';
+    }
+
     this.changeAnUserBeforeCreation();
     this.createAnUser();
     this.closeAddUserModal();
     this.notificationService.createSomethingWasCreatedNotification(
-      'Користувач',
+      trans,
       this.newUser.first_name + ' ' + this.newUser.last_name
     );
     this.clearUserAfterAdding();
@@ -300,10 +322,19 @@ export class AdminFeaturesComponent implements OnInit {
       this.newProd.photo_src = 'default';
     }
 
+    // Trying to get translate of word for the correct notification.
+    let trans: string = '';
+    const lang = this.cookieService.get('language');
+    if (lang === 'ua' || !lang) {
+      trans = 'Виробник';
+    } else if (lang === 'en') {
+      trans = 'Producer';
+    }
+
     this.createAnProd();
     this.closeAddProdModal();
     this.notificationService.createSomethingWasCreatedNotification(
-      'Виробник',
+      trans,
       this.newProd.producer_name
     );
     this.clearProdAfterAdding();

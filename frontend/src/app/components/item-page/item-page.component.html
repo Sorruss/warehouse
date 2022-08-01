@@ -17,14 +17,22 @@
       <div class="info">
         <ul>
           <li><span class="param">ID</span>: {{ item.id }}</li>
-          <li><span class="param">Назва</span>: {{ item.item_name }}</li>
-          <li><span class="param">Кількість</span>: {{ item.quantity }}</li>
           <li>
-            <span class="param">Дата останнього надходження</span>:
+            <span class="param">{{ "Title" | translate }}</span
+            >: {{ item.item_name }}
+          </li>
+          <li>
+            <span class="param">{{ "Quantity" | translate }}</span
+            >: {{ item.quantity }}
+          </li>
+          <li>
+            <span class="param">{{ "IncomeDate" | translate }}</span
+            >:
             {{ item.income_date }}
           </li>
           <li>
-            <span class="param">Виробник</span>:
+            <span class="param">{{ "Producer" | translate }}</span
+            >:
             <a
               [routerLink]="['/producer/', item.Producer.id]"
               [state]="{ pageName: item.Producer.producer_name }"
@@ -39,7 +47,7 @@
   <div class="buttons" [class.admin-page]="user_role === 'admin'">
     <div class="button-import">
       <button (click)="addToCart(inputImport.value)">
-        <span class="text">Замовлення</span>
+        <span class="text">{{ "Order" | translate }}</span>
       </button>
       <input
         #inputImport
@@ -53,7 +61,7 @@
 
     <div class="button-export">
       <button (click)="addToExport(inputExport.value)">
-        <span class="text">Вивіз</span>
+        <span class="text">{{ "Export" | translate }}</span>
       </button>
       <input
         #inputExport
@@ -139,7 +147,8 @@
         <ul>
           <li><span class="param">ID</span>: {{ item.id }}</li>
           <li>
-            <span class="param">Назва</span>:
+            <span class="param">{{ "Title" | translate }}</span
+            >:
             <input
               [ngModel]="editedItem.item_name"
               #item_name="ngModel"
@@ -175,7 +184,8 @@
             </div>
           </li>
           <li>
-            <span class="param">Кількість</span>:
+            <span class="param">{{ "Quantity" | translate }}</span
+            >:
             <input
               type="number"
               [ngModel]="editedItem.quantity"
@@ -214,7 +224,8 @@
             </div>
           </li>
           <li>
-            <span class="param">Дата останнього надходження</span>:
+            <span class="param">{{ "IncomeDate" | translate }}</span
+            >:
             <input
               type="text"
               [ngModel]="editedItem.income_date"
@@ -258,7 +269,8 @@
             </div>
           </li>
           <li>
-            <span class="param">Виробник</span>:
+            <span class="param">{{ "Producer" | translate }}</span
+            >:
             <select
               [ngModel]="editedItem.producer_id"
               #item_producer="ngModel"
@@ -268,7 +280,7 @@
               (change)="editedItem.producer_id = item_producer.control.value"
               required
             >
-              <option selected disabled value=""></option>
+              <option disabled value=""></option>
               <option *ngFor="let prod of producers" [value]="prod.id">
                 {{ prod.producer_name }}
               </option>
@@ -295,11 +307,11 @@
 
   <div class="buttons" [class.admin-page]="user_role === 'admin'">
     <button id="save" (click)="saveFormatting()">
-      <span class="text">Зберегти</span>
+      <span class="text">{{ "Save" | translate }}</span>
     </button>
 
     <button id="cancel" (click)="cancelFormatting()">
-      <span class="text">Назад</span>
+      <span class="text">{{ "Cancel" | translate }}</span>
     </button>
   </div>
 </div>

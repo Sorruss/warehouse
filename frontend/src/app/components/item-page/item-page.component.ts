@@ -164,6 +164,7 @@ export class ItemPageComponent implements OnInit {
     this.deletePrevPhoto();
   }
   saveFormatting(): void {
+    // Doing stuff with images of the item.
     if (
       this.editedItem.photo_src !== this.item.photo_src &&
       this.item.photo_src !== 'default'
@@ -182,11 +183,13 @@ export class ItemPageComponent implements OnInit {
       }
     }
 
+    // Patching an item.
     this.itemsService.patch(this.item.id, this.editedItem).subscribe({
       next: (data) => {
         console.log('!response: ', data);
         this.retrieveItem();
         this.editingProcess = false;
+        this.notificationService.createSuccessNotification();
       },
       error: (error) => {
         console.log('error: ', error);

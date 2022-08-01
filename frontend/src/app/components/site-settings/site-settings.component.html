@@ -2,9 +2,9 @@
   <div class="page-content">
     <div class="settings">
       <ul id="settings-keys">
-        <li>Тема сайту:</li>
-        <li>Мова сайту:</li>
-        <li>Час зникання повідомлень:</li>
+        <li>{{ "SiteTheme" | translate }}:</li>
+        <li>{{ "SiteLanguage" | translate }}:</li>
+        <li>{{ "DisappearanceTimeOfMessages" | translate }}:</li>
       </ul>
       <ul id="settings-values">
         <li>
@@ -15,8 +15,8 @@
             id="select-theme"
             [value]="selectedTheme"
           >
-            <option value="dark">Темна</option>
-            <option value="light">Світла</option>
+            <option value="dark">{{ "Dark" | translate }}</option>
+            <option value="light">{{ "Light" | translate }}</option>
           </select>
         </li>
         <li>
@@ -27,9 +27,9 @@
             id="select-language"
             [value]="selectedLanguage"
           >
-            <option value="ukrainian">Українська</option>
-            <option disabled value="polish">Polish</option>
-            <option disabled value="english">English</option>
+            <option value="ua">{{ "Ukrainian" | translate }}</option>
+            <option disabled value="pl">{{ "Polish" | translate }}</option>
+            <option value="en">{{ "English" | translate }}</option>
           </select>
         </li>
         <li>
@@ -40,17 +40,39 @@
             id="notifications-time"
             [value]="selectedNotificationTime"
           >
-            <option value="never">Ніколи</option>
-            <option value="500">0.5 с.</option>
-            <option value="1000">1 с.</option>
-            <option value="1500">1.5 с.</option>
-            <option value="2000">2 с.</option>
-            <option value="2500">2.5 с.</option>
-            <option value="3000">3 с.</option>
-            <option value="3500">3.5 с.</option>
-            <option value="4000">4 с.</option>
-            <option value="4500">4.5 с.</option>
-            <option value="5000">5 с.</option>
+            <option value="never">
+              {{ "Never" | translate }}
+            </option>
+            <option value="500">
+              0.5{{ "Seconds" | translate | shorten: 1 }}
+            </option>
+            <option value="1000">
+              1{{ "Seconds" | translate | shorten: 1 }}
+            </option>
+            <option value="1500">
+              1.5{{ "Seconds" | translate | shorten: 1 }}
+            </option>
+            <option value="2000">
+              2{{ "Seconds" | translate | shorten: 1 }}
+            </option>
+            <option value="2500">
+              2.5{{ "Seconds" | translate | shorten: 1 }}
+            </option>
+            <option value="3000">
+              3{{ "Seconds" | translate | shorten: 1 }}
+            </option>
+            <option value="3500">
+              3.5{{ "Seconds" | translate | shorten: 1 }}
+            </option>
+            <option value="4000">
+              4{{ "Seconds" | translate | shorten: 1 }}
+            </option>
+            <option value="4500">
+              4.5{{ "Seconds" | translate | shorten: 1 }}
+            </option>
+            <option value="5000">
+              5{{ "Seconds" | translate | shorten: 1 }}
+            </option>
           </select>
         </li>
       </ul>

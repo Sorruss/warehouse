@@ -5,7 +5,7 @@
       <input
         id="mainSearchBar"
         type="text"
-        placeholder="Пошук"
+        [placeholder]="'Search' | translate"
         #mainSearchBar
         (input)="setFilterValue(mainSearchBar.value)"
       />
@@ -15,7 +15,8 @@
       class="page-name"
       [style.padding-left]="isSearchBarActivated ? '20%' : '0px'"
     >
-      <h6>{{ pageName }}</h6>
+      <h6 *ngIf="!pageName.length">{{ "SiteName" | translate }}</h6>
+      <h6 *ngIf="pageName.length">{{ pageName }}</h6>
     </div>
 
     <div class="navigation">

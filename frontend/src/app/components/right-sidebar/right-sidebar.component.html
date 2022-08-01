@@ -1,7 +1,9 @@
 <div class="sidebar" [style.pointer-events]="isPointerEvents ? 'all' : 'none'">
   <div class="logo-details">
     <i class="bx bx-sitemap icon" (click)="toHome()"></i>
-    <div class="logo_name" (click)="toHome()">Склад</div>
+    <div class="logo_name" (click)="toHome()">
+      {{ "SiteName" | translate }}
+    </div>
     <i class="bx bx-menu" id="menu-button" (click)="toggleActive()"></i>
   </div>
   <ul class="nav-list">
@@ -13,93 +15,99 @@
     <li>
       <a routerLink="/">
         <i class="bx bx-sitemap icon"></i>
-        <span class="links_name">Склад</span>
+        <span class="links_name">{{ "SiteName" | translate }}</span>
       </a>
-      <span class="hint">Склад</span>
+      <span class="hint">{{ "SiteName" | translate }}</span>
     </li>
 
     <li>
-      <a routerLink="cart" [state]="{ pageName: 'загальне замовлення' }">
+      <a routerLink="cart" [state]="{ pageName: 'GeneralOrder' | translate }">
         <i class="bx bx-cart-alt"></i>
-        <span class="links_name">Загальне замовлення</span>
+        <span class="links_name">{{ "GeneralOrder" | translate }}</span>
       </a>
-      <span class="hint">Загальне замовлення</span>
+      <span class="hint">{{ "GeneralOrder" | translate }}</span>
     </li>
 
     <li>
-      <a routerLink="export" [state]="{ pageName: 'загальний вивіз' }">
+      <a
+        routerLink="export"
+        [state]="{ pageName: 'GeneralExport' | translate }"
+      >
         <i class="bx bx-export bx-rotate-90"></i>
-        <span class="links_name">Загальний вивіз</span>
+        <span class="links_name">{{ "GeneralExport" | translate }}</span>
       </a>
-      <span class="hint">Загальний вивіз</span>
+      <span class="hint">{{ "GeneralExport" | translate }}</span>
     </li>
 
     <li>
       <a
         routerLink="import-registration"
-        [state]="{ pageName: 'реєстрація надходження' }"
+        [state]="{ pageName: 'ImportRegistration' | translate }"
       >
         <i class="bx bxs-file-import"></i>
-        <span class="links_name">Реєстрація надходження</span>
+        <span class="links_name">{{ "ImportRegistration" | translate }}</span>
       </a>
-      <span class="hint">Реєстрація надходження</span>
+      <span class="hint">{{ "ImportRegistration" | translate }}</span>
     </li>
 
     <li>
       <a
         routerLink="export-registration"
-        [state]="{ pageName: 'реєстрація вивезення' }"
+        [state]="{ pageName: 'ExportRegistration' | translate }"
       >
         <i class="bx bxs-file-export"></i>
-        <span class="links_name">Реєстрація вивезення</span>
+        <span class="links_name">{{ "ExportRegistration" | translate }}</span>
       </a>
-      <span class="hint">Реєстрація вивезення</span>
+      <span class="hint">{{ "ExportRegistration" | translate }}</span>
     </li>
 
     <li>
       <a
         routerLink="inventory-statement"
-        [state]="{ pageName: 'інвентарна відомість' }"
+        [state]="{ pageName: 'InventoryStatement' | translate }"
       >
         <i class="bx bx-info-square"></i>
-        <span class="links_name">Інвентарна відомість</span>
+        <span class="links_name">{{ "InventoryStatement" | translate }}</span>
       </a>
-      <span class="hint">Інвентарна відомість</span>
+      <span class="hint">{{ "InventoryStatement" | translate }}</span>
     </li>
 
     <li>
-      <a routerLink="user-page" [state]="{ pageName: 'сторінка користувача' }">
+      <a routerLink="user-page" [state]="{ pageName: 'UserPage' | translate }">
         <i class="bx bx-user"></i>
-        <span class="links_name">Сторінка користувача</span>
+        <span class="links_name">{{ "UserPage" | translate }}</span>
       </a>
-      <span class="hint">Сторінка користувача</span>
+      <span class="hint">{{ "UserPage" | translate }}</span>
     </li>
 
     <li>
-      <a routerLink="users" [state]="{ pageName: 'користувачі компанії' }">
+      <a routerLink="users" [state]="{ pageName: 'CompanyUsers' | translate }">
         <i class="bx bx-group"></i>
-        <span class="links_name">Користувачі компанії</span>
+        <span class="links_name">{{ "CompanyUsers" | translate }}</span>
       </a>
-      <span class="hint">Користувачі компанії</span>
+      <span class="hint">{{ "CompanyUsers" | translate }}</span>
     </li>
 
     <li>
-      <a routerLink="producers" [state]="{ pageName: 'перелік виробників' }">
+      <a
+        routerLink="producers"
+        [state]="{ pageName: 'ListOfManufacturers' | translate }"
+      >
         <i class="bx bx-buildings"></i>
-        <span class="links_name">Перелік виробників</span>
+        <span class="links_name">{{ "ListOfManufacturers" | translate }}</span>
       </a>
-      <span class="hint">Перелік виробників</span>
+      <span class="hint">{{ "ListOfManufacturers" | translate }}</span>
     </li>
 
     <li>
       <a
         routerLink="site-settings"
-        [state]="{ pageName: 'налаштування сайту' }"
+        [state]="{ pageName: 'SiteSettings' | translate }"
       >
         <i class="bx bxs-cog"></i>
-        <span class="links_name">Налаштування сайту</span>
+        <span class="links_name">{{ "SiteSettings" | translate }}</span>
       </a>
-      <span class="hint">Налаштування сайту</span>
+      <span class="hint">{{ "SiteSettings" | translate }}</span>
     </li>
 
     <li class="profile">

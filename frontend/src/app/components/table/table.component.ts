@@ -66,7 +66,7 @@ export class TableComponent implements OnInit {
     this.retrieveItems();
   }
 
-  createCarttItem(item: any, quantity: string): void {
+  createCartItem(item: any, quantity: string): void {
     this.cartService
       .create({
         item_id: item.id,
@@ -76,7 +76,7 @@ export class TableComponent implements OnInit {
       .subscribe(
         (response) => {
           console.log('response: ', response);
-          this.notificationService.createExportNotification(
+          this.notificationService.createImportNotification(
             item.item_name,
             quantity
           );
@@ -96,7 +96,7 @@ export class TableComponent implements OnInit {
       .subscribe(
         (response) => {
           console.log('response: ', response);
-          this.notificationService.createImportNotification(
+          this.notificationService.createExportNotification(
             item.item_name,
             quantity
           );
@@ -107,7 +107,7 @@ export class TableComponent implements OnInit {
       );
   }
   addToCart(item: any, quantity: string): void {
-    this.createCarttItem(item, quantity);
+    this.createCartItem(item, quantity);
   }
   addToExport(item: any): void {
     const quantity = (

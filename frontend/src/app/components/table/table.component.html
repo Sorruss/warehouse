@@ -2,22 +2,22 @@
   <div class="table-content">
     <div class="row">
       <div class="col col-3 caption">
-        <h6>Товар</h6>
+        <h6>{{ "Title" | translate }}</h6>
       </div>
       <div class="col caption">
-        <h6>Кількість</h6>
+        <h6>{{ "Quantity" | translate }}</h6>
       </div>
       <div class="col caption">
-        <h6>Надходження</h6>
+        <h6>{{ "Income" | translate }}</h6>
       </div>
       <div class="col caption">
-        <h6>Замовити</h6>
+        <h6>{{ "Order" | translate }}</h6>
       </div>
       <div class="col caption">
-        <h6>Вивіз</h6>
+        <h6>{{ "Export" | translate }}</h6>
       </div>
       <div class="col col-1 caption">
-        <h6>Деталі</h6>
+        <h6>{{ "Details" | translate }}</h6>
       </div>
     </div>
 
@@ -61,7 +61,7 @@
               <i class="bx bx-import"></i>
             </button>
           </a>
-          <span class="hint">додати до замовлення</span>
+          <span class="hint">{{ "AddToImport" | translate }}</span>
         </div>
       </div>
 
@@ -86,7 +86,7 @@
                 <i class="bx bx-export"></i>
               </button>
             </a>
-            <span class="hint">додати до експорту</span>
+            <span class="hint">{{ "AddToExport" | translate }}</span>
           </div>
 
           <div *ngIf="!item.quantity" class="disabled">
@@ -95,7 +95,7 @@
                 <i class="bx bx-export"></i>
               </button>
             </a>
-            <span class="hint">немає в наявності</span>
+            <span class="hint">{{ "NotAvailable" | translate }}</span>
           </div>
         </div>
       </div>
@@ -110,12 +110,12 @@
             <i class="bx bx-link-external"></i>
           </button>
         </a>
-        <span class="hint details">переглянути деталі</span>
+        <span class="hint details">{{ "ViewDetails" | translate }}</span>
       </div>
     </div>
   </div>
 </div>
 
 <div *ngIf="(itemsLoaded | async) && !items.length" class="table-is-empty">
-  Пусто
+  {{ "Empty" | translate }}
 </div>

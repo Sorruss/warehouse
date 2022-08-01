@@ -29,27 +29,27 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: (function () {
           const today = new Date();
           const custom_months = [
-            "Січень",
-            "Лютий",
-            "Березень",
-            "Квітень",
-            "Травень",
-            "Червень",
-            "Липень",
-            "Серпень",
-            "Вересень",
-            "Жовтень",
-            "Листопад",
-            "Грудень",
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
           ];
           const custom_days = [
-            "Неділя",
-            "Понеділок",
-            "Вівторок",
-            "Середа",
-            "Четвер",
-            "П'ятниця",
-            "Субота",
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
           ];
           const date =
             custom_months[today.getMonth()] +
