@@ -1,4 +1,5 @@
 const { Model } = require("sequelize");
+const { getDate } = require("../functions");
 
 module.exports = (sequelize, DataTypes) => {
   class Item extends Model {
@@ -26,46 +27,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       income_date: {
         type: DataTypes.STRING,
-        defaultValue: (function () {
-          const today = new Date();
-          const custom_months = [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December",
-          ];
-          const custom_days = [
-            "Sunday",
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday",
-          ];
-          const date =
-            custom_months[today.getMonth()] +
-            " " +
-            custom_days[today.getDay()] +
-            "(" +
-            today.getDate() +
-            ")";
-          const time =
-            today.getHours() +
-            ":" +
-            (today.getMinutes() < 10
-              ? `0${today.getMinutes()}`
-              : today.getMinutes());
-          return date + " " + time;
-        })(),
+        defaultValue: getDate(),
         allowNull: true,
       },
       quantity: {

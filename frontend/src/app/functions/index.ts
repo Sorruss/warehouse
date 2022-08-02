@@ -5,7 +5,7 @@ export function loadFile(url: string, callback: Function): any {
   PizZipUtils.getBinaryContent(url, callback);
 }
 
-export function date2Ukrainian(initialValue: string = ''): any {
+export function getDate(initialValue: string = ''): any {
   let date;
   if (initialValue) {
     date = new Date(initialValue);
@@ -14,27 +14,27 @@ export function date2Ukrainian(initialValue: string = ''): any {
   }
 
   const custom_months = [
-    'Січень',
-    'Лютий',
-    'Березень',
-    'Квітень',
-    'Травень',
-    'Червень',
-    'Липень',
-    'Серпень',
-    'Вересень',
-    'Жовтень',
-    'Листопад',
-    'Грудень',
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
   ];
   const custom_days = [
-    'Неділя',
-    'Понеділок',
-    'Вівторок',
-    'Середа',
-    'Четвер',
-    "П'ятниця",
-    'Субота',
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
   ];
 
   const month = custom_months[date.getMonth()];
@@ -48,7 +48,7 @@ export function date2Ukrainian(initialValue: string = ''): any {
 }
 
 export function getCurrentDateTime(): any {
-  const { month, day, weekDayNumber, hours, minutes } = date2Ukrainian();
+  const { month, day, weekDayNumber, hours, minutes } = getDate();
 
   const dateFile =
     month + '_' + day + '(' + weekDayNumber + ')' + '_' + hours + '_' + minutes;

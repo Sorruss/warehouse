@@ -95,46 +95,56 @@ export class RegistrateImportOrderComponent implements OnInit {
   }
 
   downloadDOCX(): void {
-    loadFile(
-      '../../../static/other/templates/ua/registrate_import_order_template.docx',
-      (error: any, content: any) => {
-        if (error) {
-          throw error;
-        }
-        const zip = new PizZip(content);
-        const doc = new Docxtemplater(zip, {
-          paragraphLoop: true,
-          linebreaks: true,
-        });
+    let templatePath: string = '';
+    const lang = this.translateService.currentLang;
+    if (lang === 'ua') {
+      templatePath =
+        '../../../static/other/templates/ua/registrate_import_order_template.docx';
+    } else if (lang === 'en') {
+      templatePath =
+        '../../../static/other/templates/en/registrate_import_order_template.docx';
+    } else if (lang === 'pl') {
+      templatePath =
+        '../../../static/other/templates/pl/registrate_import_order_template.docx';
+    }
 
-        const { dateFile, dateDocument } = getCurrentDateTime();
-
-        const user = this.authService.getUserDetails();
-        const userFullname = user.first_name + ' ' + user.last_name;
-        doc.render({
-          order_name: this.order.order_name,
-          items: this.order.RegistrationModels,
-          dateDocument,
-          userFullname,
-        });
-
-        const out = doc.getZip().generate({
-          type: 'blob',
-          mimeType:
-            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        });
-
-        let filename = this.order.order_name.split(' ').join('_');
-        const lang = this.translateService.currentLang;
-        if (lang === 'ua') {
-          filename += `(імпорт)_${dateFile}.docx`;
-        } else if (lang === 'en') {
-          filename += `(import)_${dateFile}.docx`;
-        }
-
-        this.notificationService.createDOCXFileCreatedNotification(true);
-        saveAs(out, filename);
+    loadFile(templatePath, (error: any, content: any) => {
+      if (error) {
+        throw error;
       }
-    );
+      const zip = new PizZip(content);
+      const doc = new Docxtemplater(zip, {
+        paragraphLoop: true,
+        linebreaks: true,
+      });
+
+      const dateFile = this.order.income_date.split(' ').join('_');
+      const dateDocument = this.order.income_date;
+
+      const user = this.authService.getUserDetails();
+      const userFullname = user.first_name + ' ' + user.last_name;
+      doc.render({
+        order_name: this.order.order_name,
+        items: this.order.RegistrationModels,
+        dateDocument,
+        userFullname,
+      });
+
+      const out = doc.getZip().generate({
+        type: 'blob',
+        mimeType:
+          'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      });
+
+      let filename = this.order.order_name.split(' ').join('_');
+      if (lang === 'ua') {
+        filename += `(імпорт)_${dateFile}.docx`;
+      } else if (lang === 'en') {
+        filename += `(import)_${dateFile}.docx`;
+      }
+
+      this.notificationService.createDOCXFileCreatedNotification(true);
+      saveAs(out, filename);
+    });
   }
 }

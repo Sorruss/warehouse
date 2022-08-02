@@ -179,7 +179,7 @@ export class CartComponent implements OnInit {
       if (this.selectedItemsId.includes(item.id)) {
         if (item.ordered_quantity <= 0) {
           this.notificationService.createWrongQuantityNotification(
-            item.name,
+            item.Item.item_name,
             String(item.ordered_quantity)
           );
           this.changeModalDialogState();

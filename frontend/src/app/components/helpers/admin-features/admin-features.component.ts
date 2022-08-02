@@ -8,7 +8,7 @@ import { UsersService } from 'src/app/services/users/users.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { CookieService } from 'ngx-cookie-service';
 
-import { date2Ukrainian, getRandomNumber } from 'src/app/functions';
+import { getDate, getRandomNumber } from 'src/app/functions';
 
 @Component({
   selector: 'app-admin-features',
@@ -109,13 +109,13 @@ export class AdminFeaturesComponent implements OnInit {
     // Added other propties and changed some.
     this.newItem.company_id = this.companyId;
     if (this.newItem.income_date) {
-      const { month, day, weekDayNumber, hours, minutes } = date2Ukrainian(
+      const { month, day, weekDayNumber, hours, minutes } = getDate(
         this.newItem.income_date
       );
       const date = `${month} ${day}(${weekDayNumber}) ${hours}:${minutes}`;
       this.newItem.income_date = date;
     } else {
-      const { month, day, weekDayNumber, hours, minutes } = date2Ukrainian();
+      const { month, day, weekDayNumber, hours, minutes } = getDate();
       const date = `${month} ${day}(${weekDayNumber}) ${hours}:${minutes}`;
       this.newItem.income_date = date;
     }

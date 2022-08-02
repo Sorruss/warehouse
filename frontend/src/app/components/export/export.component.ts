@@ -176,9 +176,12 @@ export class ExportComponent implements OnInit {
   checkOnWrongQuantity(): boolean {
     for (let item of this.items) {
       if (this.selectedItemsId.includes(item.id)) {
-        if (item.ordered_quantity <= 0) {
+        if (
+          item.ordered_quantity <= 0 ||
+          item.ordered_quantity > item.Item.quantity
+        ) {
           this.notificationService.createWrongQuantityNotification(
-            item.name,
+            item.Item.item_name,
             String(item.ordered_quantity)
           );
           this.changeModalDialogState();

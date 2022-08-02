@@ -29,7 +29,7 @@ const db = require("./app/models");
 db.sequelize.sync();
 
 // db.sequelize.sync({ force: true }).then(() => {
-// console.log("Drop and re-sync DB");
+//   console.log("Drop and re-sync DB");
 // });
 
 backend.get("/", (req, res) => {

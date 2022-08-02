@@ -51,45 +51,54 @@ export class InventoryStatementComponent implements OnInit {
   }
 
   downloadDOCX() {
-    loadFile(
-      '../../../static/other/templates/ua/inventory_statement_template.docx',
-      (error: any, content: any) => {
-        if (error) {
-          throw error;
-        }
-        const zip = new PizZip(content);
-        const doc = new Docxtemplater(zip, {
-          paragraphLoop: true,
-          linebreaks: true,
-        });
+    let templatePath: string = '';
+    const lang = this.translateService.currentLang;
+    if (lang === 'ua') {
+      templatePath =
+        '../../../static/other/templates/ua/inventory_statement_template.docx';
+    } else if (lang === 'en') {
+      templatePath =
+        '../../../static/other/templates/en/inventory_statement_template.docx';
+    } else if (lang === 'pl') {
+      templatePath =
+        '../../../static/other/templates/pl/inventory_statement_template.docx';
+    }
 
-        const { dateFile, dateDocument } = getCurrentDateTime();
-
-        const user = this.authService.getUserDetails();
-        const userFullname = user.first_name + ' ' + user.last_name;
-        doc.render({
-          items: this.items,
-          dateDocument,
-          userFullname,
-        });
-
-        const out = doc.getZip().generate({
-          type: 'blob',
-          mimeType:
-            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        });
-
-        let filename: string = '';
-        const lang = this.translateService.currentLang;
-        if (lang === 'ua') {
-          filename = `інвентарна_відомість_${dateFile}.docx`;
-        } else if (lang === 'en') {
-          filename = `inventory_statement_${dateFile}.docx`;
-        }
-
-        this.notificationService.createDOCXFileCreatedNotification(true);
-        saveAs(out, filename);
+    loadFile(templatePath, (error: any, content: any) => {
+      if (error) {
+        throw error;
       }
-    );
+      const zip = new PizZip(content);
+      const doc = new Docxtemplater(zip, {
+        paragraphLoop: true,
+        linebreaks: true,
+      });
+
+      const { dateFile, dateDocument } = getCurrentDateTime();
+
+      const user = this.authService.getUserDetails();
+      const userFullname = user.first_name + ' ' + user.last_name;
+      doc.render({
+        items: this.items,
+        dateDocument,
+        userFullname,
+      });
+
+      const out = doc.getZip().generate({
+        type: 'blob',
+        mimeType:
+          'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      });
+
+      let filename: string = '';
+      if (lang === 'ua') {
+        filename = `інвентарна_відомість_${dateFile}.docx`;
+      } else if (lang === 'en') {
+        filename = `inventory_statement_${dateFile}.docx`;
+      }
+
+      this.notificationService.createDOCXFileCreatedNotification(true);
+      saveAs(out, filename);
+    });
   }
 }
