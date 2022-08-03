@@ -1,5 +1,5 @@
-"use strict";
 const { Model } = require("sequelize");
+
 module.exports = (sequelize, DataTypes) => {
   class RegistrationModel extends Model {
     static associate({ ExportOrder, ImportOrder }) {
@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
   }
+
   RegistrationModel.init(
     {
       ritem_name: DataTypes.STRING,

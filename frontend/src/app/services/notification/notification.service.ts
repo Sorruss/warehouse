@@ -171,9 +171,9 @@ export class NotificationService {
     let title: string = '';
     this.checkOnLanguageChange();
     if (this.currLang === 'ua' || !this.currLang) {
-      title = 'Order' + (name ? ` '${name}' ` : ' ') + 'has been created';
+      title = 'Замовлення' + (name ? ` '${name}' ` : ' ') + 'було створене';
     } else if (this.currLang === 'en') {
-      title = 'Added to the total import';
+      title = 'Order' + (name ? ` '${name}' ` : ' ') + 'has been created';
     }
 
     this.addItem({

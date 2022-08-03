@@ -30,6 +30,15 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: getDate(),
         allowNull: true,
       },
+      income_date_orig: {
+        type: DataTypes.DATE,
+        defaultValue: new Date(),
+        allowNull: true,
+        set(value) {
+          this.setDataValue("income_date_orig", value);
+          this.setDataValue("income_date", getDate(value));
+        },
+      },
       quantity: {
         type: DataTypes.INTEGER,
         defaultValue: 0,

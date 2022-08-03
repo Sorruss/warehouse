@@ -25,10 +25,10 @@ function correctDateValidator(nameRe: RegExp): ValidatorFn {
   ],
 })
 export class DateFormatDirective implements Validator {
-  private dateRegExp: RegExp =
+  private dateRegExpUA: RegExp =
     /^(Липень|Серпень|Вересень|Жовтень|Листопад|Грудень|Січень|Лютий|Березень|Квітень|Травень|Червень) (Понеділок|Вівторок|Середа|Четвер|П'ятниця|Субота|Неділя)\([1-3]?[1-9]\) ([[0-2][0-9]):([0-5][0-9])$/;
 
   validate(control: AbstractControl): ValidationErrors | null {
-    return correctDateValidator(new RegExp(this.dateRegExp, 'i'))(control);
+    return correctDateValidator(new RegExp(this.dateRegExpUA, 'i'))(control);
   }
 }

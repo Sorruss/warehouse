@@ -28,7 +28,7 @@
           <li>
             <span class="param">{{ "IncomeDate" | translate }}</span
             >:
-            {{ item.income_date }}
+            {{ item.income_date | translateDate }}
           </li>
           <li>
             <span class="param">{{ "Producer" | translate }}</span
@@ -165,19 +165,21 @@
               *ngIf="item_name.control.touched && !item_name.control.valid"
             >
               <div *ngIf="item_name.control.errors !== null">
-                <span class="error" *ngIf="item_name.control.errors!.required"
-                  >Це поле є необхідним</span
+                <span
+                  class="error"
+                  *ngIf="item_name.control.errors!.required"
+                  >{{ "FieldIsRequired" | translate }}</span
                 >
                 <span class="error" *ngIf="item_name.control.errors!.minlength">
-                  Мінімальна длина логіну
-                  {{ item_name.control.errors!.minlength.requiredLength }}. Ви
-                  вели
+                  {{ "MinLength" | translate }}:
+                  {{ item_name.control.errors!.minlength.requiredLength }}.
+                  {{ "YouEntered" | translate }}
                   {{ item_name.control.errors!.minlength.actualLength }}
                 </span>
                 <span class="error" *ngIf="item_name.control.errors!.maxlength">
-                  Максимальна длина логіну
-                  {{ item_name.control.errors!.maxlength.requiredLength }}. Ви
-                  вели
+                  {{ "MaxLength" | translate }}:
+                  {{ item_name.control.errors!.maxlength.requiredLength }}.
+                  {{ "YouEntered" | translate }}
                   {{ item_name.control.errors!.maxlength.actualLength }}
                 </span>
               </div>
@@ -208,16 +210,18 @@
                 <span
                   class="error"
                   *ngIf="item_quantity.control.errors!.required"
-                  >Це поле є необхідним</span
+                  >{{ "FieldIsRequired" | translate }}</span
                 >
                 <span class="error" *ngIf="item_quantity.control.errors!.min">
-                  Мінімум:
-                  {{ item_quantity.control.errors!.min.min }}. Ви ввели
+                  {{ "Min" | translate }}:
+                  {{ item_quantity.control.errors!.min.min }}.
+                  {{ "YouEntered" | translate }}
                   {{ item_quantity.control.errors!.min.actual }}
                 </span>
                 <span class="error" *ngIf="item_quantity.control.errors!.max">
-                  Максимум:
-                  {{ item_quantity.control.errors!.max.max }}. Ви ввели
+                  {{ "Max" | translate }}:
+                  {{ item_quantity.control.errors!.max.max }}.
+                  {{ "YouEntered" | translate }}
                   {{ item_quantity.control.errors!.max.actual }}
                 </span>
               </div>
@@ -227,15 +231,15 @@
             <span class="param">{{ "IncomeDate" | translate }}</span
             >:
             <input
-              type="text"
-              [ngModel]="editedItem.income_date"
+              type="datetime-local"
+              [ngModel]="setDate()"
               #item_date="ngModel"
               id="item_date"
               name="item_date"
-              (change)="editedItem.income_date = item_date.control.value.trim()"
-              type="text"
+              (change)="
+                this.editedItem.income_date_orig = item_date.control.value
+              "
               required
-              appDateFormat
               minlength="12"
               maxlength="38"
             />
@@ -245,26 +249,9 @@
             >
               <div *ngIf="item_date.control.errors !== null">
                 <span class="error" *ngIf="item_date.control.errors!.required"
-                  >Це поле є необхідним
+                  >{{ "FieldIsRequired" | translate }}
                   {{ item_date.control.errors!.test }}</span
                 >
-                <span
-                  class="error"
-                  *ngIf="item_date.control.errors!.incorrectDate"
-                  >Дана дата є неможливою</span
-                >
-                <span class="error" *ngIf="item_date.control.errors!.minlength">
-                  Мінімальна длина ім'я
-                  {{ item_date.control.errors!.minlength.requiredLength }}. Ви
-                  вели
-                  {{ item_date.control.errors!.minlength.actualLength }}
-                </span>
-                <span class="error" *ngIf="item_date.control.errors!.maxlength">
-                  Максимальна длина ім'я
-                  {{ item_date.control.errors!.maxlength.requiredLength }}. Ви
-                  вели
-                  {{ item_date.control.errors!.maxlength.actualLength }}
-                </span>
               </div>
             </div>
           </li>
@@ -295,7 +282,7 @@
                 <span
                   class="error"
                   *ngIf="item_producer.control.errors!.required"
-                  >Це поле є необхідним</span
+                  >{{ "FieldIsRequired" | translate }}</span
                 >
               </div>
             </div>

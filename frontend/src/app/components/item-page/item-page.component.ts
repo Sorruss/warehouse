@@ -216,7 +216,7 @@ export class ItemPageComponent implements OnInit {
       }
     );
   }
-  deletePrevPhoto() {
+  deletePrevPhoto(): void {
     if (this.editedItem.photo_src !== this.item.photo_src) {
       this.itemsService.deletePhotoByName(this.editedItem.photo_src).subscribe(
         (response) => {
@@ -227,5 +227,11 @@ export class ItemPageComponent implements OnInit {
         }
       );
     }
+  }
+
+  setDate(): any {
+    const now = new Date(this.item.income_date_orig);
+    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+    return now.toISOString().slice(0, 16);
   }
 }

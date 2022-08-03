@@ -1,7 +1,13 @@
 const functions = {};
 
-function getDate() {
-  const today = new Date();
+function getDate(initValue) {
+  let moment;
+  if (initValue) {
+    moment = new Date(initValue);
+  } else {
+    moment = new Date();
+  }
+
   const custom_months = [
     "January",
     "February",
@@ -26,16 +32,18 @@ function getDate() {
     "Saturday",
   ];
   const date =
-    custom_months[today.getMonth()] +
+    custom_months[moment.getMonth()] +
     " " +
-    custom_days[today.getDay()] +
+    custom_days[moment.getDay()] +
     "(" +
-    today.getDate() +
+    moment.getDate() +
     ")";
   const time =
-    today.getHours() +
+    moment.getHours() +
     ":" +
-    (today.getMinutes() < 10 ? `0${today.getMinutes()}` : today.getMinutes());
+    (moment.getMinutes() < 10
+      ? `0${moment.getMinutes()}`
+      : moment.getMinutes());
   return date + " " + time;
 }
 functions.getDate = getDate;
