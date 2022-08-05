@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { FilterService } from 'src/app/services/filter/filter.service';
 
@@ -12,9 +15,11 @@ import { ImportRegistrationService } from './../../services/import-registration/
   styleUrls: ['./import-registration.component.css'],
   animations: [fadeIn, slide2right],
 })
-export class ImportRegistrationComponent implements OnInit {
+export class ImportRegistrationComponent implements OnInit, OnDestroy {
   public items: any = [];
   public nameToFilter: string = '';
+
+  private ngUnsubscribe: Subject<boolean> = new Subject();
 
   constructor(
     private importRegistrationService: ImportRegistrationService,
@@ -23,19 +28,28 @@ export class ImportRegistrationComponent implements OnInit {
   ngOnInit(): void {
     this.retrieveOrders();
 
-    this.filterService.filterPropObs.subscribe((value) => {
-      this.nameToFilter = value;
-    });
+    this.filterService.filterPropObs
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((value) => {
+        this.nameToFilter = value;
+      });
     this.filterService.activateSearchBar();
+  }
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next(true);
+    this.ngUnsubscribe.complete();
   }
 
   retrieveOrders(): void {
-    this.importRegistrationService.getAll().subscribe({
-      next: (data) => {
-        this.items = data;
-        console.log('data: ', data);
-      },
-      error: (error) => console.log('error: ', error),
-    });
+    this.importRegistrationService
+      .getAll()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe({
+        next: (data) => {
+          this.items = data;
+          console.log('data: ', data);
+        },
+        error: (error) => console.log('error: ', error),
+      });
   }
 }

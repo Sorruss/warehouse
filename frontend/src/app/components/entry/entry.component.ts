@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
 
 import { NgModel } from '@angular/forms';
 
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
+import { TranslateService } from '@ngx-translate/core';
+import { CookieService } from 'ngx-cookie-service';
 
 import { fadeIn, fadeOut } from 'src/app/animations/animations';
 
@@ -15,15 +18,41 @@ import { fadeIn, fadeOut } from 'src/app/animations/animations';
   animations: [fadeIn, fadeOut],
 })
 export class EntryComponent implements OnInit {
+  public selectedLanguage: string = 'ua';
+  public backgroundImage: any;
+
   constructor(
     private authService: AuthService,
     private router: Router,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private translateService: TranslateService,
+    private cookieService: CookieService,
+    private domSanitizer: DomSanitizer
   ) {}
   ngOnInit(): void {
     if (this.authService.getUserDetails()) {
       this.router.navigate(['/']);
     }
+    if (this.cookieService.check('language')) {
+      this.selectedLanguage = this.cookieService.get('language');
+    }
+
+    fetch('http://localhost:8080/entry_photo')
+      .then((response) => response.blob())
+      .then((imageBlob) => {
+        const imageObjectURL = URL.createObjectURL(imageBlob);
+        this.backgroundImage = this.sanitize(imageObjectURL);
+      })
+      .catch((error) => {
+        console.log('error!@#: ', error);
+        document.querySelector<HTMLElement>(
+          '.background-secondary'
+        )!.style.display = 'block';
+      });
+  }
+
+  sanitize(url: string) {
+    return this.domSanitizer.bypassSecurityTrustUrl(url);
   }
 
   logIn(credentials: {
@@ -58,5 +87,27 @@ export class EntryComponent implements OnInit {
           console.log('error: ', error);
         }
       );
+  }
+
+  selectLanguage(value: string): void {
+    if (!this.translateService.getLangs().includes(value)) {
+      return;
+    }
+    this.translateService.use(value);
+    this.cookieService.set('language', value);
+    this.selectedLanguage = value;
+
+    // Trying to get translate of word for the correct notification.
+    let trans: string = '';
+    if (value === 'ua' || !value) {
+      trans = "Параметр 'Мова сайту'";
+    } else if (value === 'en') {
+      trans = 'Site language option';
+    } else if (value === 'pl') {
+      trans = 'Opcja języka witryny';
+    }
+
+    value = document.querySelector(`option[value='${value}']`)!.innerHTML;
+    this.notificationService.createSmthWasChangedNotification(trans, value);
   }
 }

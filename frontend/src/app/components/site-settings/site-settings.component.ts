@@ -23,7 +23,6 @@ export class SiteSettingsComponent implements OnInit {
     private notificationService: NotificationService,
     private translateService: TranslateService
   ) {}
-
   ngOnInit(): void {
     this.filterService.hideSearchBar();
 
@@ -49,6 +48,8 @@ export class SiteSettingsComponent implements OnInit {
       trans = 'Час зникнення повідомлень';
     } else if (lang === 'en') {
       trans = 'Disappearance time of messages';
+    } else if (value === 'pl') {
+      trans = 'Czas znikania wiadomości';
     }
 
     value = document.querySelector(`option[value='${value}']`)!.innerHTML;
@@ -70,6 +71,8 @@ export class SiteSettingsComponent implements OnInit {
       trans = "Параметр 'Тема сайту'";
     } else if (lang === 'en') {
       trans = 'Site theme option';
+    } else if (value === 'pl') {
+      trans = 'Opcja motywu witryny';
     }
 
     value = document.querySelector(`option[value='${value}']`)!.innerHTML;
@@ -89,6 +92,8 @@ export class SiteSettingsComponent implements OnInit {
       trans = "Параметр 'Мова сайту'";
     } else if (value === 'en') {
       trans = 'Site language option';
+    } else if (value === 'pl') {
+      trans = 'Opcja języka witryny';
     }
 
     value = document.querySelector(`option[value='${value}']`)!.innerHTML;

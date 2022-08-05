@@ -12,6 +12,7 @@ import Docxtemplater from 'docxtemplater';
 import { saveAs } from 'file-saver';
 
 import { getCurrentDateTime, loadFile } from 'src/app/functions';
+import { TranslateDatePipe } from 'src/app/pipes/translateDate/translate-date.pipe';
 
 import { Item } from 'src/app/interfaces';
 
@@ -31,7 +32,8 @@ export class InventoryStatementComponent implements OnInit {
     private filterService: FilterService,
     private notificationService: NotificationService,
     private authService: AuthService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private translateDatePipe: TranslateDatePipe
   ) {}
   ngOnInit(): void {
     this.retrieveItems();
@@ -42,6 +44,9 @@ export class InventoryStatementComponent implements OnInit {
     this.itemsService.getAll().subscribe(
       (data) => {
         this.items = data;
+        for (let item of data) {
+          item.income_date = this.translateDatePipe.transform(item.income_date);
+        }
         console.log(data);
       },
       (error) => {
@@ -74,7 +79,10 @@ export class InventoryStatementComponent implements OnInit {
         linebreaks: true,
       });
 
-      const { dateFile, dateDocument } = getCurrentDateTime();
+      const dateDocument = this.translateDatePipe.transform(
+        getCurrentDateTime().dateDocument
+      );
+      const dateFile = dateDocument.split(' ').join('_');
 
       const user = this.authService.getUserDetails();
       const userFullname = user.first_name + ' ' + user.last_name;
@@ -95,6 +103,8 @@ export class InventoryStatementComponent implements OnInit {
         filename = `інвентарна_відомість_${dateFile}.docx`;
       } else if (lang === 'en') {
         filename = `inventory_statement_${dateFile}.docx`;
+      } else if (lang === 'pl') {
+        filename = `zestawienie_inwentarza_${dateFile}.docx`;
       }
 
       this.notificationService.createDOCXFileCreatedNotification(true);

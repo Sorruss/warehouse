@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { ItemsService } from '../../services/items/items.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
@@ -16,19 +19,20 @@ import { getRandomNumber } from 'src/app/functions';
   templateUrl: './item-page.component.html',
   styleUrls: ['./item-page.component.css'],
 })
-export class ItemPageComponent implements OnInit {
+export class ItemPageComponent implements OnInit, OnDestroy {
   public srcToPhotos: string = 'http://localhost:8080/api/items/photo/';
   public srcToPhotos2: string = 'http://localhost:8080/api/items/item_photo/';
   public item: any;
-  public user_role!: string;
 
   private id!: number;
-  private user_id!: number;
+  public user: any;
 
   public editingProcess: boolean = false;
   public editedItem: any = {};
   public producers: any = [];
   public fileIsLoading: boolean = false;
+
+  private ngUnsubscribe: Subject<boolean> = new Subject();
 
   constructor(
     private route: ActivatedRoute,
@@ -46,30 +50,36 @@ export class ItemPageComponent implements OnInit {
     this.retrieveItem();
     this.filterService.hideSearchBar();
 
-    const user = this.authService.getUserDetails();
-    this.user_id = user.id;
-    this.user_role = user.user_role;
+    this.user = this.authService.getUserDetails();
+  }
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next(true);
+    this.ngUnsubscribe.complete();
   }
 
   retrieveItem(): void {
-    this.itemsService.get(this.id).subscribe({
-      next: (data) => {
-        this.item = data;
-        console.log(data);
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
+    this.itemsService
+      .get(this.id)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe({
+        next: (data) => {
+          this.item = data;
+          console.log(data);
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
   }
 
   createCartItem(quantity: string): void {
     this.cartService
       .create({
         item_id: this.item.id,
-        owner_id: this.user_id,
+        owner_id: this.user.id,
         ordered_quantity: Number(quantity),
       })
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         (response) => {
           console.log('response: ', response);
@@ -87,9 +97,10 @@ export class ItemPageComponent implements OnInit {
     this.exportService
       .create({
         item_id: this.item.id,
-        owner_id: this.user_id,
+        owner_id: this.user.id,
         ordered_quantity: Number(quantity),
       })
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         (response) => {
           console.log('response: ', response);
@@ -117,30 +128,50 @@ export class ItemPageComponent implements OnInit {
     }
   }
   checkBeforeCreate(quantity: number, exportQuantity: number): boolean {
-    return !(exportQuantity > quantity);
+    return (
+      !(exportQuantity > quantity) &&
+      this.item.company_id === this.user.company_id
+    );
   }
   removeItem(): void {
-    if (this.user_role !== 'admin') {
+    if (this.user.role !== 'admin') {
       return;
     }
 
-    this.itemsService.delete(this.id).subscribe(
-      (response) => {
-        console.log('response: ', response);
-        this.router.navigate(['/']);
-        this.notificationService.createSuccessfullyDeletedNotification(
-          this.item.item_name,
-          true
-        );
-      },
-      (error) => {
-        console.log('error: ', error);
-      }
-    );
+    // Deleting item
+    this.itemsService
+      .delete(this.id)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(
+        (response) => {
+          console.log('response: ', response);
+          this.router.navigate(['/']);
+          this.notificationService.createSuccessfullyDeletedNotification(
+            this.item.item_name,
+            true
+          );
+        },
+        (error) => {
+          console.log('error: ', error);
+        }
+      );
+
+    // Deleting item's photo
+    this.itemsService
+      .deletePhotoById(this.item.id)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe({
+        next: (data) => {
+          console.log('response: ', data);
+        },
+        error: (error) => {
+          console.log('error: ', error);
+        },
+      });
   }
 
   editItem(): void {
-    if (this.user_role !== 'admin') {
+    if (this.user.role !== 'admin') {
       return;
     }
 
@@ -149,15 +180,18 @@ export class ItemPageComponent implements OnInit {
     this.retrieveProducers();
   }
   retrieveProducers(): void {
-    this.producersService.getAll().subscribe({
-      next: (data) => {
-        this.producers = data;
-        console.log('data: ', data);
-      },
-      error: (error) => {
-        console.log('error: ', error);
-      },
-    });
+    this.producersService
+      .getAll()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe({
+        next: (data) => {
+          this.producers = data;
+          console.log('data: ', data);
+        },
+        error: (error) => {
+          console.log('error: ', error);
+        },
+      });
   }
   cancelFormatting(): void {
     this.editingProcess = false;
@@ -169,14 +203,17 @@ export class ItemPageComponent implements OnInit {
       this.editedItem.photo_src !== this.item.photo_src &&
       this.item.photo_src !== 'default'
     ) {
-      this.itemsService.deletePhotoById(this.item.id).subscribe({
-        next: (data) => {
-          console.log('response: ', data);
-        },
-        error: (error) => {
-          console.log('error: ', error);
-        },
-      });
+      this.itemsService
+        .deletePhotoById(this.item.id)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe({
+          next: (data) => {
+            console.log('response: ', data);
+          },
+          error: (error) => {
+            console.log('error: ', error);
+          },
+        });
 
       if (!this.editedItem.photo_src) {
         this.editedItem.photo_src = 'default';
@@ -184,17 +221,20 @@ export class ItemPageComponent implements OnInit {
     }
 
     // Patching an item.
-    this.itemsService.patch(this.item.id, this.editedItem).subscribe({
-      next: (data) => {
-        console.log('!response: ', data);
-        this.retrieveItem();
-        this.editingProcess = false;
-        this.notificationService.createSuccessNotification();
-      },
-      error: (error) => {
-        console.log('error: ', error);
-      },
-    });
+    this.itemsService
+      .patch(this.item.id, this.editedItem)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe({
+        next: (data) => {
+          console.log('!response: ', data);
+          this.retrieveItem();
+          this.editingProcess = false;
+          this.notificationService.createSuccessNotification();
+        },
+        error: (error) => {
+          console.log('error: ', error);
+        },
+      });
   }
   choosePhoto(event: any): void {
     this.fileIsLoading = true;
@@ -205,27 +245,33 @@ export class ItemPageComponent implements OnInit {
     formData.append('file', file, filename);
 
     this.deletePrevPhoto();
-    this.itemsService.attach(formData).subscribe(
-      (response) => {
-        this.editedItem.photo_src = filename;
-        this.fileIsLoading = false;
-        console.log('response: ', response);
-      },
-      (error) => {
-        console.log('error: ', error);
-      }
-    );
-  }
-  deletePrevPhoto(): void {
-    if (this.editedItem.photo_src !== this.item.photo_src) {
-      this.itemsService.deletePhotoByName(this.editedItem.photo_src).subscribe(
+    this.itemsService
+      .attach(formData)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(
         (response) => {
+          this.editedItem.photo_src = filename;
+          this.fileIsLoading = false;
           console.log('response: ', response);
         },
         (error) => {
           console.log('error: ', error);
         }
       );
+  }
+  deletePrevPhoto(): void {
+    if (this.editedItem.photo_src !== this.item.photo_src) {
+      this.itemsService
+        .deletePhotoByName(this.editedItem.photo_src)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(
+          (response) => {
+            console.log('response: ', response);
+          },
+          (error) => {
+            console.log('error: ', error);
+          }
+        );
     }
   }
 

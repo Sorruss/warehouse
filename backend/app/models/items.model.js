@@ -4,7 +4,7 @@ const { getDate } = require("../functions");
 module.exports = (sequelize, DataTypes) => {
   class Item extends Model {
     static associate({ Company, Producer }) {
-      this.belongsTo(Company, {
+      this.hasMany(Company, {
         foreignKey: "company_id",
         onDelete: "cascade",
       });
@@ -20,7 +20,6 @@ module.exports = (sequelize, DataTypes) => {
       item_name: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
         validate: {
           len: [2, 72],
         },
@@ -76,6 +75,11 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       modelName: "Item",
       tableName: "items",
+      uniqueKeys: {
+        actions_unique: {
+          fields: ["item_name", "company_id", "producer_id"],
+        },
+      },
     }
   );
 

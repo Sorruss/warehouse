@@ -1,6 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Location } from '@angular/common';
+
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { FilterService } from 'src/app/services/filter/filter.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
@@ -12,7 +15,7 @@ import { AdminFeaturesComponent } from '../helpers/admin-features/admin-features
   templateUrl: './topbar.component.html',
   styleUrls: ['./topbar.component.css'],
 })
-export class TopbarComponent implements OnInit {
+export class TopbarComponent implements OnInit, OnDestroy {
   private mainSearchBar: any;
 
   public pageName: string = '';
@@ -28,6 +31,8 @@ export class TopbarComponent implements OnInit {
   public isUserModalActive: boolean = false;
   public isProdModalActive: boolean = false;
 
+  private ngUnsubscribe: Subject<boolean> = new Subject();
+
   @ViewChild(AdminFeaturesComponent) adminFeatures: any;
 
   constructor(
@@ -36,7 +41,7 @@ export class TopbarComponent implements OnInit {
     private filterService: FilterService,
     private authService: AuthService
   ) {
-    router.events.subscribe((path) => {
+    router.events.pipe(takeUntil(this.ngUnsubscribe)).subscribe((path) => {
       if (path instanceof NavigationEnd && path.url !== '/') {
         this.goBackCond = true;
         this.currentPageIsMain = false;
@@ -59,9 +64,11 @@ export class TopbarComponent implements OnInit {
   }
   ngOnInit(): void {
     this.mainSearchBar = document.querySelector('#mainSearchBar');
-    this.filterService.isSearchBarActivatedObs.subscribe((value: boolean) => {
-      this.isSearchBarActivated = value;
-    });
+    this.filterService.isSearchBarActivatedObs
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((value: boolean) => {
+        this.isSearchBarActivated = value;
+      });
     const user = this.authService.getUserDetails();
     this.isUserAdmin = user.user_role === 'admin';
   }
@@ -76,5 +83,9 @@ export class TopbarComponent implements OnInit {
   }
   setFilterValue(value: string): void {
     this.filterService.filterProp.next(value);
+  }
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next(true);
+    this.ngUnsubscribe.complete();
   }
 }

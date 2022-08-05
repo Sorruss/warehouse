@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { FilterService } from 'src/app/services/filter/filter.service';
 import { ItemsService } from 'src/app/services/items/items.service';
@@ -16,7 +19,8 @@ import PizZip from 'pizzip';
 import Docxtemplater from 'docxtemplater';
 import { saveAs } from 'file-saver';
 
-import { getCurrentDateTime, loadFile } from 'src/app/functions';
+import { loadFile } from 'src/app/functions';
+import { TranslateDatePipe } from 'src/app/pipes/translateDate/translate-date.pipe';
 
 @Component({
   selector: 'app-registrate-import-order',
@@ -24,11 +28,13 @@ import { getCurrentDateTime, loadFile } from 'src/app/functions';
   styleUrls: ['./registrate-import-order.component.css'],
   animations: [fadeIn],
 })
-export class RegistrateImportOrderComponent implements OnInit {
+export class RegistrateImportOrderComponent implements OnInit, OnDestroy {
   public order!: any;
   public nameToFilter: string = '';
 
   private id!: number;
+
+  private ngUnsubscribe: Subject<boolean> = new Subject();
 
   constructor(
     private importRegistrationService: ImportRegistrationService,
@@ -38,36 +44,48 @@ export class RegistrateImportOrderComponent implements OnInit {
     private router: Router,
     private notificationService: NotificationService,
     private authService: AuthService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private translateDatePipe: TranslateDatePipe
   ) {}
   ngOnInit(): void {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
     this.retrieveOrder();
 
-    this.filterService.filterPropObs.subscribe((value) => {
-      this.nameToFilter = value;
-    });
+    this.filterService.filterPropObs
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((value) => {
+        this.nameToFilter = value;
+      });
     this.filterService.activateSearchBar();
+  }
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next(true);
+    this.ngUnsubscribe.complete();
   }
 
   retrieveOrder(): void {
-    this.importRegistrationService.get(this.id).subscribe({
-      next: (data) => {
-        console.log(data);
-        this.order = data;
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
+    this.importRegistrationService
+      .get(this.id)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe({
+        next: (data) => {
+          console.log(data);
+          this.order = data;
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
   }
 
-  changeItemsQuantity(): void {
+  changeItems(): void {
     for (let model of this.order.RegistrationModels) {
       this.itemsService
         .patch(model.ritem_id, {
           quantity: model.ritem_quantity + model.ordered_quantity,
+          income_date_orig: this.order.income_date_orig,
         })
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(
           (response) => {
             console.log('response: ', response);
@@ -79,18 +97,21 @@ export class RegistrateImportOrderComponent implements OnInit {
     }
   }
   deleteOrder(): void {
-    this.importRegistrationService.delete(this.id).subscribe(
-      (response) => {
-        console.log('response: ', response);
-        this.router.navigate(['/']);
-      },
-      (error) => {
-        console.log('error: ', error);
-      }
-    );
+    this.importRegistrationService
+      .delete(this.id)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(
+        (response) => {
+          console.log('response: ', response);
+          this.router.navigate(['/']);
+        },
+        (error) => {
+          console.log('error: ', error);
+        }
+      );
   }
   registerImport(): void {
-    this.changeItemsQuantity();
+    this.changeItems();
     this.deleteOrder();
   }
 
@@ -118,8 +139,10 @@ export class RegistrateImportOrderComponent implements OnInit {
         linebreaks: true,
       });
 
-      const dateFile = this.order.income_date.split(' ').join('_');
-      const dateDocument = this.order.income_date;
+      const dateDocument = this.translateDatePipe.transform(
+        this.order.income_date
+      );
+      const dateFile = dateDocument.split(' ').join('_');
 
       const user = this.authService.getUserDetails();
       const userFullname = user.first_name + ' ' + user.last_name;
@@ -139,7 +162,7 @@ export class RegistrateImportOrderComponent implements OnInit {
       let filename = this.order.order_name.split(' ').join('_');
       if (lang === 'ua') {
         filename += `(імпорт)_${dateFile}.docx`;
-      } else if (lang === 'en') {
+      } else if (lang === 'en' || lang === 'pl') {
         filename += `(import)_${dateFile}.docx`;
       }
 

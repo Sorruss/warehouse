@@ -3,14 +3,16 @@
     <input type="checkbox" id="chk" aria-hidden="true" />
     <div class="company">
       <form>
-        <label for="chk" aria-hidden="true">Дані компанії</label>
+        <label for="chk" aria-hidden="true">{{
+          "CompanyData" | translate
+        }}</label>
         <input
           ngModel
           name="companyId"
           #companyId="ngModel"
           class="form-control"
           type="text"
-          placeholder="ID компанії"
+          [placeholder]="'CompanyID' | translate"
           required
           minlength="7"
           maxlength="7"
@@ -21,9 +23,9 @@
           [class.active]="companyId.control.touched && !companyId.control.valid"
         >
           <div *ngIf="companyId.control.errors !== null">
-            <span class="error" *ngIf="companyId.control.errors.required"
-              >Це поле є необхідним</span
-            >
+            <span class="error" *ngIf="companyId.control.errors.required">{{
+              "FieldIsRequired" | translate
+            }}</span>
             <span
               class="error"
               *ngIf="
@@ -31,9 +33,11 @@
                 companyId.control.errors!.maxlength
               "
             >
-              ID має длину в
-              {{ companyId.control.errors!.minlength.requiredLength }} символів.
-              Ви вели {{ companyId.control.errors!.minlength.actualLength }}
+              ID {{ "ConsistsOf" | translate }}
+              {{ companyId.control.errors!.minlength.requiredLength }}
+              {{ "Symbols" | translate }}.
+              {{ "YouEntered" | translate }}
+              {{ companyId.control.errors!.minlength.actualLength }}
             </span>
           </div>
         </div>
@@ -44,7 +48,7 @@
           #companyPassword="ngModel"
           class="form-control"
           type="password"
-          placeholder="Пароль"
+          [placeholder]="'Password' | translate"
           required
           minlength="7"
           maxlength="42"
@@ -58,18 +62,22 @@
         "
       >
         <div *ngIf="companyPassword.control.errors !== null">
-          <span class="error" *ngIf="companyPassword.control.errors!.required"
-            >Це поле є необхідним</span
+          <span
+            class="error"
+            *ngIf="companyPassword.control.errors!.required"
+            >{{ "FieldIsRequired" | translate }}</span
           >
           <span class="error" *ngIf="companyPassword.control.errors!.minlength">
-            Мінімальна длина паролю
-            {{ companyPassword.control.errors!.minlength.requiredLength }}. Ви
-            вели {{ companyPassword.control.errors!.minlength.actualLength }}
+            {{ "MinLength" | translate }}:
+            {{ companyPassword.control.errors!.minlength.requiredLength }}.
+            {{ "YouEntered" | translate }}
+            {{ companyPassword.control.errors!.minlength.actualLength }}
           </span>
           <span class="error" *ngIf="companyPassword.control.errors!.maxlength">
-            Максимальна длина паролю
-            {{ companyPassword.control.errors!.maxlength.requiredLength }}. Ви
-            вели {{ companyPassword.control.errors!.maxlength.actualLength }}
+            {{ "MaxLength" | translate }}:
+            {{ companyPassword.control.errors!.maxlength.requiredLength }}.
+            {{ "YouEntered" | translate }}
+            {{ companyPassword.control.errors!.maxlength.actualLength }}
           </span>
         </div>
       </div>
@@ -82,14 +90,16 @@
 
     <div class="worker">
       <form>
-        <label for="chk" aria-hidden="true">Дані робітника</label>
+        <label for="chk" aria-hidden="true">{{
+          "EmployeeData" | translate
+        }}</label>
         <input
           ngModel
           name="workerLogin"
           #workerLogin="ngModel"
           class="form-control"
           type="email"
-          placeholder="Логін"
+          [placeholder]="'Login' | translate"
           required
           minlength="2"
           maxlength="42"
@@ -101,18 +111,20 @@
           "
         >
           <div *ngIf="workerLogin.control.errors !== null">
-            <span class="error" *ngIf="workerLogin.control.errors!.required"
-              >Це поле є необхідним</span
-            >
+            <span class="error" *ngIf="workerLogin.control.errors!.required">{{
+              "FieldIsRequired" | translate
+            }}</span>
             <span class="error" *ngIf="workerLogin.control.errors!.minlength">
-              Мінімальна длина логіну
-              {{ workerLogin.control.errors!.minlength.requiredLength }}. Ви
-              вели {{ workerLogin.control.errors!.minlength.actualLength }}
+              {{ "MinLength" | translate }}:
+              {{ workerLogin.control.errors!.minlength.requiredLength }}.
+              {{ "YouEntered" | translate }}
+              {{ workerLogin.control.errors!.minlength.actualLength }}
             </span>
             <span class="error" *ngIf="workerLogin.control.errors!.maxlength">
-              Максимальна длина логіну
-              {{ workerLogin.control.errors!.maxlength.requiredLength }}. Ви
-              вели {{ workerLogin.control.errors!.maxlength.actualLength }}
+              {{ "MaxLength" | translate }}:
+              {{ workerLogin.control.errors!.maxlength.requiredLength }}.
+              {{ "YouEntered" | translate }}
+              {{ workerLogin.control.errors!.maxlength.actualLength }}
             </span>
           </div>
         </div>
@@ -123,7 +135,7 @@
           #workerPassword="ngModel"
           class="form-control"
           type="password"
-          placeholder="Пароль"
+          [placeholder]="'Password' | translate"
           required
           minlength="7"
           maxlength="42"
@@ -136,24 +148,28 @@
           "
         >
           <div *ngIf="workerPassword.control.errors !== null">
-            <span class="error" *ngIf="workerPassword.control.errors!.required"
-              >Це поле є необхідним</span
+            <span
+              class="error"
+              *ngIf="workerPassword.control.errors!.required"
+              >{{ "FieldIsRequired" | translate }}</span
             >
             <span
               class="error"
               *ngIf="workerPassword.control.errors!.minlength"
             >
-              Мінімальна длина паролю
-              {{ workerPassword.control.errors!.minlength.requiredLength }}. Ви
-              вели {{ workerPassword.control.errors!.minlength.actualLength }}
+              {{ "MinLength" | translate }}:
+              {{ workerPassword.control.errors!.minlength.requiredLength }}.
+              {{ "YouEntered" | translate }}
+              {{ workerPassword.control.errors!.minlength.actualLength }}
             </span>
             <span
               class="error"
               *ngIf="workerPassword.control.errors!.maxlength"
             >
-              Максимальна длина паролю
-              {{ workerPassword.control.errors!.maxlength.requiredLength }}. Ви
-              вели {{ workerPassword.control.errors!.maxlength.actualLength }}
+              {{ "MaxLength" | translate }}:
+              {{ workerPassword.control.errors!.maxlength.requiredLength }}.
+              {{ "YouEntered" | translate }}
+              {{ workerPassword.control.errors!.maxlength.actualLength }}
             </span>
           </div>
         </div>
@@ -161,9 +177,30 @@
         <button
           (click)="logIn({companyId, companyPassword, workerLogin, workerPassword})"
         >
-          Увійти
+          {{ "LogIn" | translate }}
         </button>
       </form>
     </div>
   </div>
 </div>
+
+<div class="corner-panel">
+  <select
+    #language
+    (change)="selectLanguage(language.value)"
+    name="language"
+    id="select-language"
+    [value]="selectedLanguage"
+  >
+    <option value="ua">{{ "Ukrainian" | translate }}</option>
+    <option value="pl">{{ "Polish" | translate }}</option>
+    <option value="en">{{ "English" | translate }}</option>
+  </select>
+</div>
+
+<img class="background" [src]="backgroundImage" alt="background-image" />
+<img
+  class="background-secondary"
+  src="../../../static/images/entry/1.jpg"
+  alt="background-image"
+/>

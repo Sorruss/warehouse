@@ -5,15 +5,16 @@ export function loadFile(url: string, callback: Function): any {
   PizZipUtils.getBinaryContent(url, callback);
 }
 
-export function getDate(initialValue: string = ''): any {
+export function getDate(initialValue: any = ''): any {
   let date;
   if (initialValue) {
     date = new Date(initialValue);
   } else {
     date = new Date();
+    // date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
   }
 
-  const custom_months = [
+  const months = [
     'January',
     'February',
     'March',
@@ -27,7 +28,7 @@ export function getDate(initialValue: string = ''): any {
     'November',
     'December',
   ];
-  const custom_days = [
+  const days = [
     'Sunday',
     'Monday',
     'Tuesday',
@@ -37,8 +38,8 @@ export function getDate(initialValue: string = ''): any {
     'Saturday',
   ];
 
-  const month = custom_months[date.getMonth()];
-  const day = custom_days[date.getDay()];
+  const month = months[date.getMonth()];
+  const day = days[date.getDay()];
   const weekDayNumber = date.getDate();
   const hours = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours();
   const minutes =

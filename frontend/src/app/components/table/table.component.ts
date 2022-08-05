@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { ItemsService } from '../../services/items/items.service';
 import { CartService } from '../../services/cart/cart.service';
@@ -18,13 +21,15 @@ import { Item } from 'src/app/interfaces';
   styleUrls: ['./table.component.css'],
   animations: [fadeIn, fadeOut, slide2right],
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements OnInit, OnDestroy {
   public itemsLoaded: Promise<boolean> = Promise.resolve(false);
 
   public items: Item[] = [];
   public nameToFilter: string = '';
 
   private user_id!: number;
+
+  private ngUnsubscribe: Subject<boolean> = new Subject();
 
   constructor(
     private itemsService: ItemsService,
@@ -38,29 +43,40 @@ export class TableComponent implements OnInit {
   ngOnInit(): void {
     this.retrieveItems();
 
-    this.filterService.filterPropObs.subscribe((value) => {
-      this.nameToFilter = value;
-    });
+    this.filterService.filterPropObs
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((value) => {
+        this.nameToFilter = value;
+      });
     this.filterService.activateSearchBar();
 
     this.user_id = this.authService.getUserDetails().id;
 
-    this.observablesService.isNewItemObs.subscribe((value) => {
-      this.retrieveItems();
-    });
+    this.observablesService.isNewItemObs
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((value) => {
+        this.retrieveItems();
+      });
+  }
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next(true);
+    this.ngUnsubscribe.complete();
   }
 
   retrieveItems(): void {
-    this.itemsService.getAll().subscribe({
-      next: (data) => {
-        this.items = data;
-        console.log('data: ', data);
-        this.itemsLoaded = Promise.resolve(true);
-      },
-      error: (error) => {
-        console.log('error: ', error);
-      },
-    });
+    this.itemsService
+      .getAll()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe({
+        next: (data) => {
+          this.items = data;
+          console.log('data: ', data);
+          this.itemsLoaded = Promise.resolve(true);
+        },
+        error: (error) => {
+          console.log('error: ', error);
+        },
+      });
   }
   refreshItems() {
     this.retrieveItems();
@@ -73,6 +89,7 @@ export class TableComponent implements OnInit {
         owner_id: this.user_id,
         ordered_quantity: Number(quantity),
       })
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         (response) => {
           console.log('response: ', response);
@@ -93,6 +110,7 @@ export class TableComponent implements OnInit {
         owner_id: this.user_id,
         ordered_quantity: Number(quantity),
       })
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         (response) => {
           console.log('response: ', response);

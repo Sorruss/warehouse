@@ -102,6 +102,11 @@ export class NotificationService {
       message = `Product "${name.toLocaleUpperCase()}" in quantity ${
         exportQuantity || '0'
       } has been added to the total import`;
+    } else if (this.currLang === 'pl') {
+      title = 'Dodano do całkowitego importu';
+      message = `Produkt "${name.toLocaleUpperCase()}" w ilości ${
+        exportQuantity || '0'
+      } został dodany do całkowitego importu`;
     }
 
     this.addItem({
@@ -130,6 +135,11 @@ export class NotificationService {
       message = `Product "${name.toLocaleUpperCase()}" in quantity ${
         exportQuantity || '0'
       } has been added to the total export`;
+    } else if (this.currLang === 'pl') {
+      title = 'Dodano do całkowitego importu';
+      message = `Produkt "${name.toLocaleUpperCase()}" w ilości ${
+        exportQuantity || '0'
+      } został dodany do całkowitego eksportu`;
     }
 
     this.addItem({
@@ -158,6 +168,11 @@ export class NotificationService {
       message = `Product "${name.toLocaleUpperCase()}" in quantity ${
         exportQuantity || '0'
       } cannot be exported. There is no such quantity`;
+    } else if (this.currLang === 'pl') {
+      title = 'Zbyt wiele';
+      message = `Produkt "${name.toLocaleUpperCase()}" w ilości ${
+        exportQuantity || '0'
+      } nie można wyeksportować. Nie ma takiej ilości`;
     }
 
     this.addItem({
@@ -174,6 +189,8 @@ export class NotificationService {
       title = 'Замовлення' + (name ? ` '${name}' ` : ' ') + 'було створене';
     } else if (this.currLang === 'en') {
       title = 'Order' + (name ? ` '${name}' ` : ' ') + 'has been created';
+    } else if (this.currLang === 'pl') {
+      title = 'Utworzono zamówienie ' + (name ? name : '');
     }
 
     this.addItem({
@@ -193,15 +210,20 @@ export class NotificationService {
 
     this.checkOnLanguageChange();
     if (this.currLang === 'ua' || !this.currLang) {
-      title = 'Некорректна кількість товару';
+      title = 'Некоректна кількість товару';
       message = `Товар "${name.toLocaleUpperCase()}" у кількості ${
         quantity || 0
       } не може бути доданий до замовлення.`;
     } else if (this.currLang === 'en') {
-      title = 'Added to the total import';
+      title = 'Incorrect product quantity';
       message = `Product "${name.toLocaleUpperCase()}" in quantity ${
         quantity || '0'
       } cannot be added to the order.`;
+    } else if (this.currLang === 'pl') {
+      title = 'Nieprawidłowa ilość produktu';
+      message = `Produktu "${name.toLocaleUpperCase()}" w ilości ${
+        quantity || '0'
+      } nie można dodać do zamówienia.`;
     }
 
     this.addItem({
@@ -218,6 +240,8 @@ export class NotificationService {
       title = 'Неможливість створення пустого замовлення';
     } else if (this.currLang === 'en') {
       title = 'It is impossible to create an empty order';
+    } else if (this.currLang === 'pl') {
+      title = 'Nie da się stworzyć pustego zamówienia';
     }
 
     this.addItem({
@@ -234,6 +258,8 @@ export class NotificationService {
       title = 'Невірні дані. Перевірте та спробуйте знову';
     } else if (this.currLang === 'en') {
       title = 'Incorrect data. Check and try again';
+    } else if (this.currLang === 'pl') {
+      title = 'Nieprawidłowe dane. Sprawdź i spróbuj ponownie';
     }
 
     this.addItem({
@@ -253,6 +279,8 @@ export class NotificationService {
       title = `Запис '${name.toUpperCase()}' був успішно видалений`;
     } else if (this.currLang === 'en') {
       title = `Record '${name.toUpperCase()}' was successfully deleted`;
+    } else if (this.currLang === 'pl') {
+      title = `Rekord '${name.toUpperCase()}' został pomyślnie usunięty`;
     }
 
     this.addItem({
@@ -272,6 +300,8 @@ export class NotificationService {
       title = `Ви увійшли в систему як ${fullname}`;
     } else if (this.currLang === 'en') {
       title = `You are logged in as ${fullname}`;
+    } else if (this.currLang === 'pl') {
+      title = `Jesteś zalogowany jako ${fullname}`;
     }
 
     this.addItem({
@@ -288,6 +318,8 @@ export class NotificationService {
       title = 'Звіт був успішно сформований';
     } else if (this.currLang === 'en') {
       title = 'The report was generated successfully';
+    } else if (this.currLang === 'pl') {
+      title = 'Raport został wygenerowany pomyślnie';
     }
 
     this.addItem({
@@ -304,6 +336,8 @@ export class NotificationService {
       title = 'Ви нічого не обрали';
     } else if (this.currLang === 'en') {
       title = 'You have not selected anything';
+    } else if (this.currLang === 'pl') {
+      title = 'Niczego nie wybrałeś';
     }
 
     this.addItem({
@@ -328,6 +362,9 @@ export class NotificationService {
     } else if (this.currLang === 'en') {
       title = 'Success';
       message = `${name1} '${name2}' was successfully created`;
+    } else if (this.currLang === 'pl') {
+      title = 'Powodzenie';
+      message = `${name1} '${name2}' został pomyślnie utworzony`;
     }
 
     this.addItem({
@@ -348,6 +385,8 @@ export class NotificationService {
       title = `${name1} було успішно змінено на '${name2}'`;
     } else if (this.currLang === 'en') {
       title = `${name1} was successfully changed to '${name2}'`;
+    } else if (this.currLang === 'pl') {
+      title = `${name1} został pomyślnie zmieniony na '${name2}'`;
     }
 
     this.addItem({
@@ -364,6 +403,8 @@ export class NotificationService {
       title = 'Успіх';
     } else if (this.currLang === 'en') {
       title = 'Success';
+    } else if (this.currLang === 'pl') {
+      title = 'Powodzenie';
     }
 
     this.addItem({

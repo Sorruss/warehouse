@@ -44,7 +44,7 @@
     </div>
   </div>
 
-  <div class="buttons" [class.admin-page]="user_role === 'admin'">
+  <div class="buttons" [class.admin-page]="user.user_role === 'admin'">
     <div class="button-import">
       <button (click)="addToCart(inputImport.value)">
         <span class="text">{{ "Order" | translate }}</span>
@@ -73,12 +73,16 @@
       />
     </div>
 
-    <button *ngIf="user_role === 'admin'" id="btn-edit" (click)="editItem()">
+    <button
+      *ngIf="user.user_role === 'admin'"
+      id="btn-edit"
+      (click)="editItem()"
+    >
       <i class="bx bxs-edit"></i>
     </button>
 
     <button
-      *ngIf="user_role === 'admin'"
+      *ngIf="user.user_role === 'admin'"
       id="btn-remove"
       (click)="removeItem()"
     >
@@ -292,7 +296,7 @@
     </div>
   </div>
 
-  <div class="buttons" [class.admin-page]="user_role === 'admin'">
+  <div class="buttons" [class.admin-page]="user.user_role === 'admin'">
     <button id="save" (click)="saveFormatting()">
       <span class="text">{{ "Save" | translate }}</span>
     </button>

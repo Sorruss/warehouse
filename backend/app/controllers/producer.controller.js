@@ -52,6 +52,9 @@ exports.create = async (req, res) => {
 exports.getItems = async (req, res) => {
   await Producer.findAll({
     order: [["id", "desc"]],
+    where: {
+      company_id: req.user.company_id,
+    },
   })
     .then((data) => {
       res.send(data);

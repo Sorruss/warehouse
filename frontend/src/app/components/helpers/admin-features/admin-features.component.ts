@@ -1,4 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { ObservablesService } from 'src/app/services/observables/observables.service';
@@ -15,7 +18,7 @@ import { getDate, getRandomNumber } from 'src/app/functions';
   templateUrl: './admin-features.component.html',
   styleUrls: ['./admin-features.component.css'],
 })
-export class AdminFeaturesComponent implements OnInit {
+export class AdminFeaturesComponent implements OnInit, OnDestroy {
   private companyId!: number;
 
   public isItemModalActive: boolean = false;
@@ -33,6 +36,8 @@ export class AdminFeaturesComponent implements OnInit {
 
   private photos: any = {};
 
+  private ngUnsubscribe: Subject<boolean> = new Subject();
+
   constructor(
     private authService: AuthService,
     private observablesService: ObservablesService,
@@ -48,6 +53,11 @@ export class AdminFeaturesComponent implements OnInit {
 
     this.customUploadFileButton();
   }
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next(true);
+    this.ngUnsubscribe.complete();
+  }
+
   customUploadFileButton(): void {
     const inputs: any = document.querySelectorAll('.inputfile');
     inputs.forEach((input: any) => {
@@ -122,15 +132,18 @@ export class AdminFeaturesComponent implements OnInit {
   }
   createAnItem(): void {
     // Creation.
-    this.itemsService.create(this.newItem).subscribe(
-      (reponse) => {
-        console.log('response: ', reponse);
-        this.itemWasAdded();
-      },
-      (error) => {
-        console.log('error: ', error);
-      }
-    );
+    this.itemsService
+      .create(this.newItem)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(
+        (reponse) => {
+          console.log('response: ', reponse);
+          this.itemWasAdded();
+        },
+        (error) => {
+          console.log('error: ', error);
+        }
+      );
   }
   itemWasAdded(): void {
     // Tell the main page that there is new item available for retrieving.
@@ -155,15 +168,18 @@ export class AdminFeaturesComponent implements OnInit {
     document.querySelector('.modal-body.item select')!.selectedIndex = 0;
   }
   retrieveProducers(): void {
-    this.producersService.getAll().subscribe({
-      next: (data) => {
-        this.producers = data;
-        console.log('data: ', data);
-      },
-      error: (error) => {
-        console.log('error: ', error);
-      },
-    });
+    this.producersService
+      .getAll()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe({
+        next: (data) => {
+          this.producers = data;
+          console.log('data: ', data);
+        },
+        error: (error) => {
+          console.log('error: ', error);
+        },
+      });
   }
 
   openAddItemModal(): void {
@@ -269,14 +285,17 @@ export class AdminFeaturesComponent implements OnInit {
   }
   createAnUser(): void {
     // Creation.
-    this.usersService.create(this.newUser).subscribe(
-      (response) => {
-        console.log('response: ', response);
-      },
-      (error) => {
-        console.log('error: ', error);
-      }
-    );
+    this.usersService
+      .create(this.newUser)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(
+        (response) => {
+          console.log('response: ', response);
+        },
+        (error) => {
+          console.log('error: ', error);
+        }
+      );
   }
   clearUserAfterAdding(): void {
     // Clear all inputs, item, select and textarea.
@@ -341,14 +360,17 @@ export class AdminFeaturesComponent implements OnInit {
   }
   createAnProd(): void {
     // Creation.
-    this.producersService.create(this.newProd).subscribe(
-      (response) => {
-        console.log('response: ', response);
-      },
-      (error) => {
-        console.log('error: ', error);
-      }
-    );
+    this.producersService
+      .create(this.newProd)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(
+        (response) => {
+          console.log('response: ', response);
+        },
+        (error) => {
+          console.log('error: ', error);
+        }
+      );
   }
   clearProdAfterAdding(): void {
     // Clear all inputs, item, select and textarea.
@@ -385,14 +407,17 @@ export class AdminFeaturesComponent implements OnInit {
     this.newItem.photo_src = filename;
     formData.append('file', file, filename);
 
-    this.itemsService.attach(formData).subscribe(
-      (response) => {
-        console.log('response: ', response);
-      },
-      (error) => {
-        console.log('error: ', error);
-      }
-    );
+    this.itemsService
+      .attach(formData)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(
+        (response) => {
+          console.log('response: ', response);
+        },
+        (error) => {
+          console.log('error: ', error);
+        }
+      );
   }
   saveUserPhoto(): void {
     const file: File = this.photos.user_photo;
@@ -401,14 +426,17 @@ export class AdminFeaturesComponent implements OnInit {
     this.newUser.photo_src = filename;
     formData.append('file', file, filename);
 
-    this.usersService.attach(formData).subscribe(
-      (response) => {
-        console.log('response: ', response);
-      },
-      (error) => {
-        console.log('error: ', error);
-      }
-    );
+    this.usersService
+      .attach(formData)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(
+        (response) => {
+          console.log('response: ', response);
+        },
+        (error) => {
+          console.log('error: ', error);
+        }
+      );
   }
   saveProdPhoto(): void {
     const file: File = this.photos.prod_photo;
@@ -417,13 +445,16 @@ export class AdminFeaturesComponent implements OnInit {
     this.newProd.photo_src = filename;
     formData.append('file', file, filename);
 
-    this.producersService.attach(formData).subscribe(
-      (response) => {
-        console.log('response: ', response);
-      },
-      (error) => {
-        console.log('error: ', error);
-      }
-    );
+    this.producersService
+      .attach(formData)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(
+        (response) => {
+          console.log('response: ', response);
+        },
+        (error) => {
+          console.log('error: ', error);
+        }
+      );
   }
 }

@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
 const path = require("path");
+const { getRandomNumber } = require("../backend/app/functions");
+
 const basename = path.basename(__filename);
 const backend = express();
 
@@ -34,6 +36,23 @@ db.sequelize.sync();
 
 backend.get("/", (req, res) => {
   res.json({ message: "simple route" });
+});
+backend.get("/entry_photo", (req, res) => {
+  let photoPath = path.resolve(__dirname, "../backend/images/entry/");
+  fs.readdir(photoPath, (err, files) => {
+    let number = files.length;
+    let filename;
+
+    number = getRandomNumber(1, number);
+    for (let file of files) {
+      if (String(number) === file.split(".")[0]) {
+        filename = file;
+      }
+    }
+
+    photoPath = path.resolve(photoPath, filename);
+    res.sendFile(photoPath);
+  });
 });
 
 fs.readdirSync("./app/routes")

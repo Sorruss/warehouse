@@ -29,6 +29,7 @@
               "src/static/images/producers",
               "src/static/images/users",
               "src/static/images/companies",
+              "src/static/images/entry",
               "src/static/other"
             ],
             "styles": [

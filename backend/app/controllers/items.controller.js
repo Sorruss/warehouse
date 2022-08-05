@@ -153,7 +153,6 @@ exports.delete = async (req, res) => {
 // Delete all Items.
 exports.deleteAll = async (req, res) => {
   await Item.destroy({
-    where: {},
     truncate: false,
   })
     .then((nums) => {

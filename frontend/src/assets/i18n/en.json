@@ -73,6 +73,8 @@
   "Min": "Minimum",
   "Max": "Maximum",
   "YouEntered": "You entered",
+  "ConsistsOf": "consists of",
+  "Symbols": "symbols",
 
   "January": "January",
   "February": "February",
@@ -93,5 +95,10 @@
   "Wednesday": "Wednesday",
   "Thursday": "Thursday",
   "Friday": "Friday",
-  "Saturday": "Saturday"
+  "Saturday": "Saturday",
+
+  "CompanyData": "Company data",
+  "EmployeeData": "Employee data",
+  "LogIn": "Log In",
+  "CompanyID": "Company ID"
 }

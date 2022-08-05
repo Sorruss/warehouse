@@ -14,6 +14,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 
 import { FilterByNamePipe } from './pipes/filter-by-name/filter-by-name.pipe';
 import { ShortenPipe } from './pipes/shorten/shorten.pipe';
+import { TranslateDatePipe } from './pipes/translateDate/translate-date.pipe';
 
 import { NgNumberDirective } from './directives/ng-number/ng-number.directive';
 import { DateFormatDirective } from './directives/dateFormat/date-format.directive';
@@ -40,7 +41,6 @@ import { ProducersComponent } from './components/producers/producers.component';
 import { ProducerComponent } from './components/producer/producer.component';
 import { UsersComponent } from './components/users/users.component';
 import { UserComponent } from './components/user/user.component';
-import { TranslateDatePipe } from './pipes/translateDate/translate-date.pipe';
 
 @NgModule({
   declarations: [
@@ -93,6 +93,7 @@ import { TranslateDatePipe } from './pipes/translateDate/translate-date.pipe';
       useClass: InterceptorService,
       multi: true,
     },
+    TranslateDatePipe,
   ],
   bootstrap: [AppComponent],
 })

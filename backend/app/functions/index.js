@@ -6,6 +6,7 @@ function getDate(initValue) {
     moment = new Date(initValue);
   } else {
     moment = new Date();
+    // moment.setMinutes(moment.getMinutes() - moment.getTimezoneOffset());
   }
 
   const custom_months = [
@@ -47,5 +48,10 @@ function getDate(initValue) {
   return date + " " + time;
 }
 functions.getDate = getDate;
+
+function getRandomNumber(min, max) {
+  return Math.floor(Math.random() * (max + 1 - min) + min);
+}
+functions.getRandomNumber = getRandomNumber;
 
 module.exports = functions;

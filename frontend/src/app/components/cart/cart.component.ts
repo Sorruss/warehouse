@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { CartService } from '../../services/cart/cart.service';
 
@@ -16,7 +19,7 @@ import { fadeIn, slide2right } from 'src/app/animations/animations';
   styleUrls: ['./cart.component.css'],
   animations: [fadeIn, slide2right],
 })
-export class CartComponent implements OnInit {
+export class CartComponent implements OnInit, OnDestroy {
   public items: any = [];
   public selectedItemsId: number[] = [];
 
@@ -25,6 +28,8 @@ export class CartComponent implements OnInit {
   public nameToFilter: string = '';
 
   private user_id!: number;
+
+  private ngUnsubscribe: Subject<boolean> = new Subject();
 
   constructor(
     private cartService: CartService,
@@ -37,9 +42,11 @@ export class CartComponent implements OnInit {
   ngOnInit(): void {
     this.retrieveItems();
 
-    this.filterService.filterPropObs.subscribe((value) => {
-      this.nameToFilter = value;
-    });
+    this.filterService.filterPropObs
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((value) => {
+        this.nameToFilter = value;
+      });
     this.filterService.activateSearchBar();
 
     this.user_id = this.authService.getUserDetails().id;
@@ -56,6 +63,7 @@ export class CartComponent implements OnInit {
       console.log({ ordered_quantity: Number(item.ordered_quantity) });
       this.cartService
         .patch(item.id, { ordered_quantity: Number(item.ordered_quantity) })
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(
           (response) => {
             console.log('response: ', response);
@@ -65,18 +73,24 @@ export class CartComponent implements OnInit {
           }
         );
     }
+
+    this.ngUnsubscribe.next(true);
+    this.ngUnsubscribe.complete();
   }
 
   retrieveItems(): void {
-    this.cartService.getAll().subscribe({
-      next: (data) => {
-        console.log('data: ', data);
-        this.items = data;
-      },
-      error: (error) => {
-        console.log('error: ', error);
-      },
-    });
+    this.cartService
+      .getAll()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe({
+        next: (data) => {
+          console.log('data: ', data);
+          this.items = data;
+        },
+        error: (error) => {
+          console.log('error: ', error);
+        },
+      });
   }
 
   chooseOne(checked: boolean, id: number): void {
@@ -109,15 +123,18 @@ export class CartComponent implements OnInit {
   }
 
   deleteItem(id: number): void {
-    this.cartService.delete(id).subscribe(
-      (response) => {
-        console.log('response: ', response);
-        this.retrieveItems();
-      },
-      (error) => {
-        console.log('error: ', error);
-      }
-    );
+    this.cartService
+      .delete(id)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(
+        (response) => {
+          console.log('response: ', response);
+          this.retrieveItems();
+        },
+        (error) => {
+          console.log('error: ', error);
+        }
+      );
   }
   createRModel(item: any, savedOrderId: number): void {
     item = {
@@ -129,14 +146,17 @@ export class CartComponent implements OnInit {
     };
 
     console.log('item: ', item);
-    this.registrateModelService.create(item).subscribe(
-      (response) => {
-        console.log('response', response);
-      },
-      (error) => {
-        console.log('error', error);
-      }
-    );
+    this.registrateModelService
+      .create(item)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(
+        (response) => {
+          console.log('response', response);
+        },
+        (error) => {
+          console.log('error', error);
+        }
+      );
   }
   removeFromCart(add: boolean = false, savedOrderId?: number): void {
     if (!this.selectedItemsId.length) {
@@ -212,6 +232,7 @@ export class CartComponent implements OnInit {
         order_name,
         owner_id: this.user_id,
       })
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         (response) => {
           console.log('response: ', response);

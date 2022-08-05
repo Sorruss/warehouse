@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { Router } from '@angular/router';
 
@@ -13,10 +16,12 @@ import { fadeIn, fadeOut } from 'src/app/animations/animations';
   styleUrls: ['./users.component.css'],
   animations: [fadeIn, fadeOut],
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit, OnDestroy {
   public users: any = [];
   public nameToFilter: string = '';
   public srcToPhotos: string = 'http://localhost:8080/api/users/photo/';
+
+  private ngUnsubscribe: Subject<boolean> = new Subject();
 
   constructor(
     private filterService: FilterService,
@@ -26,21 +31,30 @@ export class UsersComponent implements OnInit {
   ngOnInit(): void {
     this.retrieveUsers();
     this.filterService.activateSearchBar();
-    this.filterService.filterPropObs.subscribe((value) => {
-      this.nameToFilter = value;
-    });
+    this.filterService.filterPropObs
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((value) => {
+        this.nameToFilter = value;
+      });
+  }
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next(true);
+    this.ngUnsubscribe.complete();
   }
 
   retrieveUsers(): void {
-    this.usersService.getAll().subscribe({
-      next: (data) => {
-        this.users = data;
-        console.log('data: ', data);
-      },
-      error: (error) => {
-        console.log('error: ', error);
-      },
-    });
+    this.usersService
+      .getAll()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe({
+        next: (data) => {
+          this.users = data;
+          console.log('data: ', data);
+        },
+        error: (error) => {
+          console.log('error: ', error);
+        },
+      });
   }
 
   toUserDetails(id: number, name: string): void {

@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
   ) {}
   ngOnInit() {
     // LANGUAGE
-    this.translateService.addLangs(['ua', 'en']);
+    this.translateService.addLangs(['ua', 'en', 'pl']);
     this.translateService.setDefaultLang('ua');
     if (this.cookieService.check('language')) {
       this.translateService.use(this.cookieService.get('language'));

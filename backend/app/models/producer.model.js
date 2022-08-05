@@ -2,11 +2,13 @@ const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
   class Producer extends Model {
-    static associate({ Item }) {
+    static associate({ Item, Company }) {
       this.hasMany(Item, {
         onDelete: "cascade",
         foreignKey: "producer_id",
-        onDelete: "cascade",
+      });
+      this.belongsTo(Company, {
+        foreignKey: "company_id",
       });
     }
   }
@@ -16,7 +18,6 @@ module.exports = (sequelize, DataTypes) => {
       producer_name: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
         validate: {
           len: [2, 72],
         },
