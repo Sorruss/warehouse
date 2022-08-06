@@ -27,7 +27,7 @@ export class TableComponent implements OnInit, OnDestroy {
   public items: Item[] = [];
   public nameToFilter: string = '';
 
-  private user_id!: number;
+  public user: any;
 
   private ngUnsubscribe: Subject<boolean> = new Subject();
 
@@ -50,7 +50,7 @@ export class TableComponent implements OnInit, OnDestroy {
       });
     this.filterService.activateSearchBar();
 
-    this.user_id = this.authService.getUserDetails().id;
+    this.user = this.authService.getUserDetails();
 
     this.observablesService.isNewItemObs
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -86,7 +86,7 @@ export class TableComponent implements OnInit, OnDestroy {
     this.cartService
       .create({
         item_id: item.id,
-        owner_id: this.user_id,
+        owner_id: this.user.id,
         ordered_quantity: Number(quantity),
       })
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -107,7 +107,7 @@ export class TableComponent implements OnInit, OnDestroy {
     this.exportService
       .create({
         item_id: item.id,
-        owner_id: this.user_id,
+        owner_id: this.user.id,
         ordered_quantity: Number(quantity),
       })
       .pipe(takeUntil(this.ngUnsubscribe))

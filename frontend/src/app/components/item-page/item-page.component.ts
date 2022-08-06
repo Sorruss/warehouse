@@ -134,7 +134,7 @@ export class ItemPageComponent implements OnInit, OnDestroy {
     );
   }
   removeItem(): void {
-    if (this.user.role !== 'admin') {
+    if (this.user.user_role !== 'admin') {
       return;
     }
 
@@ -171,7 +171,8 @@ export class ItemPageComponent implements OnInit, OnDestroy {
   }
 
   editItem(): void {
-    if (this.user.role !== 'admin') {
+    console.log('test!@3: ', this.user.user_role);
+    if (this.user.user_role !== 'admin') {
       return;
     }
 

@@ -60,7 +60,7 @@ exports.create = async (req, res) => {
 
 // Retrieve all Users.
 exports.getItems = async (req, res) => {
-  await User.findAll()
+  await User.findAll({ where: { company_id: req.user.company_id } })
     .then((data) => {
       res.send(data);
     })
@@ -130,4 +130,19 @@ exports.getPhoto = async (req, res) => {
     filename = data.photo_src;
   });
   res.sendFile(path.resolve(__dirname, `../../images/users/${filename}`));
+};
+
+// Update an User by the id.
+exports.patch = async (req, res) => {
+  const id = req.params.id;
+
+  await User.findByPk(id).then((user) => {
+    if (user) {
+      user.update(req.body).then(() => {
+        res.send({
+          message: "User was patched successfully.",
+        });
+      });
+    }
+  });
 };

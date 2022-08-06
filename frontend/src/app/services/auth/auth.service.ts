@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import { CookieService } from 'ngx-cookie-service';
+import { UsersService } from 'src/app/services/users/users.service';
 
 import { Observable, catchError, throwError, Subject } from 'rxjs';
 
@@ -19,7 +20,8 @@ export class AuthService {
   constructor(
     private httpClient: HttpClient,
     private router: Router,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private usersService: UsersService
   ) {}
 
   login(payload: object): Observable<any> {
@@ -30,6 +32,17 @@ export class AuthService {
       .pipe(catchError(this.handleError));
   }
   logout(): void {
+    this.usersService
+      .patch(this.getUserDetails().id, { isOnline: false })
+      .subscribe(
+        (response) => {
+          console.log('response: ', response);
+        },
+        (error) => {
+          console.log('error:', error);
+        }
+      );
+
     this.isAuthenticated.next(false);
     this.clearStorage();
     this.cookieService.deleteAll();

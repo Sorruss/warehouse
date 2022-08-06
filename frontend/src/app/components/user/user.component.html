@@ -19,6 +19,7 @@
         <li>{{ "Phone1" | translate }}:</li>
         <li>{{ "Phone2" | translate }}:</li>
         <li>{{ "Role" | translate }}:</li>
+        <li>{{ "Online" | translate }}:</li>
       </ul>
       <ul id="user-info-values">
         <li>{{ user.first_name }}</li>
@@ -32,6 +33,15 @@
             user.user_role === "worker"
               ? ("Worker" | translate)
               : ("Administrator" | translate)
+          }}
+        </li>
+        <li>
+          {{
+            user.isOnline
+              ? ("Now" | translate)
+              : user.lastLoginTime
+              ? (user.lastLoginTime | normalDate: true | translateDate)
+              : ("Never" | translate)
           }}
         </li>
       </ul>

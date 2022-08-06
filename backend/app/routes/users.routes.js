@@ -14,6 +14,9 @@ module.exports = (backend) => {
   // Attach a photo to the user.
   router.post("/photo", auth.verifyToken, users.attachPhoto);
 
+  // Patch an Item by the id.
+  router.patch("/:id", auth.verifyToken, users.patch);
+
   // Get a photo of the user.
   router.get("/photo/:id", users.getPhoto);
 

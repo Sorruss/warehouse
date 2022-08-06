@@ -6,15 +6,20 @@
     @fadeOut
   >
     <div class="user-content">
-      <img
-        [src]="
-          user.photo_src === 'default'
-            ? '../../../static/images/users/default1.png'
-            : srcToPhotos + user.id
-        "
-        alt="Фото користувача '{{ user.last_name }} {{ user.first_name }}'"
-        (click)="toUserDetails(user.id, user.last_name + ' ' + user.first_name)"
-      />
+      <div class="image">
+        <img
+          [src]="
+            user.photo_src === 'default'
+              ? '../../../static/images/users/default1.png'
+              : srcToPhotos + user.id
+          "
+          alt="Фото користувача '{{ user.last_name }} {{ user.first_name }}'"
+          (click)="
+            toUserDetails(user.id, user.last_name + ' ' + user.first_name)
+          "
+        />
+        <div *ngIf="user.isOnline" class="green-circle"></div>
+      </div>
       <div class="information">
         <div class="main">
           <span
@@ -27,7 +32,16 @@
           -
           <span class="position">{{ user.user_position }}</span>
         </div>
-        <div class="online">{{ "LastTimeOnline" | translate }}: never</div>
+        <div class="online">
+          {{ "LastTimeOnline" | translate }}:
+          {{
+            user.isOnline
+              ? ("Now" | translate)
+              : user.lastLoginTime
+              ? (user.lastLoginTime | normalDate: true | translateDate)
+              : ("Never" | translate)
+          }}
+        </div>
         <div class="role">
           {{
             user.user_role === "worker"

@@ -41,6 +41,7 @@ import { ProducersComponent } from './components/producers/producers.component';
 import { ProducerComponent } from './components/producer/producer.component';
 import { UsersComponent } from './components/users/users.component';
 import { UserComponent } from './components/user/user.component';
+import { NormalDatePipe } from './pipes/normalDate/normal-date.pipe';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { UserComponent } from './components/user/user.component';
     ShortenPipe,
     DateFormatDirective,
     TranslateDatePipe,
+    NormalDatePipe,
   ],
   imports: [
     BrowserModule,

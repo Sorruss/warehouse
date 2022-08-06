@@ -50,6 +50,11 @@ exports.logIn = async function (req, res) {
         let token = jwt.sign({ user }, conf.jwt_secret, {
           expiresIn: "24h",
         });
+
+        user.isOnline = req.body.isOnline;
+        user.lastLoginTime = req.body.lastLoginTime;
+        user.save();
+
         res.status(200).send({ status: 1, user, token });
       } else {
         res.status(400).send({

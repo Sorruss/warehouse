@@ -99,6 +99,13 @@
 .buttons button:hover {
   background: #1d1b31;
 }
+.buttons .disabled {
+  cursor: default;
+  background: var(--foreground-1);
+}
+.buttons .disabled:hover {
+  background: var(--foreground-1);
+}
 
 .buttons input {
   opacity: 0;

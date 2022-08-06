@@ -59,7 +59,7 @@
       />
     </div>
 
-    <div class="button-export">
+    <div *ngIf="item.quantity" class="button-export">
       <button (click)="addToExport(inputExport.value)">
         <span class="text">{{ "Export" | translate }}</span>
       </button>
@@ -71,6 +71,11 @@
         placeholder="0"
         appNgNumber
       />
+    </div>
+    <div *ngIf="!item.quantity" class="button-export">
+      <button class="disabled">
+        <span class="text">{{ "Export" | translate }}</span>
+      </button>
     </div>
 
     <button

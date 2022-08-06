@@ -100,6 +100,15 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
 
+      lastLoginTime: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+      isOnline: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
+      },
       createdAt: {
         allowNull: false,
         defaultValue: new Date(),

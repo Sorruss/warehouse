@@ -67,6 +67,8 @@ export class EntryComponent implements OnInit {
         company_password: credentials.companyPassword.control.value,
         user_login: credentials.workerLogin.control.value,
         user_password: credentials.workerPassword.control.value,
+        isOnline: true,
+        lastLoginTime: new Date(),
       })
       .subscribe(
         (response) => {
