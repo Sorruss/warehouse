@@ -252,13 +252,21 @@ export class AdminFeaturesComponent implements OnInit, OnDestroy {
       !this.userForm.form.controls.user_login.value ||
       !this.userForm.form.controls.user_pass1.value ||
       !this.userForm.form.controls.user_pass2.value ||
-      !this.userForm.form.controls.user_role.value ||
-      !this.userForm.form.controls.user_photo.value
+      !this.userForm.form.controls.user_role.value
     ) {
       this.notificationService.createInvalidCredentialsNotification(true);
       return;
     }
 
+    // Validate the first and the second password.
+    if (this.userPassword.first === this.userPassword.second) {
+      this.newUser.user_password = this.userPassword.first;
+    } else {
+      this.notificationService.createPasswordsDoNotMatchNotification(true);
+      return;
+    }
+
+    // Save an user's photo.
     if (this.photos.user_photo) {
       this.saveUserPhoto();
     } else {
@@ -300,6 +308,8 @@ export class AdminFeaturesComponent implements OnInit, OnDestroy {
   clearUserAfterAdding(): void {
     // Clear all inputs, item, select and textarea.
     this.newUser = {};
+    this.userPassword = {};
+
     document
       .querySelectorAll('.modal-body.user input')
       .forEach((input: any) => {
@@ -311,14 +321,9 @@ export class AdminFeaturesComponent implements OnInit, OnDestroy {
       });
 
     // @ts-ignore
-    document.querySelector('.modal-body.user textarea')!.value = '';
-    // @ts-ignore
     document.querySelector('.modal-body.user select')!.selectedIndex = 0;
   }
   changeAnUserBeforeCreation(): void {
-    if (this.userPassword.first === this.userPassword.second) {
-      this.newUser.user_password = this.userPassword.first;
-    }
     this.newUser.company_id = this.companyId;
   }
 

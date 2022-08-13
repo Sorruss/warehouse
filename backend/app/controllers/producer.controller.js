@@ -1,6 +1,7 @@
 const { Producer, Item } = require("../models");
 const multer = require("multer");
 const path = require("path");
+const fs = require("fs");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -28,7 +29,7 @@ exports.create = async (req, res) => {
   }
 
   // Create an Producer.
-  const item = {
+  const producer = {
     producer_name: req.body.producer_name,
     phone1: req.body.phone1,
     phone2: req.body.phone2,
@@ -36,7 +37,7 @@ exports.create = async (req, res) => {
     description: req.body.description,
   };
 
-  await Producer.create(item)
+  await Producer.create(producer)
     .then((data) => {
       res.send(data);
     })
@@ -178,11 +179,75 @@ exports.attachPhoto = async (req, res) => {
   });
 };
 
-exports.getPhoto = async (req, res) => {
+exports.deletePhotoByItemId = async (req, res) => {
   const id = req.params.id;
   let filename;
   await Producer.findByPk(id).then((data) => {
     filename = data.photo_src;
   });
-  res.sendFile(path.resolve(__dirname, `../../images/producers/${filename}`));
+
+  if (filename.includes("default")) {
+    res.send({ message: "Default photo was not deleted." });
+    return;
+  }
+
+  const photoPath = path.resolve(
+    __dirname,
+    `../../images/producers/${filename}`
+  );
+  if (fs.existsSync(photoPath)) {
+    try {
+      fs.unlinkSync(photoPath);
+      res.send({ message: "Photo of an producer was successfully deleted." });
+    } catch (err) {
+      res.send({ error: "Error occurred deleting photo of an producer." });
+    }
+  } else {
+    res.send({
+      message:
+        "Error occurred deleting photo of an producer. Photo is not exist.",
+    });
+  }
+};
+
+exports.deletePhotoByPhotoName = async (req, res) => {
+  const name = req.params.name;
+
+  if (name.includes("default")) {
+    res.send({ message: "Default photo was not deleted." });
+    return;
+  }
+
+  try {
+    fs.unlinkSync(path.resolve(__dirname, `../../images/producers/${name}`));
+  } catch (err) {
+    res.send({ error: "Error occurred deleting an producer photo" });
+  }
+
+  res.send({ error: "Producer photo deleted successfully" });
+};
+
+exports.getPhotoByItemId = async (req, res) => {
+  const id = req.params.id;
+  let filename;
+  await Producer.findByPk(id).then((data) => {
+    filename = data.photo_src;
+  });
+
+  const photoPath = path.resolve(
+    __dirname,
+    `../../images/producers/${filename}`
+  );
+  if (fs.existsSync(photoPath)) {
+    res.sendFile(photoPath);
+  } else {
+    res.sendFile(
+      path.resolve(__dirname, `../../images/producers/default1.png`)
+    );
+  }
+};
+
+exports.getPhotoByPhotoName = async (req, res) => {
+  const name = req.params.name;
+  res.sendFile(path.resolve(__dirname, `../../images/producers/${name}`));
 };

@@ -1,4 +1,4 @@
-<div class="user-page">
+<div *ngIf="!editingProcess" class="user-page" @fadeIn>
   <div class="page-content">
     <div class="user-photo">
       <img
@@ -7,8 +7,23 @@
             ? '../../../static/images/users/default1.png'
             : srcToPhotos + user.id
         "
-        alt="Фото користувача"
+        [alt]="
+          ('UserPhoto' | translate) +
+          ' \'' +
+          user.first_name +
+          ' ' +
+          user.last_name +
+          '\''
+        "
       />
+    </div>
+    <div class="user-buttons">
+      <button id="edit" (click)="edit()">
+        {{ "Edit" | translate }}
+      </button>
+      <button id="delete" (click)="modalActive = true">
+        {{ "Delete" | translate }}
+      </button>
     </div>
     <div class="user-info">
       <ul id="user-info-keys">
@@ -31,10 +46,401 @@
           {{
             user.user_role === "worker"
               ? ("Worker" | translate)
-              : ("Administrator" | translate)
+              : user.user_role === "admin"
+              ? ("Administrator" | translate)
+              : user.user_role === "moder"
+              ? ("Moderator" | translate)
+              : "unknown"
           }}
         </li>
       </ul>
     </div>
   </div>
 </div>
+
+<div *ngIf="editingProcess" class="user-page">
+  <div class="page-content">
+    <div class="user-photo">
+      <img
+        class="image-choosen"
+        *ngIf="user.photo_src === editedUser.photo_src"
+        [src]="
+          user.photo_src === 'default'
+            ? '../../../static/images/users/default1.png'
+            : srcToPhotos + user.id
+        "
+        [alt]="
+          ('UserPhoto' | translate) +
+          ' \'' +
+          user.first_name +
+          ' ' +
+          user.last_name +
+          '\''
+        "
+      />
+      <img
+        class="image-choosen"
+        *ngIf="user.photo_src !== editedUser.photo_src"
+        [src]="
+          editedUser.photo_src === 'default'
+            ? '../../../static/images/users/default1.png'
+            : srcToPhotos2 + editedUser.photo_src
+        "
+        [alt]="
+          ('UserPhoto' | translate) +
+          ' \'' +
+          editedUser.first_name +
+          ' ' +
+          editedUser.last_name +
+          '\''
+        "
+      />
+
+      <input
+        id="choose_photo"
+        type="file"
+        ngModel
+        #choose_photo="ngModel"
+        name="choose_photo"
+        class="inputfile"
+        (change)="choosePhoto($event)"
+        accept=".jpg,.png,.jpeg"
+      />
+
+      <div *ngIf="fileIsLoading" class="loader-content">
+        <span class="loader"></span>
+      </div>
+    </div>
+    <div class="user-buttons">
+      <button
+        *ngIf="
+          choose_photo.control.valid &&
+          user_firstname.control.valid &&
+          user_lastname.control.valid &&
+          user_middlename.control.valid &&
+          user_position.control.valid &&
+          user_phone1.control.valid &&
+          user_phone2.control.valid &&
+          user_role.control.valid
+        "
+        id="edit"
+        (click)="save()"
+      >
+        {{ "Save" | translate }}
+      </button>
+      <button
+        *ngIf="
+          !choose_photo.control.valid ||
+          !user_firstname.control.valid ||
+          !user_lastname.control.valid ||
+          !user_middlename.control.valid ||
+          !user_position.control.valid ||
+          !user_phone1.control.valid ||
+          !user_phone2.control.valid ||
+          !user_role.control.valid
+        "
+        id="edit"
+        class="disabled"
+      >
+        {{ "Save" | translate }}
+      </button>
+
+      <button id="delete" (click)="cancel()">
+        {{ "Cancel" | translate }}
+      </button>
+    </div>
+    <div class="user-info">
+      <ul id="user-info-keys">
+        <li>{{ "Name" | translate }}:</li>
+        <li>{{ "Surname" | translate }}:</li>
+        <li>{{ "ByFather" | translate }}:</li>
+        <li>{{ "Position" | translate }}:</li>
+        <li>{{ "Phone1" | translate }}:</li>
+        <li>{{ "Phone2" | translate }}:</li>
+        <li *ngIf="doesUserHavePrivileges">{{ "Role" | translate }}:</li>
+      </ul>
+      <ul id="user-info-values">
+        <li>
+          <input
+            [ngModel]="editedUser.first_name"
+            #user_firstname="ngModel"
+            id="user_firstname"
+            name="user_firstname"
+            type="text"
+            (change)="editedUser.first_name = user_firstname.control.value"
+            required
+            minlength="2"
+            maxlength="42"
+          />
+          <div
+            class="errors light"
+            *ngIf="
+              user_firstname.control.touched && !user_firstname.control.valid
+            "
+          >
+            <div *ngIf="user_firstname.control.errors !== null">
+              <span
+                class="error"
+                *ngIf="user_firstname.control.errors!.required"
+                >{{ "FieldIsRequired" | translate }}
+              </span>
+              <span
+                class="error"
+                *ngIf="user_firstname.control.errors!.minlength"
+              >
+                {{ "MinLength" | translate }}
+                {{ user_firstname.control.errors!.minlength.requiredLength }}.
+                {{ "YouEntered" | translate }}
+                {{ user_firstname.control.errors!.minlength.actualLength }}
+              </span>
+              <span
+                class="error"
+                *ngIf="user_firstname.control.errors!.maxlength"
+              >
+                {{ "MaxLength" | translate }}
+                {{ user_firstname.control.errors!.maxlength.requiredLength }}.
+                {{ "YouEntered" | translate }}
+                {{ user_firstname.control.errors!.maxlength.actualLength }}
+              </span>
+            </div>
+          </div>
+        </li>
+        <li>
+          <input
+            [ngModel]="editedUser.last_name"
+            #user_lastname="ngModel"
+            id="user_lastname"
+            name="user_lastname"
+            type="text"
+            (change)="editedUser.last_name = user_lastname.control.value"
+            required
+            minlength="2"
+            maxlength="42"
+          />
+          <div
+            class="errors light"
+            *ngIf="
+              user_lastname.control.touched && !user_lastname.control.valid
+            "
+          >
+            <div *ngIf="user_lastname.control.errors !== null">
+              <span class="error" *ngIf="user_lastname.control.errors!.required"
+                >{{ "FieldIsRequired" | translate }}
+              </span>
+              <span
+                class="error"
+                *ngIf="user_lastname.control.errors!.minlength"
+              >
+                {{ "MinLength" | translate }}
+                {{ user_lastname.control.errors!.minlength.requiredLength }}.
+                {{ "YouEntered" | translate }}
+                {{ user_lastname.control.errors!.minlength.actualLength }}
+              </span>
+              <span
+                class="error"
+                *ngIf="user_lastname.control.errors!.maxlength"
+              >
+                {{ "MaxLength" | translate }}
+                {{ user_lastname.control.errors!.maxlength.requiredLength }}.
+                {{ "YouEntered" | translate }}
+                {{ user_lastname.control.errors!.maxlength.actualLength }}
+              </span>
+            </div>
+          </div>
+        </li>
+        <li>
+          <input
+            [ngModel]="editedUser.middle_name"
+            #user_middlename="ngModel"
+            id="user_middlename"
+            name="user_middlename"
+            type="text"
+            (change)="editedUser.middle_name = user_middlename.control.value"
+            required
+            minlength="2"
+            maxlength="42"
+          />
+          <div
+            class="errors light"
+            *ngIf="
+              user_middlename.control.touched && !user_middlename.control.valid
+            "
+          >
+            <div *ngIf="user_middlename.control.errors !== null">
+              <span
+                class="error"
+                *ngIf="user_middlename.control.errors!.required"
+                >{{ "FieldIsRequired" | translate }}
+              </span>
+              <span
+                class="error"
+                *ngIf="user_middlename.control.errors!.minlength"
+              >
+                {{ "MinLength" | translate }}
+                {{ user_middlename.control.errors!.minlength.requiredLength }}.
+                {{ "YouEntered" | translate }}
+                {{ user_middlename.control.errors!.minlength.actualLength }}
+              </span>
+              <span
+                class="error"
+                *ngIf="user_middlename.control.errors!.maxlength"
+              >
+                {{ "MaxLength" | translate }}
+                {{ user_middlename.control.errors!.maxlength.requiredLength }}.
+                {{ "YouEntered" | translate }}
+                {{ user_middlename.control.errors!.maxlength.actualLength }}
+              </span>
+            </div>
+          </div>
+        </li>
+        <li>
+          <input
+            [ngModel]="editedUser.user_position"
+            #user_position="ngModel"
+            id="user_position"
+            name="user_position"
+            type="text"
+            (change)="editedUser.user_position = user_position.control.value"
+            required
+            minlength="2"
+            maxlength="32"
+          />
+          <div
+            class="errors light"
+            *ngIf="
+              user_position.control.touched && !user_position.control.valid
+            "
+          >
+            <div *ngIf="user_position.control.errors !== null">
+              <span class="error" *ngIf="user_position.control.errors!.required"
+                >{{ "FieldIsRequired" | translate }}
+              </span>
+              <span
+                class="error"
+                *ngIf="user_position.control.errors!.minlength"
+              >
+                {{ "MinLength" | translate }}
+                {{ user_position.control.errors!.minlength.requiredLength }}.
+                {{ "YouEntered" | translate }}
+                {{ user_position.control.errors!.minlength.actualLength }}
+              </span>
+              <span
+                class="error"
+                *ngIf="user_position.control.errors!.maxlength"
+              >
+                {{ "MaxLength" | translate }}
+                {{ user_position.control.errors!.maxlength.requiredLength }}.
+                {{ "YouEntered" | translate }}
+                {{ user_position.control.errors!.maxlength.actualLength }}
+              </span>
+            </div>
+          </div>
+        </li>
+        <li>
+          <input
+            [ngModel]="editedUser.phone1"
+            #user_phone1="ngModel"
+            id="user_phone1"
+            name="user_phone1"
+            type="text"
+            (change)="editedUser.phone1 = user_phone1.control.value"
+            required
+            minlength="10"
+            maxlength="18"
+          />
+          <div
+            class="errors light"
+            *ngIf="user_phone1.control.touched && !user_phone1.control.valid"
+          >
+            <div *ngIf="user_phone1.control.errors !== null">
+              <span class="error" *ngIf="user_phone1.control.errors!.required"
+                >{{ "FieldIsRequired" | translate }}
+              </span>
+              <span class="error" *ngIf="user_phone1.control.errors!.minlength">
+                {{ "MinLength" | translate }}
+                {{ user_phone1.control.errors!.minlength.requiredLength }}.
+                {{ "YouEntered" | translate }}
+                {{ user_phone1.control.errors!.minlength.actualLength }}
+              </span>
+              <span class="error" *ngIf="user_phone1.control.errors!.maxlength">
+                {{ "MaxLength" | translate }}
+                {{ user_phone1.control.errors!.maxlength.requiredLength }}.
+                {{ "YouEntered" | translate }}
+                {{ user_phone1.control.errors!.maxlength.actualLength }}
+              </span>
+            </div>
+          </div>
+        </li>
+        <li>
+          <input
+            [ngModel]="editedUser.phone2"
+            #user_phone2="ngModel"
+            id="user_phone2"
+            name="user_phone2"
+            type="text"
+            (change)="editedUser.phone2 = user_phone2.control.value"
+            required
+            minlength="10"
+            maxlength="18"
+          />
+          <div
+            class="errors light"
+            *ngIf="user_phone2.control.touched && !user_phone2.control.valid"
+          >
+            <div *ngIf="user_phone2.control.errors !== null">
+              <span class="error" *ngIf="user_phone2.control.errors!.required"
+                >{{ "FieldIsRequired" | translate }}
+              </span>
+              <span class="error" *ngIf="user_phone2.control.errors!.minlength">
+                {{ "MinLength" | translate }}
+                {{ user_phone2.control.errors!.minlength.requiredLength }}.
+                {{ "YouEntered" | translate }}
+                {{ user_phone2.control.errors!.minlength.actualLength }}
+              </span>
+              <span class="error" *ngIf="user_phone2.control.errors!.maxlength">
+                {{ "MaxLength" | translate }}
+                {{ user_phone2.control.errors!.maxlength.requiredLength }}.
+                {{ "YouEntered" | translate }}
+                {{ user_phone2.control.errors!.maxlength.actualLength }}
+              </span>
+            </div>
+          </div>
+        </li>
+        <li>
+          <select
+            [hidden]="!doesUserHavePrivileges"
+            [ngModel]="editedUser.user_role"
+            #user_role="ngModel"
+            id="user_role"
+            name="user_role"
+            type="text"
+            (change)="editedUser.user_role = user_role.control.value"
+            required
+          >
+            <option selected disabled value=""></option>
+            <option value="worker">{{ "Worker" | translate }}</option>
+            <option value="admin">{{ "Administrator" | translate }}</option>
+            <option value="moder">{{ "Moderator" | translate }}</option>
+          </select>
+          <div
+            class="errors light"
+            *ngIf="user_role.control.touched && !user_role.control.valid"
+          >
+            <div *ngIf="user_role.control.errors !== null">
+              <span class="error" *ngIf="user_role.control.errors!.required"
+                >{{ "FieldIsRequired" | translate }}
+              </span>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<app-confirm-dialog
+  *ngIf="modalActive"
+  [modalTitle]="'Warning' | translate"
+  [modalText]="'ConfirmAnAction' | translate"
+  (onCloseEvent)="onCloseEvent($event)"
+></app-confirm-dialog>

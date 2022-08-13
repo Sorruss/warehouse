@@ -39,6 +39,7 @@
   "Role": "Роль",
   "Administrator": "Адміністратор",
   "Worker": "Працівник",
+  "Moderator": "Модератор",
   "LastTimeOnline": "Останній раз онлайн",
   "Online": "Онлайн",
   "Now": "Зараз",
@@ -63,6 +64,8 @@
   "Password": "Пароль",
   "PasswordRepeat": "Пароль (2)",
   "ChooseFile": "Оберіть файл",
+  "Delete": "видалити",
+  "Edit": "редагувати",
 
   "CreateNewItem": "Створити нову модель товару",
   "CreateNewUser": "Створити нового користувача",
@@ -102,5 +105,13 @@
   "CompanyData": "Дані компанії",
   "EmployeeData": "Дані робітника",
   "LogIn": "Увійти",
-  "CompanyID": "ID компанії"
+  "CompanyID": "ID компанії",
+  "ProductPhoto": "фото продукту",
+  "ProducerPhoto": "фото виробника",
+  "UserPhoto": "фото користувача",
+
+  "Yes": "Так",
+  "No": "Ні",
+  "Warning": "Попередження",
+  "ConfirmAnAction": "Будь-ласка, підтвердіть свою дію"
 }

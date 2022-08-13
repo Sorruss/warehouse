@@ -236,9 +236,23 @@
       </form>
     </div>
     <div class="modal-bottom">
-      <button type="submit" id="save-btn" (click)="addNewItem()">
+      <button
+        *ngIf="itemForm.form.status === 'VALID'"
+        type="submit"
+        id="save-btn"
+        (click)="addNewItem()"
+      >
         {{ "Save" | translate }}
       </button>
+      <button
+        *ngIf="itemForm.form.status === 'INVALID'"
+        type="submit"
+        id="save-btn"
+        class="disabled"
+      >
+        {{ "Save" | translate }}
+      </button>
+
       <button id="cancel-btn" (click)="closeAddItemModal()">
         {{ "Cancel" | translate }}
       </button>
@@ -620,7 +634,7 @@
               #user_pass1="ngModel"
               id="user_pass1"
               name="user_pass1"
-              type="text"
+              type="password"
               (change)="userPassword.first = user_pass1.control.value"
               required
               minlength="7"
@@ -667,7 +681,7 @@
               #user_pass2="ngModel"
               id="user_pass2"
               name="user_pass2"
-              type="text"
+              type="password"
               (change)="userPassword.second = user_pass2.control.value"
               required
               minlength="7"
@@ -719,8 +733,9 @@
               required
             >
               <option selected disabled value=""></option>
-              <option value="worker">Робітник</option>
-              <option value="admin">Адміністратор</option>
+              <option value="worker">{{ "Worker" | translate }}</option>
+              <option value="admin">{{ "Administrator" | translate }}</option>
+              <option value="moder">{{ "Moderator" | translate }}</option>
             </select>
             <div
               class="errors light"
@@ -759,9 +774,23 @@
       </form>
     </div>
     <div class="modal-bottom">
-      <button type="submit" id="save-btn" (click)="addNewUser()">
+      <button
+        *ngIf="userForm.form.status === 'VALID'"
+        type="submit"
+        id="save-btn"
+        (click)="addNewUser()"
+      >
         {{ "Save" | translate }}
       </button>
+      <button
+        *ngIf="userForm.form.status === 'INVALID'"
+        type="submit"
+        id="save-btn"
+        class="disabled"
+      >
+        {{ "Save" | translate }}
+      </button>
+
       <button id="cancel-btn" (click)="closeAddUserModal()">
         {{ "Cancel" | translate }}
       </button>
@@ -1001,9 +1030,23 @@
       </form>
     </div>
     <div class="modal-bottom">
-      <button type="submit" id="save-btn" (click)="addNewProd()">
+      <button
+        *ngIf="prodForm.form.status === 'VALID'"
+        type="submit"
+        id="save-btn"
+        (click)="addNewProd()"
+      >
         {{ "Save" | translate }}
       </button>
+      <button
+        *ngIf="prodForm.form.status === 'INVALID'"
+        type="submit"
+        id="save-btn"
+        class="disabled"
+      >
+        {{ "Save" | translate }}
+      </button>
+
       <button id="cancel-btn" (click)="closeAddProdModal()">
         {{ "Cancel" | translate }}
       </button>

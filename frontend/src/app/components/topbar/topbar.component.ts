@@ -24,7 +24,7 @@ export class TopbarComponent implements OnInit, OnDestroy {
   public goBackCond: boolean = false;
   public goHomeCond: boolean = false;
 
-  public isUserAdmin!: boolean;
+  public doesUserHavePrivileges!: boolean;
   public currentPageIsMain: boolean = true;
 
   public isItemModalActive: boolean = false;
@@ -70,7 +70,8 @@ export class TopbarComponent implements OnInit, OnDestroy {
         this.isSearchBarActivated = value;
       });
     const user = this.authService.getUserDetails();
-    this.isUserAdmin = user.user_role === 'admin';
+    this.doesUserHavePrivileges =
+      user.user_role === 'admin' || user.user_role === 'moder';
   }
   activeSearch(): void {
     this.mainSearchBar.focus();

@@ -5,7 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { FilterService } from 'src/app/services/filter/filter.service';
 
-import { fadeIn, slide2right } from 'src/app/animations/animations';
+import { fadeIn } from 'src/app/animations/animations';
 
 import { ImportRegistrationService } from './../../services/import-registration/import-registration.service';
 
@@ -13,7 +13,7 @@ import { ImportRegistrationService } from './../../services/import-registration/
   selector: 'app-import-registration',
   templateUrl: './import-registration.component.html',
   styleUrls: ['./import-registration.component.css'],
-  animations: [fadeIn, slide2right],
+  animations: [fadeIn],
 })
 export class ImportRegistrationComponent implements OnInit, OnDestroy {
   public items: any = [];

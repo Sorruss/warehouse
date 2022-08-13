@@ -126,10 +126,10 @@ exports.updateItem = async (req, res) => {
 
 // Delete an Item with the specified id.
 exports.delete = async (req, res) => {
-  if (req.user.user_role !== "admin") {
-    res
-      .status(403)
-      .send({ message: "The user does not have enough privileges" });
+  if (req.user.user_role !== "admin" && req.user.user_role !== "moder") {
+    res.status(403).send({
+      message: "The user does not have enough privileges" + req.user.user_role,
+    });
   }
 
   const id = req.params.id;
@@ -206,6 +206,11 @@ exports.deletePhotoByItemId = async (req, res) => {
     filename = data.photo_src;
   });
 
+  if (filename.includes("default")) {
+    res.send({ message: "Default photo was not deleted." });
+    return;
+  }
+
   const photoPath = path.resolve(__dirname, `../../images/items/${filename}`);
   if (fs.existsSync(photoPath)) {
     try {
@@ -223,6 +228,12 @@ exports.deletePhotoByItemId = async (req, res) => {
 
 exports.deletePhotoByPhotoName = async (req, res) => {
   const name = req.params.name;
+
+  if (name.includes("default")) {
+    res.send({ message: "Default photo was not deleted." });
+    return;
+  }
+
   try {
     fs.unlinkSync(path.resolve(__dirname, `../../images/items/${name}`));
   } catch (err) {

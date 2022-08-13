@@ -1,0 +1,80 @@
+.modal-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  background: rgba(0, 0, 0, 0.4);
+}
+.modal-content {
+  width: 40%;
+  height: 150px;
+  background-color: var(--foreground-2);
+  padding: 15px;
+  border-top-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+.modal-title {
+  font-weight: 600;
+  font-size: 20px;
+  height: 35px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 7px;
+  right: 30px;
+  cursor: pointer;
+}
+.modal-close i {
+  position: absolute;
+  color: rgba(225, 0, 0, 0.5);
+  font-size: 24px;
+  transition: all 0.2s ease;
+}
+.modal-close #with-circle {
+  opacity: 0;
+}
+.modal-close:hover i {
+  color: rgba(225, 0, 0, 0.9);
+}
+.modal-close:hover #default {
+  opacity: 0;
+}
+.modal-close:hover #with-circle {
+  opacity: 1;
+}
+
+.modal-body {
+  height: 20px;
+}
+.modal-bottom {
+  height: 30px;
+  display: flex;
+}
+.modal-bottom button {
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  color: white;
+  border: none;
+}
+.modal-bottom button:hover {
+  border-radius: 2px;
+}
+.modal-bottom #save-btn {
+  background: rgba(0, 225, 0, 0.2);
+}
+.modal-bottom #cancel-btn {
+  background: rgba(225, 0, 0, 0.2);
+  margin-left: 10px;
+}
+.modal-bottom #save-btn:hover {
+  background: rgba(0, 225, 0, 0.6);
+}
+.modal-bottom #cancel-btn:hover {
+  background: rgba(225, 0, 0, 0.6);
+}

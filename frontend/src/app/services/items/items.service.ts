@@ -31,6 +31,25 @@ export class ItemsService {
       .post<any>(`${backUrl}/photo`, formData)
       .pipe(catchError(this.handleError));
   }
+  create(data: any): Observable<Item> {
+    return this.httpClient
+      .post<Item>(backUrl, data)
+      .pipe(catchError(this.handleError));
+  }
+  update(id: number, data: any): Observable<Item> {
+    return this.httpClient
+      .put<Item>(`${backUrl}/${id}`, data)
+      .pipe(catchError(this.handleError));
+  }
+  patch(id: number, data: any): Observable<Item> {
+    return this.httpClient
+      .patch<Item>(`${backUrl}/${id}`, data)
+      .pipe(catchError(this.handleError));
+  }
+  delete(id: number): Observable<any> {
+    return this.httpClient.delete<any>(`${backUrl}/${id}`);
+  }
+
   deletePhotoById(id: number): Observable<any> {
     return this.httpClient
       .delete<any>(`${backUrl}/photo/${id}`)
@@ -49,26 +68,6 @@ export class ItemsService {
   getPhotoById(id: number): Observable<any> {
     return this.httpClient
       .get<any>(`${backUrl}/photo/${id}`)
-      .pipe(catchError(this.handleError));
-  }
-  create(data: any): Observable<Item> {
-    return this.httpClient
-      .post<Item>(backUrl, data)
-      .pipe(catchError(this.handleError));
-  }
-  update(id: number, data: any): Observable<Item> {
-    return this.httpClient
-      .put<Item>(`${backUrl}/${id}`, data)
-      .pipe(catchError(this.handleError));
-  }
-  patch(id: number, data: any): Observable<Item> {
-    return this.httpClient
-      .patch<Item>(`${backUrl}/${id}`, data)
-      .pipe(catchError(this.handleError));
-  }
-  delete(id: number): Observable<any> {
-    return this.httpClient
-      .delete<any>(`${backUrl}/${id}`)
       .pipe(catchError(this.handleError));
   }
 

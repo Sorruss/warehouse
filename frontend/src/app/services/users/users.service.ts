@@ -43,6 +43,27 @@ export class UsersService {
       .pipe(catchError(this.handleError));
   }
 
+  deletePhotoById(id: number): Observable<any> {
+    return this.httpClient
+      .delete<any>(`${backUrl}/photo/${id}`)
+      .pipe(catchError(this.handleError));
+  }
+  deletePhotoByName(name: string): Observable<any> {
+    return this.httpClient
+      .delete<any>(`${backUrl}/user_photo/${name}`)
+      .pipe(catchError(this.handleError));
+  }
+  getPhotoByName(name: string): Observable<any> {
+    return this.httpClient
+      .get<any>(`${backUrl}/user_photo/${name}`)
+      .pipe(catchError(this.handleError));
+  }
+  getPhotoById(id: number): Observable<any> {
+    return this.httpClient
+      .get<any>(`${backUrl}/photo/${id}`)
+      .pipe(catchError(this.handleError));
+  }
+
   handleError(error: any) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {

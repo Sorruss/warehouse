@@ -414,4 +414,22 @@ export class NotificationService {
       compressed,
     });
   }
+  createPasswordsDoNotMatchNotification(compressed: boolean = true): void {
+    let title: string = '';
+    this.checkOnLanguageChange();
+    if (this.currLang === 'ua' || !this.currLang) {
+      title = 'Паролі не співпадають';
+    } else if (this.currLang === 'en') {
+      title = 'Passwords do not match';
+    } else if (this.currLang === 'pl') {
+      title = 'Hasła nie pasują do siebie';
+    }
+
+    this.addItem({
+      title,
+      message: '',
+      color: 'red',
+      compressed,
+    });
+  }
 }

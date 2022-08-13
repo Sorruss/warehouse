@@ -96,7 +96,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
         defaultValue: "worker",
         validate: {
-          isIn: [["worker", "admin"]],
+          isIn: [["worker", "admin", "moder"]],
         },
       },
 

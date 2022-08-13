@@ -102,6 +102,7 @@
 .buttons .disabled {
   cursor: default;
   background: var(--foreground-1);
+  cursor: not-allowed;
 }
 .buttons .disabled:hover {
   background: var(--foreground-1);

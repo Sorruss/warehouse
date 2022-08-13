@@ -3,7 +3,7 @@
     *ngFor="let user of users | filterByName: nameToFilter"
     class="user"
     @fadeIn
-    @fadeOut
+    @slide2right
   >
     <div class="user-content">
       <div class="image">
@@ -46,10 +46,40 @@
           {{
             user.user_role === "worker"
               ? ("Worker" | translate)
-              : ("Administrator" | translate)
+              : user.user_role === "admin"
+              ? ("Administrator" | translate)
+              : user.user_role === "moder"
+              ? ("Moderator" | translate)
+              : "unknown"
           }}
         </div>
+      </div>
+      <div *ngIf="doesUserHavePrivileges" class="buttons">
+        <button
+          class="edit"
+          (click)="editUser(user.id, user.last_name + ' ' + user.first_name)"
+        >
+          <i style="color: violet" class="bx bxs-edit"></i>
+        </button>
+        <button
+          class="delete"
+          (click)="
+            chooseUserToDelete(user.id, user.last_name + ' ' + user.first_name)
+          "
+        >
+          <i
+            [ngStyle]="{ color: user.id === cuser.id ? '' : 'red' }"
+            class="bx bx-trash"
+          ></i>
+        </button>
       </div>
     </div>
   </div>
 </div>
+
+<app-confirm-dialog
+  *ngIf="modalActive"
+  [modalTitle]="'Warning' | translate"
+  [modalText]="'ConfirmAnAction' | translate"
+  (onCloseEvent)="onCloseEvent($event)"
+></app-confirm-dialog>

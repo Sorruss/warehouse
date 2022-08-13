@@ -39,6 +39,7 @@
   "Role": "Role",
   "Administrator": "Administrator",
   "Worker": "Worker",
+  "Moderator": "Moderator",
   "LastTimeOnline": "Last time online",
   "Online": "Online",
   "Now": "Now",
@@ -63,6 +64,8 @@
   "Password": "Password",
   "PasswordRepeat": "Password (2)",
   "ChooseFile": "Choose file",
+  "Delete": "delete",
+  "Edit": "edit",
 
   "CreateNewItem": "Create a new product",
   "CreateNewUser": "Create a new user",
@@ -102,5 +105,13 @@
   "CompanyData": "Company data",
   "EmployeeData": "Employee data",
   "LogIn": "Log In",
-  "CompanyID": "Company ID"
+  "CompanyID": "Company ID",
+  "ProductPhoto": "photo of the product",
+  "ProducerPhoto": "photo of the producer",
+  "UserPhoto": "photo of the user",
+
+  "Yes": "Yes",
+  "No": "No",
+  "Warning": "Warning",
+  "ConfirmAnAction": "Please confirm your action"
 }

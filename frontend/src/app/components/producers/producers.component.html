@@ -3,7 +3,6 @@
     *ngFor="let prod of producers | filterByName: nameToFilter"
     class="producer"
     @fadeIn
-    @fadeOut
   >
     <div class="card text-white bg-dark">
       <img
@@ -13,7 +12,7 @@
             : srcToPhotos + prod.id
         "
         class="card-img-top"
-        alt="Фото компанії"
+        alt="{{ 'ProducerPhoto' | translate }} 'prod.producer_name'"
         (click)="toProducer(prod.id, prod.producer_name)"
       />
       <div class="card-body">
@@ -24,7 +23,7 @@
           {{ prod.producer_name }}
         </h5>
         <p class="card-text description">
-          {{ prod.description | shorten: 400 }}
+          {{ prod.description | shorten: 400:"..." }}
         </p>
       </div>
     </div>

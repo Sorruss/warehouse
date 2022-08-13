@@ -28,7 +28,10 @@
       </button>
     </div>
 
-    <div *ngIf="isUserAdmin && currentPageIsMain" class="admin-features">
+    <div
+      *ngIf="doesUserHavePrivileges && currentPageIsMain"
+      class="admin-features"
+    >
       <button class="add-new-item" (click)="adminFeatures.openAddItemModal()">
         <i class="bx bxs-file-plus"></i>
       </button>

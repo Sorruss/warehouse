@@ -143,6 +143,7 @@
 }
 .sidebar li a:hover {
   background: #fff;
+  box-shadow: -3px 3px olive, 0.2em 0 0.4em darkred;
 }
 .sidebar li a .links_name {
   color: #fff;

@@ -69,10 +69,23 @@ const routes: Routes = [
     component: RegistrateExportOrderComponent,
   },
   { path: 'entry', component: EntryComponent },
-  { path: 'producers', component: ProducersComponent },
-  { path: 'producer/:id', component: ProducerComponent },
-  { path: 'users', component: UsersComponent },
-  { path: 'user/:id', component: UserComponent },
+  {
+    path: 'producers',
+    canActivate: [AuthGuardService],
+    component: ProducersComponent,
+  },
+  {
+    path: 'producer/:id',
+    canActivate: [AuthGuardService],
+    component: ProducerComponent,
+  },
+  { path: 'users', canActivate: [AuthGuardService], component: UsersComponent },
+  {
+    path: 'user/:id',
+    canActivate: [AuthGuardService],
+    component: UserComponent,
+  },
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({

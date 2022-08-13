@@ -1,4 +1,4 @@
-<div *ngIf="prod" class="producer-items">
+<div *ngIf="prod && !editingProcess" class="producer-items">
   <div class="producer">
     <img
       [src]="
@@ -6,33 +6,202 @@
           ? '../../../static/images/producers/default1.png'
           : srcToPhotos + prod.id
       "
-      alt="Фото компанії виробника"
+      [alt]="('ProducerPhoto' | translate) + ' \'' + prod.producer_name + '\''"
     />
     <div class="description">
       {{ prod.description }}
     </div>
   </div>
-  <div class="items">
-    <div
-      *ngFor="let item of prod.Items"
-      class="item"
-      (click)="toItemDetails(item.id, item.item_name)"
-    >
-      <div class="item-content">
-        <div class="name">{{ item.item_name }}</div>
-        <div class="button">
-          <a
-            class="button-link"
-            routerLink="/item/{{ item.id }}"
-            [state]="{ pageName: item.item_name }"
+  <div class="right-side">
+    <div class="buttons">
+      <button id="edit" (click)="edit()">{{ "Edit" | translate }}</button>
+      <button id="delete" (click)="modalActive = true">
+        {{ "Delete" | translate }}
+      </button>
+    </div>
+
+    <div *ngIf="items.length" class="items">
+      <div
+        *ngFor="let item of items"
+        class="item"
+        (click)="toItemDetails(item.id, item.item_name)"
+        @fadeIn
+      >
+        <div class="item-content">
+          <div class="name">{{ item.item_name }}</div>
+          <div class="button">
+            <a
+              class="button-link"
+              routerLink="/item/{{ item.id }}"
+              [state]="{ pageName: item.item_name }"
+            >
+              <button>
+                <i class="bx bx-link-external"></i>
+              </button>
+            </a>
+            <span class="hint details">{{ "ViewDetails" | translate }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!items.length" class="empty">
+      {{ "Empty" | translate }}
+    </div>
+  </div>
+</div>
+
+<div *ngIf="prod && editingProcess" class="producer-items">
+  <div class="producer">
+    <div class="image">
+      <img
+        class="image-choosen"
+        *ngIf="prod.photo_src === editedItem.photo_src"
+        [src]="
+          prod.photo_src === 'default'
+            ? '../../../static/images/producers/default1.png'
+            : srcToPhotos + prod.id
+        "
+        [alt]="
+          ('ProducerPhoto' | translate) + ' \'' + prod.producer_name + '\''
+        "
+      />
+      <img
+        class="image-choosen"
+        *ngIf="prod.photo_src !== editedItem.photo_src"
+        [src]="
+          editedItem.photo_src === 'default'
+            ? '../../../static/images/producers/default1.png'
+            : srcToPhotos2 + editedItem.photo_src
+        "
+        [alt]="
+          ('ProducerPhoto' | translate) +
+          ' \'' +
+          editedItem.producer_name +
+          '\''
+        "
+      />
+
+      <input
+        id="choose_photo"
+        type="file"
+        ngModel
+        #choose_photo="ngModel"
+        name="choose_photo"
+        class="inputfile"
+        (change)="choosePhoto($event)"
+        accept=".jpg,.png,.jpeg"
+      />
+
+      <div *ngIf="fileIsLoading" class="loader-content">
+        <span class="loader"></span>
+      </div>
+    </div>
+
+    <div class="description">
+      <textarea
+        style="width: 100%; resize: none"
+        class="description"
+        [ngModel]="editedItem.description"
+        #prod_description="ngModel"
+        id="prod_description"
+        name="prod_description"
+        (change)="
+          editedItem.description = prod_description.control.value.trim()
+        "
+        type="text"
+        required
+        minlength="10"
+        maxlength="10000"
+        rows="10"
+      ></textarea>
+      <div
+        class="errors light"
+        *ngIf="
+          prod_description.control.touched && !prod_description.control.valid
+        "
+      >
+        <div *ngIf="prod_description.control.errors !== null">
+          <span
+            class="error"
+            *ngIf="prod_description.control.errors!.required"
+            >{{ "FieldIsRequired" | translate }}</span
           >
-            <button>
-              <i class="bx bx-link-external"></i>
-            </button>
-          </a>
-          <span class="hint details">{{ "ViewDetails" | translate }}</span>
+          <span
+            class="error"
+            *ngIf="prod_description.control.errors!.minlength"
+          >
+            {{ "MinLength" | translate }}:
+            {{ prod_description.control.errors!.minlength.requiredLength }}.
+            {{ "YouEntered" | translate }}
+            {{ prod_description.control.errors!.minlength.actualLength }}
+          </span>
+          <span
+            class="error"
+            *ngIf="prod_description.control.errors!.maxlength"
+          >
+            {{ "MaxLength" | translate }}:
+            {{ prod_description.control.errors!.maxlength.requiredLength }}.
+            {{ "YouEntered" | translate }}
+            {{ prod_description.control.errors!.maxlength.actualLength }}
+          </span>
         </div>
       </div>
     </div>
   </div>
+  <div class="right-side">
+    <div class="buttons">
+      <button
+        *ngIf="choose_photo.control.valid && prod_description.control.valid"
+        id="edit"
+        (click)="save()"
+      >
+        {{ "Save" | translate }}
+      </button>
+      <button
+        *ngIf="!choose_photo.control.valid || !prod_description.control.valid"
+        id="edit"
+        class="disabled"
+      >
+        {{ "Save" | translate }}
+      </button>
+
+      <button id="delete" (click)="cancel()">{{ "Cancel" | translate }}</button>
+    </div>
+
+    <div *ngIf="items.length" class="items">
+      <div
+        *ngFor="let item of items"
+        class="item"
+        style="cursor: default"
+        @slide2right
+      >
+        <div class="item-content">
+          <div class="name">{{ item.item_name }}</div>
+          <div class="button">
+            <a
+              class="button-link"
+              (click)="deleteItem(item.id, item.item_name)"
+            >
+              <button>
+                <i class="bx bx-trash"></i>
+              </button>
+            </a>
+            <span class="hint details">{{ "Delete" | translate }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!items.length" class="empty">
+      {{ "Empty" | translate }}
+    </div>
+  </div>
 </div>
+
+<app-confirm-dialog
+  *ngIf="modalActive"
+  [modalTitle]="'Warning' | translate"
+  [modalText]="'ConfirmAnAction' | translate"
+  (onCloseEvent)="onCloseEvent($event)"
+></app-confirm-dialog>

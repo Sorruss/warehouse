@@ -8,13 +8,13 @@ import { Router } from '@angular/router';
 import { ProducersService } from 'src/app/services/producers/producers.service';
 import { FilterService } from 'src/app/services/filter/filter.service';
 
-import { fadeIn, fadeOut } from 'src/app/animations/animations';
+import { fadeIn } from 'src/app/animations/animations';
 
 @Component({
   selector: 'app-producers',
   templateUrl: './producers.component.html',
   styleUrls: ['./producers.component.css'],
-  animations: [fadeIn, fadeOut],
+  animations: [fadeIn],
 })
 export class ProducersComponent implements OnInit, OnDestroy {
   public nameToFilter: string = '';

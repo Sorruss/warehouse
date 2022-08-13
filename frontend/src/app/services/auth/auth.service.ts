@@ -33,7 +33,10 @@ export class AuthService {
   }
   logout(): void {
     this.usersService
-      .patch(this.getUserDetails().id, { isOnline: false })
+      .patch(this.getUserDetails().id, {
+        isOnline: false,
+        lastLoginTime: new Date(),
+      })
       .subscribe(
         (response) => {
           console.log('response: ', response);

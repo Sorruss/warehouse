@@ -16,7 +16,6 @@
       *ngFor="let item of items | filterByName: nameToFilter"
       class="row item"
       @fadeIn
-      @slide2right
     >
       <div *ngIf="item.order_name == item.special_id" class="col name">
         {{ "Ordering" | translate }} №{{ item.order_name }}

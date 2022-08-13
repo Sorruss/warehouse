@@ -17,8 +17,10 @@ module.exports = (backend) => {
   // Get a photo of the item.
   router.get("/photo/:id", items.getPhotoByItemId);
 
+  // Get a photo of the item by the name.
   router.get("/item_photo/:name", items.getPhotoByPhotoName);
 
+  // Delete a photo of the item by the name.
   router.delete(
     "/item_photo/:name",
     auth.verifyToken,

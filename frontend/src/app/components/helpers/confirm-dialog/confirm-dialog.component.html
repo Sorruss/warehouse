@@ -1,0 +1,22 @@
+<div class="modal-wrapper">
+  <div class="modal-content">
+    <div class="modal-title">
+      {{ modalTitle }}
+      <span class="modal-close" (click)="onClose(false)">
+        <i class="bx bx-x" id="default"></i>
+        <i class="bx bx-x-circle" id="with-circle"></i>
+      </span>
+    </div>
+    <div class="modal-body">
+      {{ modalText }}
+    </div>
+    <div class="modal-bottom">
+      <button id="save-btn" (click)="onClose(true)">
+        {{ "Yes" | translate }}
+      </button>
+      <button id="cancel-btn" (click)="onClose(false)">
+        {{ "No" | translate }}
+      </button>
+    </div>
+  </div>
+</div>

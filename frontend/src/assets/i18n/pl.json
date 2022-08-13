@@ -39,6 +39,7 @@
   "Role": "Rola",
   "Administrator": "Administrator",
   "Worker": "Pracownik",
+  "Moderator": "Moderator",
   "LastTimeOnline": "Ostatni raz online",
   "Online": "Online",
   "Now": "Ale już",
@@ -63,6 +64,8 @@
   "Password": "Hasło",
   "PasswordRepeat": "Hasło (2)",
   "ChooseFile": "Wybierz plik",
+  "Delete": "kasować",
+  "Edit": "edytować",
 
   "CreateNewItem": "Utwórz nowy produkt",
   "CreateNewUser": "Utwórz nowego użytkownika",
@@ -102,5 +105,13 @@
   "CompanyData": "Dane firmy",
   "EmployeeData": "Dane pracownika",
   "LogIn": "Zaloguj sie",
-  "CompanyID": "ID firmy"
+  "CompanyID": "ID firmy",
+  "ProductPhoto": "zdjęcie produktu",
+  "ProducerPhoto": "zdjęcie producenta",
+  "UserPhoto": "zdjęcie użytkownika",
+
+  "Yes": "Tak",
+  "No": "Nie",
+  "Warning": "Ostrzeżenie",
+  "ConfirmAnAction": "Potwierdź swoje działanie"
 }

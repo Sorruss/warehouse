@@ -27,6 +27,7 @@
   height: 100px;
   margin-right: 20px;
   cursor: pointer;
+  object-fit: cover;
 }
 .user-content .information .main {
   font-size: 20px;
@@ -54,4 +55,33 @@
   width: 10px;
   height: 10px;
   border-radius: 200px;
+}
+
+.user:hover .buttons {
+  opacity: 1;
+}
+.buttons {
+  margin-left: auto;
+  margin-right: 2%;
+  opacity: 0;
+  transition: all 0.2s ease;
+}
+.buttons button {
+  border: none;
+  outline: none;
+  background: var(--foreground-3);
+  color: white;
+  border-radius: 4px;
+  padding: 4px 5px 4px 5px;
+  transition: all 0.4s ease;
+  font-size: 22px;
+  margin-left: 10px;
+}
+.buttons button:hover {
+  background: var(--foreground-2);
+  transform: scale(1.1);
+  box-shadow: -3px 3px olive;
+}
+.buttons button:first-child {
+  margin-left: 0px;
 }

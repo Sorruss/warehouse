@@ -7,11 +7,9 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class TranslateDatePipe implements PipeTransform {
   constructor(private translateService: TranslateService) {}
-  transform(value: string): string {
+  transform(value: string = ''): string {
     const [date, other] = value.split('(');
     let [month, day] = date.split(' ');
-
-    console.log(month, day);
 
     this.translateService.get(month).subscribe((data) => {
       month = data;

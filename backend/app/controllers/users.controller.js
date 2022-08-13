@@ -2,6 +2,7 @@ const { User } = require("../models");
 const md5 = require("md5");
 const multer = require("multer");
 const path = require("path");
+const fs = require("fs");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -141,8 +142,73 @@ exports.patch = async (req, res) => {
       user.update(req.body).then(() => {
         res.send({
           message: "User was patched successfully.",
+          user,
         });
       });
     }
   });
+};
+
+exports.getPhotoByItemId = async (req, res) => {
+  const id = req.params.id;
+  let filename;
+  await User.findByPk(id).then((data) => {
+    filename = data.photo_src;
+  });
+
+  const photoPath = path.resolve(__dirname, `../../images/users/${filename}`);
+  if (fs.existsSync(photoPath)) {
+    res.sendFile(photoPath);
+  } else {
+    res.sendFile(path.resolve(__dirname, `../../images/users/default1.png`));
+  }
+};
+
+exports.getPhotoByPhotoName = async (req, res) => {
+  const name = req.params.name;
+  res.sendFile(path.resolve(__dirname, `../../images/users/${name}`));
+};
+
+exports.deletePhotoByItemId = async (req, res) => {
+  const id = req.params.id;
+  let filename;
+  await User.findByPk(id).then((data) => {
+    filename = data.photo_src;
+  });
+
+  if (filename.includes("default")) {
+    res.send({ message: "Default photo was not deleted." });
+    return;
+  }
+
+  const photoPath = path.resolve(__dirname, `../../images/users/${filename}`);
+  if (fs.existsSync(photoPath)) {
+    try {
+      fs.unlinkSync(photoPath);
+      res.send({ message: "Photo of an user was successfully deleted." });
+    } catch (err) {
+      res.send({ error: "Error occurred deleting photo of an user." });
+    }
+  } else {
+    res.send({
+      message: "Error occurred deleting photo of an user. Photo is not exist.",
+    });
+  }
+};
+
+exports.deletePhotoByPhotoName = async (req, res) => {
+  const name = req.params.name;
+
+  if (name.includes("default")) {
+    res.send({ message: "Default photo was not deleted." });
+    return;
+  }
+
+  try {
+    fs.unlinkSync(path.resolve(__dirname, `../../images/users/${name}`));
+  } catch (err) {
+    res.send({ error: "Error occurred deleting an user photo" });
+  }
+
+  res.send({ error: "User photo deleted successfully" });
 };

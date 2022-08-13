@@ -37,6 +37,7 @@
 .col.input-button .button .disabled button {
   cursor: default;
   background: var(--foreground-1);
+  box-shadow: none !important;
 }
 
 .button-link {
@@ -49,6 +50,7 @@
   background: #1d1b31;
   transform: scale(1.1);
   opacity: 1;
+  box-shadow: -3px 3px olive;
 }
 
 .col.caption {

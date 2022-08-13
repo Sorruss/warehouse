@@ -78,6 +78,7 @@
 }
 .modal-body input[type="text"],
 .modal-body input[type="number"],
+.modal-body input[type="password"],
 .modal-body input[type="datetime-local"],
 .modal-body select {
   font-size: 15px;
@@ -89,7 +90,7 @@
   border: none;
   border-top-left-radius: 20px;
   border-bottom-right-radius: 20px;
-  transition: all 3s ease;
+  transition: all 0.3s ease;
   background: var(--foreground-3);
   padding-left: 10px;
 }
@@ -106,6 +107,15 @@
   border: none;
   background: var(--foreground-3);
 }
+.modal-body input:hover,
+.modal-body select:hover,
+.modal-body textarea:hover,
+.modal-body input:focus,
+.modal-body select:focus,
+.modal-body textarea:focus {
+  box-shadow: -3px 3px olive !important;
+}
+
 .modal-body .inputfile {
   width: 0.1px;
   height: 0.1px;
@@ -184,3 +194,13 @@
 }
 
 /* MODAL END */
+
+button.disabled {
+  background-color: var(--foreground-1) !important;
+  box-shadow: none !important;
+  cursor: not-allowed;
+}
+button.disabled:hover {
+  background-color: var(--foreground-1) !important;
+  box-shadow: none !important;
+}

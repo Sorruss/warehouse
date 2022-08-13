@@ -14,6 +14,22 @@ module.exports = (backend) => {
   // Attach a photo to the user.
   router.post("/photo", auth.verifyToken, users.attachPhoto);
 
+  // Get a photo of the user.
+  router.get("/photo/:id", users.getPhotoByItemId);
+
+  // Get a photo of the user by the name.
+  router.get("/user_photo/:name", users.getPhotoByPhotoName);
+
+  // Delete a photo of the user by the name.
+  router.delete(
+    "/user_photo/:name",
+    auth.verifyToken,
+    users.deletePhotoByPhotoName
+  );
+
+  // Delete a photo of the user.
+  router.delete("/photo/:id", auth.verifyToken, users.deletePhotoByItemId);
+
   // Patch an Item by the id.
   router.patch("/:id", auth.verifyToken, users.patch);
 
